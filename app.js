@@ -15,6 +15,7 @@ var pgm         = require('./routes/pgdata');
 var sendMMS = require('./sendMMS');
 var loadResult = require('./loadResult');
 var receiveResult = require('./receiveResult');
+var setMMS = require('./routes/setMMS');
 
 var app = express();
 
@@ -68,6 +69,12 @@ app.post('/contents/getUploadContentInfo', cts.getUploadContentInfo);
 
 app.post('/message/getmsgid', pgm.getmsgid);
 app.post('/message/uploadwork', pgm.uploadwork);
+
+app.get('/setMMS', (req, res) => {
+  console.log("sendMsg=======================================");
+  setMMS.genIndiImgFile();
+  res.send('Set MMS Complete!');
+})
 
 //02. Send MMS
 // app.get('/sendMMS', (req, res) => {
