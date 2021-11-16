@@ -35,6 +35,7 @@
     "puppeteer": "^11.0.0",
     "puppeteer-core": "^11.0.0",
     "request": "^2.81.0",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "urlencode": "^1.1.0"
   }
 }
