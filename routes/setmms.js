@@ -203,7 +203,7 @@ async function saveToS3(binaryFile,path,filename){
             console.log("Upload Content Type = "+ctsType);
         
             var params = {
-                Bucket:'bucketeer-bf31af2f-660c-4f16-862f-da542e2d805e',
+                Bucket:process.env.AWSS3_bucket,
                 Key: path+'/'+filename,
                 //ACL:'public-read',
                 Body:binaryFile,
@@ -238,7 +238,7 @@ function loadS3(base64Encodedfile,filename,fpath){
     console.log('Saved to APPS/MMSTW/'+fpath+'/msg/'+filename);
 
     var params = {
-        Bucket:'bucketeer-bf31af2f-660c-4f16-862f-da542e2d805e',
+        Bucket:process.env.AWSS3_bucket,
         Key: 'APPS/MMSTW/'+fpath+'/msg/'+filename,
         //ACL:'public-read',
         Body:buff,
