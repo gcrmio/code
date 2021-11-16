@@ -15,7 +15,7 @@ var pgm         = require('./routes/pgdata');
 var sendMMS = require('./sendMMS');
 var loadResult = require('./loadResult');
 var receiveResult = require('./receiveResult');
-var setMMS = require('./routes/setMMS');
+var setMMS = require('./routes/setmms');
 
 var app = express();
 
