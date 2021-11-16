@@ -72,7 +72,7 @@ app.post('/message/uploadwork', pgm.uploadwork);
 
 app.get('/setMMS', (req, res) => {
   console.log("sendMsg=======================================");
-  setMMS.genIndiImgFile();
+  setMMS();
   res.send('Set MMS Complete!');
 })
 
