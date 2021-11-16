@@ -1,0 +1,101 @@
+{
+    "workflowApiVersion": "1.1",
+    "metaData": {
+        "icon": "images/icon_aptw.png",
+        "iconSmall": "images/iconSmall.png",
+        "category": "message"
+    },
+    "type": "REST",
+    "lang": {
+        "en-US": {
+            "name": "mmsTW10",
+          "description": "A Template for a custom Journey Builder activity",
+          "step1Label": "Configure Activity"
+        }
+    },
+    "arguments": {
+        "execute": {
+            "inArguments": [
+                {
+                  "email": "{{Contact.Default.EmailAddress}}",
+                  "to": "{{Contact.Attribute.TwilioV1.TwilioNumber}}" 
+                }               
+            ],
+            "outArguments": [],
+            "url": "https://mms-aptw.herokuapp.com/journeybuilder/execute",
+            "verb": "POST",
+            "body": "",
+            "format": "json",
+            "useJwt": true,
+            "timeout": 10000
+        }
+    },
+    "configurationArguments": {
+      "applicationExtensionKey": "7ccfa116-a0a3-44db-8cae-e526d7eeb46c",
+       "save": {
+           "url": "https://mms-aptw.herokuapp.com/journeybuilder/save",
+            "verb": "POST",
+            "body": "",
+            "format": "json",
+            "useJwt": true,
+            "timeout": 2000
+       },
+       "publish": {
+           "url": "https://mms-aptw.herokuapp.com/journeybuilder/publish",
+            "verb": "POST",
+            "body": "",
+            "format": "json",
+            "useJwt": true,
+            "timeout": 2000
+       },
+       "validate": {
+           "url": "https://mms-aptw.herokuapp.com/journeybuilder/validate",
+            "verb": "POST",
+            "body": "",
+            "format": "json",
+            "useJwt": true,
+            "timeout": 2000
+       },
+       "stop": {
+           "url": "https://mms-aptw.herokuapp.com/journeybuilder/stop",
+            "verb": "POST",
+            "body": "",
+            "format": "json",
+            "useJwt": true,
+            "timeout": 2000
+       }
+    },
+    "wizardSteps": [
+       { "label": "Create SMS Message", "key": "step1" }
+    ],
+    "userInterfaces": {
+       "configModal": {
+           "height": 700,
+           "width": 900,
+           "fullscreen": false
+       }
+    },
+    "schema": {
+        "arguments": {
+            "execute": {
+                "inArguments": [
+                    {
+                        "id_msg_desc": {
+                            "dataType": "String",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },                                    
+                    {
+                        "id_loadedContent": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"
+                        }
+                    }
+                ],
+                "outArguments": []
+            }
+        }
+    }
+}

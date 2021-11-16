@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">       
+
+        <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
+        <script src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" ></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"  ></script>  
+      
+        <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+
+        <script type="text/javascript" src="js/require.js"></script>
+
+        <script type="text/javascript">
+            (function() {
+                var config = {
+                    baseUrl: 'js'
+                };
+      
+                var dependencies = [
+                    'customActivity'
+                ];
+      
+                require(config, dependencies); 
+            })();
+        </script>
+      
+        <title>MMS Board</title>
+    </head>
+    <style>
+        html {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            height: 100%;
+        }
+        body {
+            background-color:   white;
+            border: 3px solid   white;
+            color:              #32537c;
+            font-family:        'Arial';
+            font-size:          13px;
+            position:           absolute;
+            height:             590px;
+            width:              790px;
+            padding: 5px 5px 5px 5px;
+        }
+        .vc{
+            display: flex;
+            align-items: center;
+        }
+        .hr{
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+        .hl{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+        .divC {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                font-family: 'Arial'; /*'Roboto Mono', monospace;*/
+        }
+        .divL {
+                display: flex;
+                justify-content: left;
+                flex-direction: column;
+                align-items: center;
+                font-family: 'Arial'; /*'Roboto Mono', monospace;*/
+        }
+        .divR {
+                display: flex;
+                justify-content: right;
+                flex-direction: column;
+                align-items: center;
+                font-family: 'Arial'; /*'Roboto Mono', monospace;*/
+        }
+        .button {
+                background-color: #234c8a; /* Green */
+                border: none;
+                color: white;
+                border-radius: 8px;
+                width:48px;
+                height:30px;
+                padding: 1px 1px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 13px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+        }    
+        .button5 {
+                background-color: white;
+                border-radius: 8px;
+                color: #32537C;
+                border: 2px solid #32537c;
+        }
+        .button5:hover {
+                background-color: #32537c;
+                color: white;
+        }        
+        .button51 {
+                background-color: #32537c;
+                border-radius: 8px;
+                color: white;
+                border: 2px solid #32537c;
+        }
+        .buttonC {
+                background-color: white; 
+                border: 1px solid #32537C;
+                border-radius: 12px;
+                color: #32537C;
+                width:20px;
+                height:20px;
+                padding: 1px 1px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 11px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+        }    
+        .buttonC:hover {
+                background-color: #32537c;
+                color: white;
+        }        
+        #file { display:none; } 
+        #MCEXPL{
+            position:absolute;
+            top:100px;
+            left:200px;
+        }
+        .expl{
+            font-size: 13px;
+            width:490px;
+            height:290px;
+            border:3px solid gray;
+            padding:5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            background-color:white;            
+        }
+        .expl_folder{            
+        }
+        .expl_sub_folders{
+            margin-left:20px;
+            display:none;
+        }
+        .expl_folder_name{
+            display: flex;
+            align-items: center;
+            height:25px;            
+        }
+        .expl_folder_icon{
+            font-size:24px;
+            color: gray;
+            height:25px;
+            float:left;
+        }
+        .expl_files{
+            margin-left:20px;
+        }
+        .expl_file{
+            height:20px;
+        }
+        .expl_file_icon{
+            font-size:16px;
+            color: #32537c;
+            height:20px;
+            float:left;
+        }
+        .expl_file_name{
+            display: flex;
+            align-items: center;
+            height:20px; 
+            margin-left:3px;  
+            float:left;   
+            cursor:pointer;      
+        }
+</style>
+    <body>
+        <div style="border: 0px solid white; float: left; width: 790px; height: 50px;">
+            <div class="divC" style="float:left;border:0px solid red;height:48px;">
+                <img style="float:left;height:48px;" src="./images/amorepacific-logo2.jpg">
+            </div>
+            <div style="cursor:default;float:left;height:48px;width:320px;margin-left:5px;display:flex; align-items: center; font-size:17px;color:#32537c;"><b>AmorePacific Taiwan Message Service</b></div>
+        </div>
+        <div style="border: 1px solid white; float: left; width: 270px; height: 530px;margin-top:5px;">
+            <img style="float:left; width: 270px; height: 530px;" src="./images/mobile_phone-blue2.png">
+
+            <div id="id_display" style="position:absolute; top:120px; left:25px; border: 1px solid red; width: 232px; height: 393px; overflow:hidden;">
+                <div style="width: 230px; height: 393px; overflow-y: scroll;padding-right: 15px;box-sizing: content-box;">
+                <!-- Subject Box-->
+                    <textarea id="id_display_subject" style="font-size: 13px; resize: none;width:222px; height:30px;display:none;overflow:hidden; border: 1px dashed rgb(171, 175, 171);" onkeydown="msgChg(this);" onkeyup="msgChg(this);"></textarea>
+                <!-- Body Box-->    
+                    <textarea id="id_display_body" style="font-size: 13px; resize: none; width:222px; height:30px;display:none;overflow:hidden;border: 1px dashed rgb(171, 175, 171);"  onkeydown="msgChg(this);" onkeyup="msgChg(this);"></textarea>
+                <!-- MC Box-->    
+                    <div id="id_display_mc" style="font-size: 13px; width:226px; height:30px;display:none; border: 1px dashed green;" onkeydown="" onkeyup=""></div>
+                    <div id="id_display_mc_size" style="display:none;">0</div>
+                <!-- LC Box-->    
+                    <div id="id_display_lc" style="font-size: 13px; width:226px; height:30px;display:none; border: 1px dashed blue;" onkeydown="" onkeyup=""></div>
+                    <div id="id_display_lc_size" style="display:none;">0</div>
+                </div>
+            </div>
+
+        </div>
+            <div style="border: 3px solid #b4c0ce; float: right; width: 488px; height: 530px;margin-top:5px;background-color:#fafbfc; border-radius:8px;">
+                <!-- Right Top -->
+                <div id="" style="position:absolute; top: 80px; width:488px;height:130px; border: 0px solid red;" >
+                    <div class="vc"  style="width:465px; height:30px; margin-left:20px;cursor:default;">
+                        <div class="vc" style="float:left; width:80px; height:25px;"><b>Message ID</b></div>
+                        <div class="vc" id="id_msg_id" style="float:left; width:130px; height:25px; padding-left:5px;">MSG-2021-0007</div>
+                        <div class="vc" style="float:left; width:80px; height:25px; margin-left:20px;" ><b>Reg. Date</b></div>
+                        <div class="vc" style="float:left; width:120px; height:25px; padding-left:5px;">
+                            <input type="text" id="id_reg_date" style="width:70px;cursor:pointer;" value="2021.11.25">
+                            <input type="text" id="id_reg_time" style="margin-left:5px;width:40px;cursor:pointer;" value="14:00">
+                        </div>
+                    </div>
+                    <div class="vc" style="width:465px; height:50px; margin-left:20px; margin-top:5px;">
+                        <div class="vc" style="float:left; width:80px; height:25px; cursor:default;"><b>Description</b></div>
+                        <textarea id="id_msg_desc" style="float:left;resize: none;font-size: 13px; width:360px; height:40px; margin-left:5px; border: 1px dashed gray;"></textarea>
+                    </div>
+                    <div class="vc"  style="width:465px; height:30px; margin-left:20px; margin-top:5px;">
+                        <div class="vc" style="float:left; width:80px; height:25px;cursor:default;"><b>Admin. Ofc.</b></div>
+                        <div class="vc" style="float:left; width:100px; height:25px; padding-left:5px;">
+                            <textarea class="vc" id="id_msg_admin" style="resize: none; padding-top:5px;width:130px;height: 18px;border:1px solid gray;"></textarea>
+                        </div>
+                        <div class="vc" style="float:left; width:100px; height:25px; margin-left:50px;cursor:default;" >
+                            <b>Psn in Charge</b>
+                        </div>
+                        <div class="vc" style="float:left; width:110px; height:25px; padding-left:5px;">
+                            <textarea class="vc" id="id_msg_charge" style="resize: none; padding-top:5px;width:130px;height:18px;border:1px solid gray;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Middle -->
+                <div id="" style="position:absolute; top:220px; width:488px;height:200px; border-radius:8px;background-color:#32537c;" >
+                    <div class="vc"  style="width:465px; height:30px; margin-left:23px; margin-top:10px;cursor:default;">
+                        <div class="vc" style="float:left; width:100px; height:30px; font-size:20px;color:white;" ><b id="id_msg_type" >MMS</b></div>
+                    </div>
+                    <div class="vc"  style="width:465px; height:90px; margin-left:23px; margin-top:10px; margin-bottom:5px;">
+                        <div style="float:left;width:180px; height:80px; margin-left:50px; padding-left:10px;border-left:2px solid white;cursor:default;">
+                            <div class="vc" style="width:175px; height:25px; font-size:15px;color:white;" >
+                                <p style="width:80px;">Total Size</p>
+                                <p class="hr" id="id_size_total" style="width:40px;">373</p>
+                                <p class="hr" style="width:50px;font-size:12px;">/ 300KB</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:80px;margin-left:10px;">Subject</p>
+                                <p class="hr" id="id_size_subject" style="width:30px;">37</p>
+                                <p class="hr" style="width:40px;margin-left:3px;"> Bytes</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:80px;margin-left:10px;">Body   </p>
+                                <p class="hr"  id="id_size_body" style="width:30px;">170</p>
+                                <p class="hr" style="width:40px;margin-left:3px;"> Bytes</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:80px;margin-left:10px;">Image  </p>
+                                <p class="hr"  id="id_size_content" style="width:30px;">230</p>
+                                <p class="hr" style="width:40px;margin-left:3px;"> Bytes</p>
+                            </div>
+                        </div>                            
+                        <div style="float:left;width:180px; height:80px; margin-left:15px; padding-left:10px;border-left:2px solid white;cursor:default;">
+                            <div class="vc" style="width:175px; height:25px; font-size:15px;color:white;" >
+                                <p style="width:90px;">Total Cost</p>
+                                <p class="hr" id="id_cost_total" style="width:40px;">173</p>
+                                <p class="hr" style="width:40px;margin-left:3px;font-size:12px;"> TWD</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:90px;margin-left:10px;">Unit Price</p>
+                                <p class="hr" id="id_cost_unitprice" style="width:30px;">37</p>
+                                <p class="hr" style="width:40px;margin-left:3px;">/ unit</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:90px;margin-left:10px;">Possible Units</p>
+                                <p class="hr" id="id_cost_units" style="width:30px;">170</p>
+                                <p class="hr" style="width:40px;margin-left:3px;"> units</p>
+                            </div>
+                            <div class="vc" style="width:175px; height:15px; font-size:12px;color:white;" >
+                                <p style="width:90px;margin-left:10px;">Current Credits</p>
+                                <p class="hr" id="id_cost_est" style="width:30px;">230</p>
+                                <p class="hr" style="width:40px;margin-left:3px;"> TWD </p>
+                            </div>
+                        </div>                            
+                    </div>
+                    <div class="vc" style="float:left; width:280px; height:25px;  margin-left:23px; margin-top:20px; color:white; font-size:15px;">
+                        <div class="vc" style="float:left; width:230px;height:100%">
+                            <div style="width:80px;cursor:default;"><b>Send Date</b></div>
+                            <input type="text" id="id_send_date" style="width:70px;margin-left:5px;cursor:pointer;" value="2021.11.25">
+                            <input type="text" id="id_send_time" style="margin-left:5px;width:40px;cursor:pointer;" value="14:00">
+                        </div>
+                        <div class="vc" style="float:left; width:230px;height:100%; margin-left:30px;">
+                            <input id="id_check_coupon" type="checkbox" style="width:15px; height:15px;cursor:pointer;">
+                            <div class="vc" style="margin-left:5px;"><b>Coupon</b></div>
+                        </div>
+                        <div class="vc" style="float:left; width:230px;height:100%;margin-left:10px;">
+                            <input id="id_check_individual" type="checkbox" style="width:15px; height:15px;cursor:pointer;">
+                            <div class="vc" style="margin-left:5px;"><b>Individual</b></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Bottom -->
+                <div id="" style="position:absolute; top:430px; width:488px;height:100px;" >
+                    <div style="width:465px; height:50px; margin-left:20px; margin-top:5px;">
+                        <div class="vc" style="width:465px; height:25px;cursor:default;">
+                            <b>Loaded Content</b><p class="vc" id="id_load_content_type" style="width:300px;margin-left:10px;" >Marketing Cloud Content/ Image: PNG</p>
+                        </div>
+                        <div class="vc" id="id_load_content_info" style="width:465px; height:30px;">
+                            <div class="vc" id="id_load_content" style="width:445px;height:25px;padding-left:3px;border:1px solid gray;cursor:default;">mc://ghoun/images/23471/afgert.png</div>
+                            <div class="vc" onclick="" style="float:left; width:25px; height:25px; margin-left:5px;display:none" >
+                                <button class="buttonC" id="id_btn_cancel" onclick="" ><b>X</b></button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <!-- Finalize -->
+                <div id="" style="display: flex; justify-content: right; position:absolute; top:540px; width:478px;height: 40px;margin-right:10px;" >
+                    <button class="button" id="id_btn_register" onclick="checkMSGID()" style="width:80px;visibility:hidden"><b>Register</b></button>
+                </div>
+                
+            </div>            
+        </div>
+
+        <div>
+            <button class="button button5" id="id_btn_display_S"  onclick="onClickMCB(this)" style="position:absolute; top:250px; left:260px;"><b>S</b></button>
+            <button class="button button5" id="id_btn_display_B"  onclick="onClickMCB(this)" style="position:absolute; top:285px; left:260px;"><b>B</b></button>
+            <button class="button button5" id="id_btn_display_MC" onclick="onClickMC(this)" style="position:absolute; top:320px; left:260px;"><b>MC</b></button>
+            <button class="button button5" id="id_btn_display_LC" style="position:absolute; top:355px; left:260px;"><b>LC</b></button>
+        </div>
+
+        <input id="file-uploader" style="border:1px solid red; display:none;" type="file"  accept="image/*" />
+
+        <div id="MCEXPL" class="expl" style="display:none; width:500px; height:300px;overflow:hidden;" >
+            <div style="height:30px;width:500px; display: flex; align-items: center; border-bottom: 1px solid  cornflowerblue;margin-bottom:10px;">
+                <div style="width:200px;margin-left:5px;cursor:default;"><b>Marketing Cloud Contents</b></div>
+                <span class="iconify" id="mc_cancel" data-icon="feather:x-square" onclick="onClickMC(this)" style="cursor:pointer;font-size:20px;margin-left:280px;color:rgb(114, 139, 139)"></span>
+            </div>
+            <div id="MCLIST" style="width:505px;height:255px;overflow-y: scroll;padding-right: 13px;box-sizing: content-box;">
+            </div>
+        </div>
+
+        <div id="expl" class="expl" style="display:none" >
+            <div style="height:30px;width:490px; display: flex; align-items: center; border-bottom: 1px solid  cornflowerblue;margin-bottom:10px;">
+                <div style="width:200px;margin-left:5px;cursor:default;"><b>Marketing Cloud Contents</b></div>
+                <span class="iconify expl_folder_icon" data-icon="feather:x-square" onclick="onClickMC(this)" style="cursor:pointer;font-size:20px;margin-left:260px;color:rgb(114, 139, 139)"></span>                
+            </div>
+            
+            <div id="expl_folder" class="expl_folder">
+
+                <div class="expl_folder_name">
+                    <!--<span class="iconify expl_folder_icon" data-icon="mdi:chevron-right"></span>-->
+                    <div>
+                        <div><i class="iconify" data-icon="mdi:chevron-right" style="display:block"></i></div>
+                        <div><i class="iconify" data-icon="mdi:chevron-down"  style="display:none;"></i></div>
+                    </div>
+                    <div style="cursor:pointer;float:left;" onclick="setClickFolder(this)">folder name</div> 
+                    <div style="display:none;">id</div><div style="display:none;">parentId</div>      
+                </div>
+
+                <div id="expl_files" class="expl_files"  style="display:none;">
+                    <div id="expl_file" class="expl_file" style="" >
+                        <div class="vc" style="float:left;height:20px;">
+                            <div><i class="iconify fileclose" data-icon="mdi:file" style="display:block; color:#32537C"></i></div>
+                            <div><i class="iconify fileopen" data-icon="mdi:file"  style="display:none; color:red;"></i></div>
+                        </div>
+                        <div class="expl_file_name" style="float:left;height:20px;" onclick="setClickFile(this)">file name 01</div>   
+                        <div style="float:left;display:none;">id</div><div style="float:left;display:none;">folderId</div>    
+                        <div class="hr" style="cursor:default;float:right;margin-right:10px;height:20px;" >asset type</div> 
+                    </div>
+                </div>
+
+                <div id="expl_sub_folders" class="expl_sub_folders">
+                </div>                
+            </div>
+        </div>
+
+
+    </body>
+
+
+<script type="text/javascript">
+
+let MSGID;  //global
+
+
+initialization();
+
+$( "#MCEXPL" ).draggable();
+
+
+// init
+
+function initialization(){
+
+
+    document.getElementById('id_display_subject').value     = "";
+    document.getElementById('id_display_body').value        = "";
+    document.getElementById('id_display_mc').innerHTML      = "";
+    document.getElementById('id_display_lc').innerHTML      = "";
+
+    document.getElementById('id_btn_display_S').classList   = "button";
+    document.getElementById('id_btn_display_S').classList.add('button5');
+    document.getElementById('id_btn_display_B').classList   = "button";
+    document.getElementById('id_btn_display_B').classList.add('button5');
+    document.getElementById('id_btn_display_MC').classList   = "button";
+    document.getElementById('id_btn_display_MC').classList.add('button5');
+    document.getElementById('id_btn_display_LC').classList   = "button";
+    document.getElementById('id_btn_display_LC').classList.add('button5');
+
+    document.getElementById('id_size_subject').innerHTML    ="0";
+    document.getElementById('id_size_body').innerHTML       ="0";
+    document.getElementById('id_size_content').innerHTML    ="0";
+    document.getElementById('id_size_total').innerHTML      ="0";
+
+    document.getElementById('id_msg_id').innerHTML           ="";
+    document.getElementById('id_msg_desc').value            ="";
+    document.getElementById('id_msg_admin').innerHTML       ="";
+    document.getElementById('id_msg_charge').innerHTML      ="";
+
+    document.getElementById('id_check_coupon').checked        =false;
+    document.getElementById('id_check_individual').checked    =false;
+
+    document.getElementById('id_load_content').innerHTML      ="";
+
+
+    $("#id_send_date").datepicker({ dateFormat: 'yy-mm-dd'  });
+    $('#id_send_date').datepicker('setDate', 'today');
+    $('#id_send_time').timepicker({ timeFormat: 'p hh:mm'  });
+
+    $("#id_reg_date").datepicker({ dateFormat: 'yy-mm-dd'  });
+    $('#id_reg_date').datepicker('setDate', 'today');
+    $('#id_reg_time').timepicker({ timeFormat: 'p hh:mm'  });
+
+    document.getElementById('id_load_content').innerHTML   ="";
+
+    checkMsgType();
+}
+
+// check MSGID and load Server Info
+
+function checkMSGID(){
+    console.log("checkMSGID START ---------------------------------------------------------------------------");
+    console.log("length of msg_id: "+document.getElementById("id_msg_id").innerHTML.length);
+    
+    //remove focus
+    document.getElementById('id_display_subject').blur();
+    document.getElementById('id_display_body').blur();
+
+    var msgid = document.getElementById("id_msg_id");
+
+    if(msgid.innerHTML.length==0){
+        let payload = { msgid: "000000" };
+
+        fetch('/message/getmsgid', {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            let vdata = JSON.parse(data);
+            console.log(vdata);
+
+            MSGID = vdata.msg_id;
+            console.log("MSGID: "+MSGID+"   "+vdata.msg_id);
+            document.getElementById("id_msg_id").innerHTML=MSGID;
+        });
+
+    }
+
+    console.log("checkMSGID END ---------------------------------------------------------------------------");    
+}
+
+
+// Message Controll Button
+
+function onClickMCB(obj){
+    console.log(obj.id);
+    console.log("here "+ obj.classList);
+
+if(obj.classList.contains('button5')){
+    console.log(obj.classList);
+
+    obj.classList.remove('button5');
+    obj.classList.add('button51');
+   // obj.style.backgroundColor="#FFFFFF";
+   if(obj.id=="id_btn_display_S"){
+        document.getElementById('id_display_subject').style.display="block";  
+        document.getElementById('id_display_subject').focus();
+   } 
+   if(obj.id=="id_btn_display_B"){
+        document.getElementById('id_display_body').style.display="block";
+        document.getElementById('id_display_body').focus();
+   } 
+   if(obj.id=="id_btn_display_MC"){
+        document.getElementById('id_display_mc').style.display="block";
+        document.getElementById('id_display_lc').style.display="none";
+        document.getElementById('id_display_lc').innerHTML='';
+        document.getElementById('id_display_lc').style.height="30px";
+        if(document.getElementById('id_btn_display_LC').classList.contains('button51')){
+            document.getElementById('id_btn_display_LC').classList.remove('button51');
+            document.getElementById('id_btn_display_LC').classList.add('button5');
+        } 
+   } 
+   if(obj.id=="id_btn_display_LC"){
+        
+        document.getElementById('id_display_lc').style.display="block";
+        document.getElementById('id_display_mc').style.display="none";
+        document.getElementById('id_display_mc').innerHTML='';
+        document.getElementById('id_display_mc').style.height="30px";
+        if(document.getElementById('id_btn_display_MC').classList.contains('button51')){
+            document.getElementById('id_btn_display_MC').classList.remove('button51');
+            document.getElementById('id_btn_display_MC').classList.add('button5');
+        } 
+   } 
+}
+else{
+    console.log(obj.classList);
+    obj.classList.remove('button51');
+    obj.classList.add('button5');  
+    //obj.style.backgroundColor="#555555";
+    if(obj.id=="id_btn_display_S"){
+        document.getElementById('id_display_subject').style.display="none";
+        document.getElementById('id_display_subject').value='';
+        document.getElementById('id_display_subject').style.height="30px";
+        document.getElementById('id_size_subject').innerHTML="0";
+    } 
+    if(obj.id=="id_btn_display_B"){
+        document.getElementById('id_display_body').style.display="none";
+        document.getElementById('id_display_body').value='';
+        document.getElementById('id_display_body').style.height="30px";
+        document.getElementById('id_size_body').innerHTML="0";
+    } 
+    if(obj.id=="id_btn_display_MC"){
+        document.getElementById('id_display_mc').style.display="none";
+        document.getElementById('id_display_mc').innerHTML='';
+        document.getElementById('id_size_content').innerHTML="0";
+        document.getElementById('id_load_content').innerHTML="";
+        document.getElementById('id_load_content_type').innerHTML="";
+        document.getElementById('id_display_mc').style.height="30px";
+    } 
+    if(obj.id=="id_btn_display_LC"){
+        document.getElementById('id_display_lc').style.display="none";
+        document.getElementById('id_display_lc').innerHTML='';
+        document.getElementById('id_size_content').innerHTML="0";
+        document.getElementById('id_load_content').innerHTML="";
+        document.getElementById('id_load_content_type').innerHTML="";
+        document.getElementById('id_display_lc').style.height="30px";
+    } 
+}    
+
+rearrangeDisplay();
+}    
+
+// MC Controller
+
+function onClickMC(obj){
+
+    if(document.getElementById('id_display_mc').innerHTML.length>0 && document.getElementById("MCEXPL").style.display=="none"
+       && document.getElementById('id_btn_display_MC').classList.contains('button5') ){
+           // just change style of the button
+           let tgt = document.getElementById('id_display_mc').children[0];
+            //resizeTextArea(document.getElementById("id_display_mc")); 
+    }
+    else if(document.getElementById("MCEXPL").style.display=="none" && document.getElementById('id_btn_display_MC').classList.contains('button5') ){
+        //onClickMCB(obj);
+        document.getElementById('MCEXPL').style.display='block';
+        document.getElementById('MCLIST').innerHTML='';
+
+        $('body').css("pointer-events","none");
+        //$(element).css("pointer-events","auto");
+        $(document.getElementById("MCEXPL")).css("pointer-events","auto");
+
+        loadMCContentFolder(obj);
+    }
+    else{
+        //onClickMCB(obj);
+        document.getElementById('MCEXPL').style.display='none';
+        $('body').css("pointer-events","auto");
+    }
+
+    if(obj.id != "mc_cancel") onClickMCB(obj);
+    
+}
+
+
+function setClickFolder(obj){
+
+    //console.log(obj.parentNode.children[0].classList);
+
+    if(obj.parentNode.parentNode.children[1].style.display=="block"){
+
+        obj.parentNode.children[0].children[0].children[0].style.display="block";
+        obj.parentNode.children[0].children[1].children[0].style.display="none";
+
+        obj.parentNode.parentNode.children[1].style.display="none";
+        obj.parentNode.parentNode.children[2].style.display="none";
+
+        console.log("close: "+obj.parentNode.children[0].children[0].children[0].innerHTML);
+        console.log("close: "+obj.parentNode.children[0].children[0].children[1].innerHTML);
+    } 
+    else{
+        obj.parentNode.children[0].children[0].children[0].style.display="none";
+        obj.parentNode.children[0].children[1].children[0].style.display="block";
+
+        obj.parentNode.parentNode.children[1].style.display="block";
+        obj.parentNode.parentNode.children[2].style.display="block";
+        console.log(obj.parentNode.innerHTML);
+
+        loadMCContentList(obj);    //forder id
+    }
+    //obj.parentNode.parentNode.children[1].style.addClass('vc');
+}
+
+function setClickFile(obj){
+
+    if(obj.parentNode.children[0].children[0].children[0].style.display=="none"){
+/*
+        var CX = document.getElementsByClassName("fileopen");
+        var CY = document.getElementsByClassName("fileclose");
+        
+        for(var i = 0; i < CX.length; i++){
+            CX[i].style.display="none"; 
+            CY[i].style.display="block"; 
+        }
+
+        obj.parentNode.children[0].children[0].children[0].style.display="block";
+        obj.parentNode.children[0].children[1].children[0].style.display="none";
+*/
+    }
+    else {
+        var CX = document.getElementsByClassName("fileopen");
+        var CY = document.getElementsByClassName("fileclose");
+        
+        for(var i = 0; i < CX.length; i++){
+            CX[i].style.display="none"; 
+            CY[i].style.display="block"; 
+        }
+
+        obj.parentNode.children[0].children[0].children[0].style.display="none";
+        obj.parentNode.children[0].children[1].children[0].style.display="block";
+
+        loadMCContent(obj);
+    }
+}
+
+function MC_create_list(data){
+
+    let list = [];    
+    var cID = 0;
+    var i = 0;
+
+    while(i<list.length+1){
+        for(const item of data){
+            if(item.parentId==cID){
+                list.push([item.id, item.parentId, item.name]);
+                console.log("Insert cID "+cID+" ID "+item.id+" Name= "+item.name+" ParentId= "+item.parentId);
+            }
+        }
+        if(i<list.length) cID = list[i][0];
+        i++;
+    }
+    //console.table(list);
+
+    // set list
+    let tmp = document.getElementById("expl_folder").cloneNode(true);
+
+    tmp.children[0].children[1].innerHTML=list[0][2]; //folder name
+    tmp.children[0].children[2].innerHTML=list[0][0];  //ID
+    tmp.children[0].children[3].innerHTML=list[0][1];  //PID
+    tmp.id="MC_"+list[0][0];
+    tmp.children[1].removeChild(tmp.children[1].children[0]);
+
+    document.getElementById("MCLIST").appendChild(tmp);
+    document.getElementById("MCEXPL").style.display="block";
+
+    i=1;
+    while(i<list.length){
+
+        var PID = list[i][1];
+        var checkPool = []; //id, pid
+        checkPool.push(["MC_"+list[0][0]]); //init
+
+        //console.log("=========================================================================================");
+        //console.log("Current List: "+i+" ["+list[i][0]+","+list[i][1]+"] checkPool.length: "+checkPool.length);
+        //console.table(checkPool);
+
+        let k=0;
+        while(k<checkPool.length){
+            let tgtPool = document.getElementById(checkPool[k]);
+            //console.log("----------- Processing k: "+k+ " Search ["+list[i][0]+","+list[i][1]+"]" );
+            //console.table(checkPool);
+            let cPID = tgtPool.children[0].children[2].innerHTML;    //foldername->ID
+
+            if(PID==cPID){  // add to child
+                var tmp2 = document.getElementById("expl_folder").cloneNode(true);
+                tmp2.children[0].children[1].innerHTML=list[i][2]; //folder name
+                tmp2.children[0].children[2].innerHTML=list[i][0];  //ID
+                tmp2.children[0].children[3].innerHTML=list[i][1];  //PID
+                tmp2.children[1].removeChild(tmp2.children[1].children[0]);
+                tmp2.id="MC_"+list[i][0];
+
+                tgtPool.children[2].appendChild(tmp2);
+                k=1000;
+                //console.log("Inserted: "+tmp2.id);
+            }
+            else{   // add child to checkPool
+                if(tgtPool.children[2].childElementCount>0){
+                    for (let j = 0; j < tgtPool.children[2].childElementCount; j++) {
+                        checkPool.push([tgtPool.children[2].children[j].id]);
+                    }                    
+                }    
+            }
+            k++;
+        }
+        i++;
+    }
+    
+
+}
+
+function loadMCContentFolder(obj) {
+      
+    listhtml = '';
+
+    //01. Request List
+    let payload = { ctsid: "000000" };
+
+    fetch('/contents/list', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        
+        //02. Arranging
+        N = Object.keys(data).length;
+        //console.log("Length od Data = "+N);
+
+        for(const item of data){
+            //console.log("ID= "+item.id+" Name= "+item.name+" ParentId= "+item.parentId);
+        }
+
+        MC_create_list(data);
+
+    });
+}
+
+function loadMCContentList(obj) {
+    
+    folderId = obj.parentNode.children[2].innerHTML;
+    //console.log("folderId: "+folderId);
+
+
+    let payload = { catid: folderId };
+    //console.log("payload  "+JSON.stringify(payload));
+
+    fetch('/contents/items', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(function(response) {
+        //console.log("Result: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+ response.status );
+        //console.log(response.body);
+        if(response.status ==200) return response.json();
+        else return 999;
+    }).then(function(data) {
+
+      if(data != 999 && data.length>0){
+          console.log(data);
+          //obj.parentNode.parentNode.children[1].removeChild(obj.parentNode.parentNode.children[1].children[0]);
+
+          //console.log(obj.parentNode.parentNode.childern[0].innerHTML);
+          //obj.parentNode.parentNode.children[1].innerHTML="";
+
+          for(const item of data){
+
+            var tmp = document.getElementById("expl_file").cloneNode(true);
+                tmp.children[1].innerHTML=item.name; //file name
+                tmp.children[2].innerHTML=item.id;  //ID
+                tmp.children[3].innerHTML=item.category.id;  //folder ID
+                tmp.children[4].innerHTML=item.assetType.name;  //folder ID
+                tmp.id="MC_FILE_"+item.id;
+
+                obj.parentNode.parentNode.children[1].appendChild(tmp);
+
+                //console.log("ID= "+item.id+" Name= "+item.name+" assetType= "+item.assetType.name+" category= "+item.category.id );
+          } 
+      }
+      else{
+        console.log(data);
+      }
+    });
+}
+
+function loadMCContent(obj){  
+
+var inctsid = obj.parentNode.children[2].innerHTML;
+//console.log("inctsid: "+inctsid);
+
+let payload = { ctsid: inctsid };
+var fileExt='';
+var fileGroup='';
+
+fetch('/contents/load', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  }).then(function(response) {
+      console.log("Result: "+ response.status )
+      if(response.status ==200) return response.json();
+      else return 999;
+  }).then(function(data) {
+    if(data != 999){
+      console.log(data);
+
+      var turl = data.fileProperties.publishedURL;
+            var size = data.fileProperties.fileSize;
+            fileExt = data.fileProperties.extension;
+            fileGroup = data.assetType.displayName;
+            let filename =data.fileProperties.fileName;
+//width:227px; overflow-x:hidden;
+        if(data.assetType.name=='htmlblock'){
+            console.log(data.content);
+            document.getElementById("id_display_mc").innerHTML='<div id="id_mov" style="" >'+data.content+'</div>';
+            document.getElementById('id_load_content').innerHTML=filename;
+            document.getElementById('id_load_content_type').innerHTML=fileGroup;
+            
+            //console.log("OffSet: "+document.getElementById("id_display_mc").children[0].style.height);
+            //size when image
+            document.getElementById("id_display_mc_size").innerHTML=size;
+            document.getElementById("id_size_content").innerHTML=size; 
+
+            document.getElementById("id_display_mc").style.height = document.getElementById("id_display_mc").children[0].offsetHeight+"px";
+            document.getElementById("id_display_mc").style.width  = document.getElementById("id_display_mc").children[0].offsetWidth+"px";
+
+            //resizeTextArea(document.getElementById("id_display_mc")); 
+
+            console.log("PO H "+document.getElementById("id_display_mc").offsetHeight+" W "+document.getElementById("id_display_mc").offsetWidth);
+            console.log("PS H "+document.getElementById("id_display_mc").style.height+" W "+document.getElementById("id_display_mc").style.width);
+            console.log("CO H "+document.getElementById("id_display_mc").children[0].offsetHeight+" W "+document.getElementById("id_display_mc").children[0].offsetWidth);
+            console.log("CS H "+document.getElementById("id_display_mc").children[0].style.height+" W "+document.getElementById("id_display_mc").children[0].style.width);
+
+        }
+        else if(data.assetType.name=='jpg' || data.assetType.name=='png' ||data.assetType.name=='jpeg'){
+//width:227px; 
+            document.getElementById("id_size_content").innerHTML=size;
+            document.getElementById("id_display_mc_size").innerHTML=size;
+            //document.getElementById("id_display_mc").innerHTML='<div id="id_mov"><img src="'+turl+'" id="id_ctsimg" style="text-align:center;"></div>';
+            //document.getElementById("id_display_mc").style.height= document.getElementById("id_display_mc").children[0].children[0].style.height;
+
+            document.getElementById("id_display_mc").innerHTML='';
+            const img = document.createElement('img');
+            document.getElementById("id_display_mc").appendChild(img);
+            img.src = turl;
+
+            img.onload = function() {
+                console.log("img w=" + img.width+" h=  "+img.height+" docu.w"+document.getElementById('id_display_mc').style.width);
+                var ratio = img.height / img.width;
+                console.log("ratio= "+ratio);
+
+                if(img.width > 226){ 
+                    img.width = 226;
+                    img.height = img.width * ratio;
+                }
+
+                document.getElementById("id_display_mc").style.height = img.height+'px';
+                document.getElementById("id_display_mc").style.width  = img.width+'px';
+
+                console.log("PO(div) H "+document.getElementById("id_display_mc").offsetHeight+" W "+document.getElementById("id_display_mc").offsetWidth);
+                console.log("PS(div) H "+document.getElementById("id_display_mc").style.height+" W "+document.getElementById("id_display_mc").style.width);
+                console.log("CO(img) H "+document.getElementById("id_display_mc").children[0].offsetHeight+" W "+document.getElementById("id_display_mc").children[0].offsetWidth);
+                console.log("CS(img) H "+document.getElementById("id_display_mc").children[0].style.height+" W "+document.getElementById("id_display_mc").children[0].style.width);
+            };
+
+/*
+            const img = document.getElementById("id_display_mc").children[0].children[0];
+            console.log("orig.w "+img.width+" orig.H"+img.height);
+            if(img.width > 226){ 
+                    img.width = 226;
+                    img.height = img.width * ratio;
+            }
+
+            document.getElementById("id_display_mc").style.height = img.height;
+            document.getElementById("id_display_mc").style.width  = img.width;
+
+
+            console.log("PO H "+document.getElementById("id_display_mc").offsetHeight+" W "+document.getElementById("id_display_mc").offsetWidth);
+            console.log("PS H "+document.getElementById("id_display_mc").style.height+" W "+document.getElementById("id_display_mc").style.width);
+            console.log("CO H "+document.getElementById("id_display_mc").children[0].offsetHeight+" W "+document.getElementById("id_display_mc").children[0].offsetWidth);
+            console.log("CS H "+document.getElementById("id_display_mc").children[0].style.height+" W "+document.getElementById("id_display_mc").children[0].style.width);
+            console.log("IO H "+document.getElementById("id_display_mc").children[0].children[0].offsetHeight+" W "+document.getElementById("id_display_mc").children[0].children[0].offsetWidth);
+            console.log("IS H "+document.getElementById("id_display_mc").children[0].children[0].style.height+" W "+document.getElementById("id_display_mc").children[0].children[0].style.width);
+*/
+            document.getElementById('id_load_content').innerHTML=filename;
+            document.getElementById('id_load_content_type').innerHTML=fileGroup;
+
+        }
+        checkMsgType();
+    }
+    else{
+      console.log(data);
+    }
+  });
+
+ // setFile(hctsid,fileExt,fileGroup);
+}
+
+
+// LC Controller
+
+const localFileUploader = document.getElementById('file-uploader');
+const reader = new FileReader();
+const imageGrid = document.getElementById('id_display_lc');
+
+$(function () {
+    $('#id_btn_display_LC').click(function (e) {
+        e.preventDefault();
+        onClickMCB(document.getElementById('id_btn_display_LC'));
+
+        if(document.getElementById('id_btn_display_LC').classList.contains('button51')){
+            //document.body.onfocus = checkIt;
+            
+            $('#file-uploader').click();    
+        }
+    });
+});
+
+function checkIt()
+{
+    console.log("onfocused "+document.getElementById('file-uploader').value.length);
+    if(!document.getElementById('file-uploader').value.length) {
+        alert('Canceled');
+        document.body.onfocus = null;
+        onClickMCB(document.getElementById('id_btn_display_LC'));
+        //return true;
+    }
+    //return false;
+}	
+
+
+
+localFileUploader.addEventListener('change', (event) => {
+    
+    const files = event.target.files;
+    const file = files[0];
+
+    if(file){
+        
+        //console.log(file);
+        let imgid = document.getElementById("id_msg_id").innerHTML;
+
+        document.getElementById('id_size_content').innerHTML=file.size;
+        document.getElementById('id_display_lc_size').innerHTML=file.size;
+        reader.readAsDataURL(file);
+  
+        reader.addEventListener('load', (event) => {
+
+            document.getElementById('id_display_lc').innerHTML='';
+            const img = document.createElement('img');
+            imageGrid.appendChild(img);
+            img.src = event.target.result;
+
+            img.onload = function() {
+                console.log("img w=" + img.width+" h=  "+img.height+" docu.w"+document.getElementById('id_display_lc').style.width);
+                var ratio = img.height / img.width;
+                console.log("ratio= "+ratio);
+
+                if(img.width > 226){ //document.getElementById('id_display_lc').style.width){
+                    img.width = 226;
+                    img.height = img.width * ratio;
+                }
+
+                //document.getElementById('id_display_lc').style.height=img.height+"px";
+
+                document.getElementById("id_display_lc").style.height = img.height+'px';
+                document.getElementById("id_display_lc").style.width  = img.width+'px';
+
+                console.log("PO H "+document.getElementById("id_display_lc").offsetHeight+" W "+document.getElementById("id_display_lc").offsetWidth);
+                console.log("PS H "+document.getElementById("id_display_lc").style.height+" W "+document.getElementById("id_display_lc").style.width);
+                console.log("CO H "+document.getElementById("id_display_lc").children[0].offsetHeight+" W "+document.getElementById("id_display_lc").children[0].offsetWidth);
+                console.log("CS H "+document.getElementById("id_display_lc").children[0].style.height+" W "+document.getElementById("id_display_lc").children[0].style.width);
+            };
+
+            console.log(img.offsetHeight+"   "+img.height);
+            img.alt = file.name;
+
+            document.getElementById('id_load_content').innerHTML=file.name;
+            document.getElementById('id_load_content_type').innerHTML=file.type;
+            checkMsgType();
+
+            //upload to server
+            let fname = imgid+"_"+file.name;
+
+            const formData = new FormData()
+
+            formData.append('myFile', file);
+            
+            formData.set('myFile', file, fname );
+
+            console.log("Call File Upload Call");
+            //console.log("Call File Upload Call"+formData.files.myFile.name);
+
+            fetch('/contents/uploadImage', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    //console.log(data);
+                    console.log(data.path);
+                    
+                    img.src="https://bucketeer-bf31af2f-660c-4f16-862f-da542e2d805e.s3.amazonaws.com/public/"+imgid+"_"+file.name;
+                    console.log(document.getElementById('id_display_lc').innerHTML);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                    console.error(error);
+                })
+            });
+    }
+    else{
+        //console.log("Response");
+        //onClickMCB(document.getElementById('id_btn_display_LC'));
+    }
+
+});  
+
+
+function rearrangeDisplay(){
+
+    if(document.getElementById('id_btn_display_S').classList.contains('button51')){
+        document.getElementById('id_display_body').style.marginTop="10px"; //display 상태와 관계없이 처리
+        document.getElementById('id_display_mc').style.marginTop="10px"; //display 상태와 관계없이 처리
+        document.getElementById('id_display_lc').style.marginTop="10px"; //display 상태와 관계없이 처리
+    }
+    else{
+        if(document.getElementById('id_btn_display_B').classList.contains('button51')){
+            document.getElementById('id_display_body').style.marginTop="0px"; //
+            document.getElementById('id_display_mc').style.marginTop="10px"; //
+            document.getElementById('id_display_lc').style.marginTop="10px"; //
+        }
+        else{
+            document.getElementById('id_display_body').style.marginTop="0px"; //
+            document.getElementById('id_display_mc').style.marginTop="0px"; //
+            document.getElementById('id_display_lc').style.marginTop="0px"; //
+        }
+    }
+
+    if(document.getElementById('id_btn_display_B').classList.contains('button51')){
+        document.getElementById('id_display_mc').style.marginTop="10px"; //display 상태와 관계없이 처리
+        document.getElementById('id_display_lc').style.marginTop="10px"; //display 상태와 관계없이 처리
+    }
+    else{
+        if(document.getElementById('id_btn_display_S').classList.contains('button51')){
+            document.getElementById('id_display_mc').style.marginTop="10px"; //
+            document.getElementById('id_display_lc').style.marginTop="10px"; //
+        }
+        else{
+            document.getElementById('id_display_mc').style.marginTop="0px"; //
+            document.getElementById('id_display_lc').style.marginTop="0px"; //
+        }
+
+    }
+
+    checkMsgType();
+}
+
+
+// Message Change Manager
+
+function msgChg(obj){
+    if(obj.id=="id_display_subject"){        
+        var totalByte = getBytes('id_display_subject');
+        document.getElementById("id_size_subject").innerText = totalByte;
+
+        const maxByte = 95; //max bytes
+        if(totalByte>maxByte){
+            obj.value = obj.value.substring(0,maxByte);
+        }
+        else{
+            obj.style.height = "1px";
+            obj.style.height = (12+obj.scrollHeight)+"px";
+        }
+    }
+    else if(obj.id=="id_display_body"){        
+        var totalByte = getBytes('id_display_body');
+        document.getElementById("id_size_body").innerText = totalByte;
+
+        const maxByte = 4000; //max bytes
+        if(totalByte>maxByte){
+            obj.value = obj.value.substring(0,maxByte);
+        }
+        else{
+            obj.style.height = "1px";
+            obj.style.height = (12+obj.scrollHeight)+"px";
+        }
+    }
+
+    checkMsgType();
+    
+}
+
+
+function checkMsgType(){
+
+    if( document.getElementById('id_btn_display_S').classList.contains('button51')  ||
+        document.getElementById('id_btn_display_MC').classList.contains('button51') ||
+        document.getElementById('id_btn_display_LC').classList.contains('button51') )
+    {   //MMS
+        document.getElementById('id_msg_type').innerHTML="MMS";
+
+    } else if( getBytes(id_display_body) < 333 ){   // SMS
+        document.getElementById('id_msg_type').innerHTML="SMS";
+    } else{ // LMS
+        document.getElementById('id_msg_type').innerHTML="LMS";
+    }
+
+    if(document.getElementById('id_msg_type').innerHTML=="SMS" && getBytes("id_display_body")>333){
+        document.getElementById('id_msg_type').innerHTML="LMS";
+    }
+
+    calcSizeCost();
+}
+
+
+
+
+// Subs
+
+function calcSizeCost(){
+    var size = parseInt(document.getElementById('id_size_subject').innerHTML)
+             + parseInt(document.getElementById('id_size_body').innerHTML)
+             + parseInt(document.getElementById('id_size_content').innerHTML);
+
+    document.getElementById('id_size_total').innerHTML= size;
+
+    var cost = parseInt(document.getElementById('id_cost_unitprice').innerHTML)
+             * parseInt(document.getElementById('id_cost_units').innerHTML);
+
+    document.getElementById('id_cost_est').innerHTML= cost;
+    document.getElementById('id_cost_total').innerHTML= cost;
+}
+
+
+function getBytes(tid){
+    
+    let totalByte=0;
+
+    if(tid=="id_display_subject" || tid=="id_display_body" ){
+        const text_val = document.getElementById(tid).value; //input message
+        const text_len = text_val.length; //n of characters
+        
+        for(let i=0; i<text_len; i++){
+            const each_char = text_val.charAt(i);
+            const uni_char = escape(each_char) //유니코드 형식으로 변환
+            if(uni_char.length>4){
+                // 한글 : 2Byte
+                totalByte += 2;
+            }else{
+                // 영문,숫자,특수문자 : 1Byte
+                totalByte += 1;
+            }
+        }
+    }
+    else if(tid=="id_display_mc"){
+        totalByte=parseInt(document.getElementById(tid).innerHTML);
+    }
+    else if(tid=="id_display_lc"){
+        totalByte=parseInt(document.getElementById(tid).innerHTML);
+    }
+
+  return totalByte;
+}
+
+function resizeTextArea(obj) {
+  obj.style.height = "1px";
+  obj.style.height = (12+obj.scrollHeight)+"px";
+}
+
+
+//
+
+</script>    
+</html>
