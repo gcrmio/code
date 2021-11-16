@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 
-require("dotenv").config();
+//require("dotenv").config();
 
 const { Pool, Client } = require('pg');
 
