@@ -113,6 +113,8 @@ let qry6 = "update targets set proc_yn='Y' where proc_yn='N';";
 
 //(async () => {
 //    try{
+module.exports.setMMS = function (req, res) {
+
         pool
             .query(qry1)
             .then(res => {
@@ -149,6 +151,7 @@ let qry6 = "update targets set proc_yn='Y' where proc_yn='N';";
 //        console.log(e.stack);
 //    }    
 //})();
+}
     
 function genIndiImgFile(){
 
