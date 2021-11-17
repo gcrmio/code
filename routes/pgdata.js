@@ -15,15 +15,7 @@ const s3 = new AWS.S3(
         region:          process.env.AWSS3_region
     }
 );
-/*
-const s3 = new AWS.S3(
-    {
-        accessKeyId:     'AKIARVGPJVYVHNE3VMHO', //'AKIAVFJQOJVK35PUQROH',
-        secretAccessKey: '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', //'lVNhRBjK35lN9SFrwl7adSHAI78etWOQXy+w81Fl',
-        region:'us-east-1'
-    }
-);
-*/
+
 const { Pool, Client } = require('pg');
 
 const pool = new Pool({
@@ -34,16 +26,6 @@ const pool = new Pool({
     port:       process.env.PG_port,
     ssl: { rejectUnauthorized: false },
 });
-/*
-const pool = new Pool({
-    host: 'ec2-107-23-143-66.compute-1.amazonaws.com',
-    user: 'scmxwnfzuxmsym',
-    password: '000ab390bc3f495b4b530f94e20dd4005028c04b383a04f94e0c397bdf804840',  
-    database: 'd6302t8u9u4kpr',
-    port: 5432,
-    ssl: { rejectUnauthorized: false },
-});
-*/
 
 /*
 pool.query('INSERT INTO mms_list VALUES( $1, $2, $3)', ['10','999','MMM'], (err, res) => {
