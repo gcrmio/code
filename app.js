@@ -12,8 +12,8 @@ var activity    = require('./routes/activity');
 var cts         = require('./routes/contents');
 const fileupload = require('express-fileupload');
 var pgm         = require('./routes/pgdata');
-var sendMMS = require('./sendMMS');
-var loadResult = require('./loadResult');
+var sendMMS     = require('./sendMMS');
+var loadResult  = require('./loadResult');
 var receiveResult = require('./receiveResult');
 var setMMS = require('./routes/setmms');
 
@@ -77,15 +77,15 @@ app.get('/setMMS', async (req, res) => {
 })
 
 //02. Send MMS
-// app.get('/sendMMS', (req, res) => {
-  // try {
-      // console.log("sendMsg=======================================");
-      // sendMMS.dbSelect();
-      // res.send('Send Msg Complete!');
-  // } catch (error) {
-      // console.log('There was an error!');
-  // }
-// })
+app.get('/sendMMS', (req, res) => {
+  try {
+      console.log("sendMsg=======================================");
+      sendMMS.dbSelect();
+      res.send('Send Msg Complete!');
+  } catch (error) {
+      console.log('There was an error!');
+  }
+})
 
 //03. Receive Result
 // app.get('/receiveResult', (req, res) => {
