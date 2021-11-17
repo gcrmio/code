@@ -24,7 +24,7 @@ AWS.config.update({
 });
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, msg_type, plan_date, send_date, success_yn FROM transmit WHERE batch_id IS NULL`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn IS NULL`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -43,9 +43,12 @@ module.exports.dbSelect = function(){
         var msg = row.msg_body_text_adj;
         console.log('msg= '+msg);
         var time = row.plan_date;
+        time.replace(/-|:| /g, '');
         console.log('time= '+time);
-        var msg_type = row.msg_type;
+        var msg_body_image_adj_file = row.msg_body_image_adj_file;
+        var msg_type = (msg_body_image_adj_file.length > 0)? 'MMS': 'SMS';
         console.log('msg_type= '+msg_type);
+
 
         switch(msg_type){
           case 'MMS':
