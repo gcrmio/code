@@ -93,21 +93,37 @@ let qry4 =  " insert into contents "
          +  "  group by id_msg_id; ";        
 
 
-let qry5 =  " insert into transmit "
-         +  "  select a.cust_id, a.phone_no, a.msg_id, "
-         +  "  replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_subject_adj, "
-         +  "  replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_text_adj, "
-         +  "  replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_image_adj, "
-         +  "  '' msg_body_image_adj_file, "        //a.msg_id||'-'||a.phone_no||'.jpg'
-         +  "  b.msg_type, "
-         +  "  c.send_date plan_date, "
-         +  "  '' send_date, "
-         +  "  '' success_yn, "
-         +  "  to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date "
-         +  "  from targets a, contents b, message c "
-         +  "  where a.proc_yn='N'  "
-         +  "  and a.msg_id=b.msg_id "
-         +  "  and b.msg_id=c.msg_id; ";
+// let qry5 =  " insert into transmit "
+//          +  "  select a.cust_id, a.phone_no, a.msg_id, "
+//          +  "  replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_subject_adj, "
+//          +  "  replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_text_adj, "
+//          +  "  replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_image_adj, "
+//          +  "  '' msg_body_image_adj_file, "        //a.msg_id||'-'||a.phone_no||'.jpg'
+//          +  "  b.msg_type, "
+//          +  "  c.send_date plan_date, "
+//          +  "  '' send_date, "
+//          +  "  '' success_yn, "
+//          +  "  to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date "
+//          +  "  from targets a, contents b, message c "
+//          +  "  where a.proc_yn='N'  "
+//          +  "  and a.msg_id=b.msg_id "
+//          +  "  and b.msg_id=c.msg_id; ";
+
+let qry5 =  `INSERT INTO transmit
+                SELECT a.cust_id, a.phone_no, a.msg_id, "
+                replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_subject_adj,
+                replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_text_adj,
+                replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_image_adj,
+                '' msg_body_image_adj_file,
+                b.msg_type,
+                c.send_date plan_date,
+                '' send_date,
+                '' success_yn,
+                to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date
+                from targets a, contents b, message c
+                where a.proc_yn='N'
+                and a.msg_id=b.msg_id
+                and b.msg_id=c.msg_id;`;
       
 let qry6 = "update targets set proc_yn='Y' where proc_yn='N';";
 
@@ -122,7 +138,7 @@ module.exports.setMMS = function (req, res) {
                 pool
                     .query(qry3)
                     .then(res => {  
-                        console.log('33333');
+                        console.log('111111');
                         pool
                             .query(qry4)
                             .then(res => {  
