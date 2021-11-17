@@ -24,7 +24,7 @@ AWS.config.update({
 });
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn IS NULL`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`
 
   pool.query(sql, (err, res) => {
     if(err){
