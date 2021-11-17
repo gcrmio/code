@@ -33,19 +33,19 @@ module.exports.dbSelect = function(){
       //console.log(res.rows);
       for(const row of res.rows){
         var cust_id = row.cust_id;
-        console.log(cust_id);
+        console.log('cust_id= '+cust_id);
         var dest = row.phone_no;
-        console.log(phone_no);
+        console.log('dest= '+dest);
         var msg_id = row.msg_id;
-        console.log(msg_id);
+        console.log('msg_id= '+msg_id);
         var subject = row.msg_subject_adj;
-        console.log(msg_subject_adj);
+        console.log('subject= '+subject);
         var msg = row.msg_body_text_adj;
-        console.log(msg_body_text_adj);
-        var time = row.send_date;
-        console.log(send_date);
+        console.log('msg= '+msg);
+        var time = row.plan_date;
+        console.log('time= '+time);
         var msg_type = row.msg_type;
-        console.log(msg_type);
+        console.log('msg_type= '+msg_type);
 
         switch(msg_type){
           case 'MMS':
