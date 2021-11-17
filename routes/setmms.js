@@ -77,20 +77,20 @@ let qry3 =  `INSERT INTO targets
              WHERE proc_yn='N';`;
 
 
-let qry4 =  " insert into contents "	
-         +  " select id_msg_id 	msg_id, "
-         +  "        max(id_display_subject) msg_subject, "
-         +  "        max(id_display_body) msg_body_text, "
-         +  "        max(id_display_ctsr) msg_body_content, "
-         +  "        max(case when position('Image' in id_load_content_type)>0 then 'IMAGE' else 'TEXT' end) msg_type, "
-         +  "        max(id_load_content_type) content_src, "
-         +  "        length(max(id_display_subject)) msg_subject_length, "
-         +  "        length(max(id_display_body)) msg_body_length, "
-         +  "        max(to_number(id_display_ctsr_size,'999999999')) msg_content_size, "
-         +  "        to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date "
-         +  "    from msg_working "
-         +  "   where proc_yn='N' "
-         +  "  group by id_msg_id; ";        
+let qry4 =  `INSERT INTO contents	
+                SELECT  id_msg_id 	msg_id,
+                        max(id_display_subject) msg_subject,
+                        max(id_display_body) msg_body_text,
+                        max(id_display_ctsr) msg_body_content,
+                        max(case when position('Image' in id_load_content_type)>0 then 'IMAGE' else 'TEXT' end) msg_type,
+                        max(id_load_content_type) content_src,
+                        length(max(id_display_subject)) msg_subject_length,
+                        length(max(id_display_body)) msg_body_length,
+                        max(to_number(id_display_ctsr_size,'999999999')) msg_content_size,
+                        to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date
+                FROM msg_working
+                WHERE proc_yn='N'
+                GROUP BY id_msg_id;`;      
 
 
 // let qry5 =  " insert into transmit "
