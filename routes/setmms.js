@@ -71,10 +71,10 @@ let qry1 =  " insert into message "
 let qry2 = "update msg_working set proc_yn='Y' where proc_yn='N';";
 
 
-let qry3 =  " insert into targets	"
-         +  " select id_msg_id, cust_id, cust_id_code, cust_name, phone_no, coupon_id, to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date, 'N' "
-         +  "   from msg_working  "
-         +  "  where proc_yn='N'; ";
+let qry3 =  `INSERT INTO targets
+             SELECT id_msg_id, cust_id, cust_id_code, cust_name, phone_no, coupon_id, to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date, 'N'
+             FROM msg_working
+             WHERE proc_yn='N';`;
 
 
 let qry4 =  " insert into contents "	
@@ -138,7 +138,7 @@ module.exports.setMMS = function (req, res) {
                 pool
                     .query(qry3)
                     .then(res => {  
-                        console.log('111111');
+                        console.log('33333');
                         pool
                             .query(qry4)
                             .then(res => {  
