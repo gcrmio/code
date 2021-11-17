@@ -43,7 +43,7 @@ module.exports.dbSelect = function(){
         var msg = row.msg_body_text_adj;
         console.log('msg= '+msg);
         var time = row.plan_date;
-        time.replace(/-|:| /g, '');
+        time = time.replace(/-|:| /g, '');
         console.log('time= '+time);
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = (msg_body_image_adj_file.length > 0)? 'MMS': 'SMS';
