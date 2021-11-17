@@ -24,7 +24,7 @@ AWS.config.update({
 });
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, msg_type, plan_date, send_date, success_yn FROM transmit`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, msg_type, plan_date, send_date, success_yn FROM transmit WHERE batch_id IS NOT NULL`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -33,15 +33,24 @@ module.exports.dbSelect = function(){
       //console.log(res.rows);
       for(const row of res.rows){
         var cust_id = row.cust_id;
+        console.log(cust_id);
         var dest = row.phone_no;
+        console.log(phone_no);
+        var msg_id = row.msg_id;
+        console.log(msg_id);
         var subject = row.msg_subject_adj;
+        console.log(msg_subject_adj);
         var msg = row.msg_body_text_adj;
+        console.log(msg_body_text_adj);
         var time = row.send_date;
+        console.log(send_date);
         var msg_type = row.msg_type;
+        console.log(msg_type);
+        
         switch(msg_type){
           case 'MMS':
             var bucketParams = {
-              Bucket: process.env.AWSS3_bucket, Key: 'APPS/TEST/MMSTW/'+cust_id+'_20211111_test1.jpg'
+              Bucket: process.env.AWSS3_bucket, Key: 'APPS/TEST/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
             }
             s3.getObject(bucketParams, function(err, data){
               if(err){
