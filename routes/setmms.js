@@ -84,9 +84,9 @@ let qry4 =  `INSERT INTO contents
                         max(id_display_ctsr) msg_body_content,
                         max(case when position('Image' in id_load_content_type)>0 then 'IMAGE' else 'TEXT' end) msg_type,
                         max(id_load_content_type) content_src,
-                        length(max(id_display_subject)) msg_subject_length,
-                        length(max(id_display_body)) msg_body_length,
-                        max(to_number(id_display_ctsr_size,'999999999')) msg_content_size,
+                        length(case when id_display_subject = '' then 0 else max(id_display_subject) end) msg_subject_length,
+                        length(case when id_display_body = '' then 0 else max(id_display_body) end) msg_body_length,
+                        max(case when id_display_ctsr_size = '' then 0 else to_number(id_display_ctsr_size,'999999999') end) msg_content_size,
                         to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date
                 FROM msg_working
                 WHERE proc_yn='N'
