@@ -46,19 +46,11 @@ module.exports.dbSelect = function(){
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
-        var attachment = '';
-        s3.getObject(bucketParams, function(err, data){
-          if(err){
-            console.log("Error", err);
-          } else {
-            var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-            console.log(data.Body);
-          }
-        });
-
+        console.log('bucketParams: '+bucketParams);
+        console.log("");
         switch(msg_type){
           case 'MMS':
-            sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+            MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id);
             break;
           case 'SMS':
             sendSMS(subject, msg, dest, time, msg_id, cust_id);
@@ -70,6 +62,16 @@ module.exports.dbSelect = function(){
     }
   })
 
+function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
+  s3.getObject(bucketParams, function(err, data){
+    if(err){
+      console.log("Error", err);
+    } else {
+      var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+      sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+    }
+  });  
+}
 
 function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
     const uid = process.env.Euid;
