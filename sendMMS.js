@@ -46,14 +46,13 @@ module.exports.dbSelect = function(){
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
-        var attachment = '';
+        
         s3.getObject(bucketParams, function(err, data){
           if(err){
             console.log("Error", err);
           } else {
             var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-            
-            console.log('SEND MMS FUNCTION CALL');
+            console.log(data.Body);
           }
         });
 
@@ -66,10 +65,7 @@ module.exports.dbSelect = function(){
             break;
           default:
             sendSMS(subject, msg, dest, time, msg_id, cust_id);
-        }
-        
-
-               
+        } 
       }
     }
   })
