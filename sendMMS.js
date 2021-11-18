@@ -16,12 +16,13 @@ const pool = new Pool({
     }
 });
 
-const s3 = new AWS.S3();
-AWS.config.update({
-  accessKeyId: process.env.AWSS3_accessKeyId,
-  secretAccessKey: process.env.AWSS3_secretAccessKey,
-  region: 'us-east-1',
-});
+const s3 = new AWS.S3(
+  {
+      accessKeyId:     process.env.AWSS3_accessKeyId,
+      secretAccessKey: process.env.AWSS3_secretAccessKey,
+      region:          process.env.AWSS3_region
+  }
+);
 
 module.exports.dbSelect = function(){
   const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`
@@ -47,7 +48,7 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         console.log('time= '+time);
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
-        var msg_type = (msg_body_image_adj_file.length > 0)? 'MMS': 'SMS';
+        var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
         console.log('msg_type= '+msg_type);
         console.log('02===============================================');
 
