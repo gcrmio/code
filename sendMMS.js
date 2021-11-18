@@ -44,35 +44,28 @@ module.exports.dbSelect = function(){
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
 
-        switch(msg_type){
-          case 'MMS':
-            var bucketParams = {
-              Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+        if(msg_type = 'MMS'){
+          var bucketParams = {
+            Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+          }
+          s3.getObject(bucketParams, function(err, data){
+            if(err){
+              console.log("Error", err);
+            } else {
+              var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+              sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+              console.log('SEND MMS FUNCTION CALL');
             }
-            s3.getObject(bucketParams, function(err, data){
-              if(err){
-                console.log("Error", err);
-              } else {
-                var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-                sendMMS(subject, msg, dest, time, attachment, msg_id);
-                console.log('SEND MMS TO: '+cust_id);
-              }
-            });
-            break;
-          case 'SMS':
-            sendSMS(subject, msg, dest,time, msg_id);
-            console.log('SEND SMS TO: '+cust_id);
-            break;
-          default:
-            sendSMS(subject, msg, dest,time, msg_id);
-            console.log('SEND SMS TO: '+cust_id);
-            break;
-        }
+          });
+        } else{
+          sendSMS(subject, msg, dest,time, msg_id, cust_id);
+            console.log('SEND SMS FUNCTION CALL');
+        }        
       }
     }
   })
 
-function sendMMS(subject, msg, dest, time, attachment, msg_id){
+function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
@@ -94,7 +87,7 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id){
         'ATTACHMENT': attachment
       }
     };
-    console.log('SENDMMS '+msg_id+' DONE =================================');
+    console.log(msg_id+': '+cust_id+' MMS DONE =================================');
     // request(options, function (error, response) {
       // if (error) throw new Error(error);
       // var tmp = response.body;
@@ -104,7 +97,7 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id){
     // });
 }
 
-function sendSMS(subject, msg, dest, time, msg_id){
+function sendSMS(subject, msg, dest, time, msg_id, cust_id){
   const uid = process.env.Euid;
   const password = process.env.Epassword;
 
@@ -123,7 +116,7 @@ function sendSMS(subject, msg, dest, time, msg_id){
       'ST': time
     }
   };
-  console.log('SENDSMS '+msg_id+' DONE =================================');
+  console.log(msg_id+': '+cust_id+' SMS DONE =================================');
   // request(options, function (error, response) {
     // if (error) throw new Error(error);
     // var tmp = response.body;
