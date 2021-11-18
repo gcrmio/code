@@ -46,7 +46,7 @@ module.exports.dbSelect = function(){
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
-        
+        var attachment = '';
         s3.getObject(bucketParams, function(err, data){
           if(err){
             console.log("Error", err);
