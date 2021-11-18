@@ -75,7 +75,7 @@ function getResults(){
   }
 
 
-function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
+async function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
