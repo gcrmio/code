@@ -43,24 +43,33 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
-        sendSMS(subject, msg, dest, time, msg_id, cust_id);
-        // if(msg_type = 'MMS'){
-        //   var bucketParams = {
-        //     Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
-        //   }
-        //   s3.getObject(bucketParams, function(err, data){
-        //     if(err){
-        //       console.log("Error", err);
-        //     } else {
-        //       var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-        //       sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
-        //       console.log('SEND MMS FUNCTION CALL');
-        //     }
-        //   });
-        // } else{
-        //   sendSMS(subject, msg, dest,time, msg_id, cust_id);
-        //     console.log('SEND SMS FUNCTION CALL');
-        // }        
+        var bucketParams = {
+          Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+        }
+        var attachment = '';
+        s3.getObject(bucketParams, function(err, data){
+          if(err){
+            console.log("Error", err);
+          } else {
+            var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+            
+            console.log('SEND MMS FUNCTION CALL');
+          }
+        });
+
+        switch(msg_type){
+          case 'MMS':
+            sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+            break;
+          case 'SMS':
+            sendSMS(subject, msg, dest, time, msg_id, cust_id);
+            break;
+          default:
+            sendSMS(subject, msg, dest, time, msg_id, cust_id);
+        }
+        
+
+               
       }
     }
   })
