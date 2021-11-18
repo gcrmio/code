@@ -308,6 +308,7 @@ function cvtHtmlToImage(cts){
 
 
             const bodyHandle = await page.$('body');
+
             const boundingBox = await bodyHandle.boundingBox();
             const theight = boundingBox.height;
             const twidth  = boundingBox.width;
@@ -320,9 +321,18 @@ function cvtHtmlToImage(cts){
             //console.log("height: " + theight1+"  width: " + twidth1);
 
             const bodyHandle2 = await page.$('#IDX-SUB');
-            const boundingBox2 = await bodyHandle2.boundingBox();
-            const theight2 = boundingBox2.height;
-            const twidth2  = boundingBox2.width;
+            //added
+            try {
+                const boundingBox2 = await bodyHandle2.boundingBox();
+                const theight2 = boundingBox2.height;
+                const twidth2  = boundingBox2.width;
+                //console.log("height: " + theight2+"  width: " + twidth2);
+            } catch (error) {
+                console.log("");
+            }
+            //const boundingBox2 = await bodyHandle2.boundingBox();
+            // const theight2 = boundingBox2.height;
+            // const twidth2  = boundingBox2.width;
             //console.log("height: " + theight2+"  width: " + twidth2);
 
             let ratio = theight/twidth;
