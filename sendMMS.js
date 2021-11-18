@@ -42,7 +42,7 @@ module.exports.dbSelect = function(){
         var time = row.plan_date;
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
-        var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
+        var msg_type = (subject.length == 0)? 'SMS': 'MMS';
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
