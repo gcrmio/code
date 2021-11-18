@@ -54,7 +54,7 @@ function updateDE(access_token, phone_no){
     //Get send complete transmit records
     var selectFrom = function() {
         return new Promise(function(resolve, reject){
-            pool.query(`SELECT cust_id, success_yn, send_date from transmit`, function(err, result) {
+            pool.query(`SELECT cust_id, success_yn, send_date, de_id from transmit`, function(err, result) {
                 if(err)
                     return reject(err);
                 resolve(result.rows);
@@ -74,11 +74,13 @@ function updateDE(access_token, phone_no){
             pValue.send_status_yn = result[i]['success_yn'];
             pValue.send_date = result[i]['send_date'];
             payload2.push({keys:pKey, values:pValue});
+            var de_id = result[i]['de_id'];
         }
         console.log('PAYLOAD IS HERE');
         console.log(payload2);
         var DEputOptions = {
-            uri: 'https://mcycnrl05rhxlvjpny59rqschtx4.rest.marketingcloudapis.com/hub/v1/dataevents/9fc86fa4-4c40-ec11-ba40-f40343ce83b8/rowset',
+            //uri: 'https://mcycnrl05rhxlvjpny59rqschtx4.rest.marketingcloudapis.com/hub/v1/dataevents/9fc86fa4-4c40-ec11-ba40-f40343ce83b8/rowset',
+            uri: 'https://mcycnrl05rhxlvjpny59rqschtx4.rest.marketingcloudapis.com/hub/v1/dataevents/'+de_id+'/rowset',
             body: JSON.stringify(payload2),
             method: 'POST',
             headers:{

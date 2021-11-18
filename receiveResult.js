@@ -11,65 +11,99 @@ const pool = new Pool({
       rejectUnauthorized: false
     }
 });
+const sql = `SELECT msg_id, msg_subject_adj FROM transmit WHERE success_yn != 'S'`
 
-module.exports.listSelect = function(){
+  pool.query(sql, (err, res) => {
+    if(err){
+      console.log(err.stack);
+    } else {
+      //console.log(res.rows);
+      for(const row of res.rows){
+        
+        var msg_id = row.msg_id;
+        var subject = row.msg_subject_adj;
+        var msg = row.msg_body_text_adj;
+        var msg_type = (subject.length == 0)? 'SMS': 'MMS';
+
+        switch(msg_type){
+          case 'MMS':            
+            resultMMS(batch_id, msg_id);
+            break;
+          case 'SMS':
+            resultSMS(batch_id, msg_id);
+            break;
+          default:
+            resultSMS(batch_id, msg_id);
+        } 
+      }
+    }
+  })
+
+  function resultMMS(batch_id, msg_id){
+    const url = 'https://oms.every8d.com/API21/HTTP/MMS/getDeliveryStatus.ashx';
+    const uid = process.env.Euid;
+    const password = process.env.Epassword;
+
+    var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+batch_id+'&PNO=';
+    console.log(geturl);
+    request.get({
+        url: geturl
+    }, function(error, response, html){
+        if(error){
+            console.log(error);
+        }
+        console.log('Received Server Data!');
+        var tmp = response.body;
+        var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
+        // var sms_count = result[0];
+        // console.log("sms_count= "+sms_count);
+        // var sms_name = result[1];
+        // console.log("sms_name= "+sms_name);
+        var sms_mobile = result[2];
+        var sms_send_time = result[3];
+        // var sms_cost = result[4];
+        // console.log("sms_cost= "+sms_cost);
+        var sms_status = result[5];
+        updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
+    })    
+}
+
+function resultSMS(batch_id, msg_id){
     const url = 'https://oms.every8d.com/API21/HTTP/getDeliveryStatus.ashx';
     const uid = process.env.Euid;
     const password = process.env.Epassword;
-    //Get send complete transmit records
-    var selectFrom = function() {
-        return new Promise(function(resolve, reject){
-            pool.query(`SELECT batch_id from transmit WHERE cust_id = 'TW99999999'`, function(err, result) {
-                if(err)
-                    return reject(err);
-                resolve(result.rows);
-            })
-        });
-    }
 
-    var batchList = new Array();
-    
-    selectFrom()
-    .then(function(result){
-        console.log('result');
-        console.log(result);
-        console.log('result length= '+result.length);
-        for(var i = 0; i < result.length; i++){
-            console.log('Loop #'+i+'**********');
-            var bidValue = result[i]['batch_id'];
-            batchList.push(bidValue);
-            var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+bidValue+'&PNO=';
-            console.log(geturl);
-            request.get({
-                url: geturl
-            }, function(error, response, html){
-                if(error){
-                    console.log(error);
-                }
-                console.log('Received Server Data!');
-                var tmp = response.body;
-                var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
-                // var sms_count = result[0];
-                // console.log("sms_count= "+sms_count);
-                // var sms_name = result[1];
-                // console.log("sms_name= "+sms_name);
-                var sms_mobile = result[2];
-                var sms_send_time = result[3];
-                // var sms_cost = result[4];
-                // console.log("sms_cost= "+sms_cost);
-                var sms_status = result[5];
-                updateTransmit(sms_mobile, sms_send_time, sms_status);
-            })
+    var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+batch_id+'&PNO=';
+    console.log(geturl);
+    request.get({
+        url: geturl
+    }, function(error, response, html){
+        if(error){
+            console.log(error);
         }
-    });  
+        console.log('Received Server Data!');
+        var tmp = response.body;
+        var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
+        // var sms_count = result[0];
+        // console.log("sms_count= "+sms_count);
+        // var sms_name = result[1];
+        // console.log("sms_name= "+sms_name);
+        var sms_mobile = result[2];
+        var sms_send_time = result[3];
+        // var sms_cost = result[4];
+        // console.log("sms_cost= "+sms_cost);
+        var sms_status = result[5];
+        updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
+    })    
 }
 
-function updateTransmit(sms_mobile, sms_send_time, sms_status){
+function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
     console.log('sms_mobile= '+sms_mobile);
-    var phone_no = sms_mobile.startsWith('+')? sms_mobile:'+'+sms_mobile;
-    console.log('phone_no= '+phone_no);
+    //var phone_no = sms_mobile.startsWith('+')? sms_mobile:'+'+sms_mobile;
+    //console.log('phone_no= '+phone_no);
     var send_date = sms_send_time;
     // var success_yn = sms_status="100"? "S":"F";
+    var msg_id = msg_id;
     var success_yn = '';
     var fail_reason = '';
     
@@ -145,13 +179,13 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status){
                 console.log('[0] Sent');
     }
 
-    const sql = `UPDATE transmit SET phone_no = t.phone_no, send_date = t.send_date, success_yn = t.success_yn, fail_reason = t.fail_reason 
+    const sql = `UPDATE transmit SET phone_no = t.phone_no, send_date = t.send_date, success_yn = t.success_yn, fail_reason = t.fail_reason, msg_id = t.msg_id 
                  FROM 
                     (VALUES
-                    ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `')
+                    ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `', '`+msg_id`')
                 )
                 AS t(phone_no, send_date, success_yn, fail_reason)
-                WHERE transmit.phone_no = t.phone_no`
+                WHERE transmit.phone_no = t.phone_no AND transmit.msg_id = t.msg_id`
     console.log(sql);
 
     pool.query(sql, (err, res) => {
