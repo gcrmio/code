@@ -26,13 +26,14 @@ const s3 = new AWS.S3(
 
 module.exports.dbSelect = function(){
   const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`
-
+  var arr = [];
   pool.query(sql, (err, res) => {
     if(err){
       console.log(err.stack);
     } else {
       //console.log(res.rows);
-      for(const row of res.rows){
+      Object.keys(res).forEach(function(key){
+        var row = result[key];
         var cust_id = row.cust_id;
         console.log('cust_id= '+cust_id);
         var dest = row.phone_no;
@@ -43,25 +44,19 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
-
-        // if(msg_type = 'MMS'){
-          var bucketParams = {
-            Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+        var bucketParams = {
+          Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+        }
+        s3.getObject(bucketParams, function(err, data){
+          if(err){
+            console.log("Error", err);
+          } else {
+            var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+            sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+            console.log('SEND MMS FUNCTION CALL: '+cust_id);
           }
-          s3.getObject(bucketParams, function(err, data){
-            if(err){
-              console.log("Error", err);
-            } else {
-              var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-              sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
-              console.log('SEND MMS FUNCTION CALL: '+cust_id);
-            }
-          });
-        // } else{
-        //   sendSMS(subject, msg, dest,time, msg_id, cust_id);
-        //     console.log('SEND SMS FUNCTION CALL');
-        // }        
-      }
+        });
+      })
     }
   })
 
