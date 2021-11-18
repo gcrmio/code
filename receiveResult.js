@@ -181,13 +181,13 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
                 console.log('[0] Sent');
     }
 
-    const sql = `UPDATE transmit SET phone_no = t.phone_no, send_date = t.send_date, success_yn = t.success_yn, fail_reason = t.fail_reason, msg_id = t.msg_id 
+    const sql = `UPDATE transmit SET phone_no = t.phone_no, send_date = t.send_date, success_yn = t.success_yn, fail_reason = t.fail_reason 
                  FROM 
                     (VALUES
-                    ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `', '`+msg_id`')
+                    ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `')
                 )
                 AS t(phone_no, send_date, success_yn, fail_reason, msg_id)
-                WHERE transmit.phone_no = t.phone_no AND transmit.msg_id = t.msg_id`
+                WHERE transmit.phone_no = t.phone_no`;
     console.log(sql);
 
     pool.query(sql, (err, res) => {
