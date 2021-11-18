@@ -25,7 +25,7 @@ const sql = `SELECT msg_id, msg_subject_adj, batch_id FROM transmit WHERE succes
         var msg = row.msg_body_text_adj;
         var msg_type = (subject.length == 0)? 'SMS': 'MMS';
         var batch_id = row.batch_id;
-        
+
         switch(msg_type){
           case 'MMS':            
             resultMMS(batch_id, msg_id);
@@ -100,6 +100,7 @@ function resultSMS(batch_id, msg_id){
 
 function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
     console.log('sms_mobile= '+sms_mobile);
+    var phone_no = sms_mobile;
     //var phone_no = sms_mobile.startsWith('+')? sms_mobile:'+'+sms_mobile;
     //console.log('phone_no= '+phone_no);
     var send_date = sms_send_time;
