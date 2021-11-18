@@ -150,7 +150,7 @@ function updateBatchId(dest, msg_batch_id, msg_id){
     const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id, msg_id = t.msg_id
                  FROM 
                     (VALUES
-                    ('`+phone_no+`', '`+batch_id+`')
+                    ('`+phone_no+`', '`+batch_id+`', '`+msg_id`')
                 )
                 AS t(phone_no, batch_id)
                 WHERE transmit.phone_no = t.phone_no AND transmit.msg_id = t.msg_id`
