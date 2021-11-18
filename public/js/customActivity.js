@@ -209,6 +209,7 @@ define([
         var id_cost_unitprice       = $('#id_cost_unitprice').html();
         var id_cost_units           = $('#id_cost_units').html();
         var id_cost_credit          = $('#id_cost_credit').html();
+        var id_msg_type             = $('#id_msg_type').html();
 
 
         payload['arguments'].execute.inArguments = [{
@@ -243,6 +244,7 @@ define([
             "id_cost_unitprice":        id_cost_unitprice,
             "id_cost_units":            id_cost_units,
             "id_cost_credit":           id_cost_credit,
+            "id_msg_type":              id_msg_type,
 
             "cust_id" :     "{{Event."+eventDefinitionKey+".cust_id}}", 
             "cust_id_code": "{{Event."+eventDefinitionKey+".cust_id_code}}",
