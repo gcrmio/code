@@ -43,12 +43,13 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = (subject.length == 0)? 'SMS': 'MMS';
-        var bucketParams = {
-          Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
-        }
+
 
         switch(msg_type){
           case 'MMS':
+            var bucketParams = {
+              Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+            }
             MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id);
             break;
           case 'SMS':
