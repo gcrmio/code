@@ -102,6 +102,7 @@ define([
                 if (key === 'id_check_individual')  { $('#id_check_individual'  ).prop('checked', val);  }
                 if (key === 'id_load_content')      { $('#id_load_content'      ).html(val); }
                 if (key === 'id_load_content_type') { $('#id_load_content_type' ).html(val); }
+                if (key === 'id_msg_type')          { $('#id_msg_type'          ).html(val); }
 
                 if (key === 'id_size_total')        { $('#id_size_total'        ).html(val); }
                 if (key === 'id_size_subject')      { $('#id_size_subject'      ).html(val); }
@@ -201,6 +202,8 @@ define([
         var id_load_content         = $('#id_load_content').html();
         var id_load_content_type    = $('#id_load_content_type').html();
 
+        var id_msg_type             = $('#id_msg_type').html();
+        
         var id_size_total           = $('#id_size_total').html();
         var id_size_subject         = $('#id_size_subject').html();
         var id_size_body            = $('#id_size_body').html();
@@ -209,7 +212,7 @@ define([
         var id_cost_unitprice       = $('#id_cost_unitprice').html();
         var id_cost_units           = $('#id_cost_units').html();
         var id_cost_credit          = $('#id_cost_credit').html();
-        var id_msg_type             = $('#id_msg_type').html();
+
 
 
         payload['arguments'].execute.inArguments = [{

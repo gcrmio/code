@@ -128,6 +128,7 @@ exports.execute = function (req, res) {
             let id_display_ctsr_height  = decodedArgs.id_display_ctsr_height;
             let id_reg_date             = decodedArgs.id_reg_date;
             let id_reg_time             = decodedArgs.id_reg_time;
+            let id_msg_type             = decodedArgs.id_msg_type;
             let id_msg_desc             = decodedArgs.id_msg_desc;
             let id_msg_admin            = decodedArgs.id_msg_admin;
             let id_msg_charge           = decodedArgs.id_msg_charge;
@@ -138,7 +139,7 @@ exports.execute = function (req, res) {
             let id_load_content         = decodedArgs.id_load_content;
             let id_load_content_type    = decodedArgs.id_load_content_type;
             let de_id                   = decodedArgs.de_id;
-            let id_msg_type             = decodedArgs.id_msg_type;
+
             let cust_id                 = decodedArgs.cust_id;
             let cust_id_code            = decodedArgs.cust_id_code;
             let cust_name               = decodedArgs.cust_name;
@@ -153,7 +154,7 @@ exports.execute = function (req, res) {
             // +cust_name+"','"+phone_no+"','"+coupon_id+"',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');";
 
             let qry = `INSERT INTO msg_working 
-                        VALUES('`+id_msg_id+`', '`+id_display_subject+`', '`+id_display_body+`', '`+id_display_cts+`', '`+id_display_ctsr+`', '`+id_display_ctsr_srctype+`', '`+id_display_ctsr_size+`', '`+id_display_ctsr_width+`', '`+id_display_ctsr_height+`', '`+id_reg_date+`', '`+id_reg_time+`', '`+id_msg_desc+`', '`+id_msg_admin+`', '`+id_msg_charge+`', '`+id_send_date+`', '`+id_send_time+`', '`+id_check_coupon+`', '`+id_check_individual+`', '`+id_load_content+`', '`+id_load_content_type+`', '`+de_id+`', '`+id_msg_type+`', '`+cust_id+`', '`+cust_id_code+`', '`+cust_name+`', '`+phone_no+`', '`+coupon_id+`',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');`;
+                        VALUES('`+id_msg_id+`', '`+id_display_subject+`', '`+id_display_body+`', '`+id_display_cts+`', '`+id_display_ctsr+`', '`+id_display_ctsr_srctype+`', '`+id_display_ctsr_size+`', '`+id_display_ctsr_width+`', '`+id_display_ctsr_height+`', '`+id_reg_date+`', '`+id_reg_time+`', '`+id_msg_type+`', '`+id_msg_desc+`', '`+id_msg_admin+`', '`+id_msg_charge+`', '`+id_send_date+`', '`+id_send_time+`', '`+id_check_coupon+`', '`+id_check_individual+`', '`+id_load_content+`', '`+id_load_content_type+`', '`+de_id+`', '`+cust_id+`', '`+cust_id_code+`', '`+cust_name+`', '`+phone_no+`', '`+coupon_id+`',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');`;
 
             pool.query( qry, (err, result) => {
 

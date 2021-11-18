@@ -82,7 +82,7 @@ let qry4 =  `INSERT INTO contents
                     max(id_display_subject) 	msg_subject, 
                     max(id_display_body) 	msg_body_text, 
                     max(id_display_ctsr)     msg_body_content, 
-                    max(case when position('image' in id_load_content_type)>0 then 'IMAGE' else 'TEXT' end) msg_type, 
+                    max(id_msg_type) msg_type, 
                     max(id_load_content_type) content_src, 
                     length(case when id_display_subject = '' then NULL else max(id_display_subject) end) msg_subject_length, 
                     length(case when id_display_body = '' then NULL else max(id_display_body) end) msg_body_length, 
