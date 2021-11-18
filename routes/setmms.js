@@ -340,22 +340,6 @@ function cvtHtmlToImage(cts){
             let tgtHeight = parseInt(ratio*640);
 
             try {
-                await page.setViewport({width: twidth1, height: theight1});
-                console.log(" Final height: " + theight1+"  Final width: " + twidth1);
-                const buffer = await page.screenshot({
-                    //fullPage: true,
-                    clip: { x:8, y:8, width:twidth1, height:theight1},
-                    type: 'jpeg'
-                })
-    
-                await page.close();
-                await browser.close();
-    
-                let width  = twidth1;
-                let height = theight1;
-    
-                resolve([buffer, width, height]);   
-            } catch (error) {
                 await page.setViewport({width: twidth, height: theight});
                 console.log(" Final height: " + theight+"  Final width: " + twidth);
                 const buffer = await page.screenshot({
@@ -370,7 +354,24 @@ function cvtHtmlToImage(cts){
                 let width  = twidth;
                 let height = theight;
     
-                resolve([buffer, width, height]);   
+                resolve([buffer, width, height]);  
+                 
+            } catch (error) {
+                await page.setViewport({width: twidth1, height: theight1});
+                console.log(" Final height: " + theight1+"  Final width: " + twidth1);
+                const buffer = await page.screenshot({
+                    //fullPage: true,
+                    clip: { x:8, y:8, width:twidth1, height:theight1},
+                    type: 'jpeg'
+                })
+    
+                await page.close();
+                await browser.close();
+    
+                let width  = twidth1;
+                let height = theight1;
+    
+                resolve([buffer, width, height]);  
             }
             //added
             //await page.setViewport({width: twidth1, height: theight1});
