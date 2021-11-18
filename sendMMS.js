@@ -101,14 +101,14 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key){
     console.log("MMS FUNCTION CALL");
     console.log('key= '+key);
     console.log(msg_id+': '+cust_id+' MMS DONE =================================');
-    request(options, function (error, response) {
-      if (error) throw new Error(error);
-      var tmp = response.body;
-      console.log(tmp);
-      var result = tmp.split(',');
-      var msg_batch_id = result[4];
-      updateBatchId(dest, msg_batch_id, msg_id);
-    });
+    // request(options, function (error, response) {
+      // if (error) throw new Error(error);
+      // var tmp = response.body;
+      // console.log(tmp);
+      // var result = tmp.split(',');
+      // var msg_batch_id = result[4];
+      // updateBatchId(dest, msg_batch_id, msg_id);
+    // });
 }
 
 function sendSMS(subject, msg, dest, time, msg_id, cust_id){
@@ -131,14 +131,14 @@ function sendSMS(subject, msg, dest, time, msg_id, cust_id){
     }
   };
   console.log(msg_id+': '+cust_id+' SMS DONE =================================');
-  request(options, function (error, response) {
-    if (error) throw new Error(error);
-    var tmp = response.body;
-    console.log(tmp);
-    var result = tmp.split(',');
-    var msg_batch_id = result[4];
-    updateBatchId(dest, msg_batch_id, msg_id);
-  });
+  // request(options, function (error, response) {
+    // if (error) throw new Error(error);
+    // var tmp = response.body;
+    // console.log(tmp);
+    // var result = tmp.split(',');
+    // var msg_batch_id = result[4];
+    // updateBatchId(dest, msg_batch_id, msg_id);
+  // });
 }
 
 function updateBatchId(dest, msg_batch_id, msg_id){
