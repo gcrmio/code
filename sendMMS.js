@@ -117,7 +117,6 @@ function sendMMS(subject, msg, dest, time, attachment){
 function sendSMS(subject, msg, dest, time){
   const uid = process.env.Euid;
   const password = process.env.Epassword;
-  const type = 'jpeg';
   console.log('SEND SMS===============================================');
   console.log('msg= '+msg);
   console.log("");

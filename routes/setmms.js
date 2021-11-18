@@ -308,7 +308,6 @@ function cvtHtmlToImage(cts){
 
 
             const bodyHandle = await page.$('body');
-
             const boundingBox = await bodyHandle.boundingBox();
             const theight = boundingBox.height;
             const twidth  = boundingBox.width;
@@ -321,79 +320,35 @@ function cvtHtmlToImage(cts){
             //console.log("height: " + theight1+"  width: " + twidth1);
 
             const bodyHandle2 = await page.$('#IDX-SUB');
-            //added
-            try {
-                const boundingBox2 = await bodyHandle2.boundingBox();
-                const theight2 = boundingBox2.height;
-                const twidth2  = boundingBox2.width;
-                //console.log("height: " + theight2+"  width: " + twidth2);
-            } catch (error) {
-                console.log("");
-            }
-            //const boundingBox2 = await bodyHandle2.boundingBox();
-            // const theight2 = boundingBox2.height;
-            // const twidth2  = boundingBox2.width;
+            const boundingBox2 = await bodyHandle2.boundingBox();
+            const theight2 = boundingBox2.height;
+            const twidth2  = boundingBox2.width;
             //console.log("height: " + theight2+"  width: " + twidth2);
 
             let ratio = theight/twidth;
 
             let tgtHeight = parseInt(ratio*640);
 
-            try {
-                await page.setViewport({width: twidth, height: theight});
-                console.log(" Final height: " + theight+"  Final width: " + twidth);
-                const buffer = await page.screenshot({
-                    //fullPage: true,
-                    clip: { x:8, y:8, width:twidth, height:theight},
-                    type: 'jpeg'
-                })
+            await page.setViewport({width: twidth1, height: theight1});
     
-                await page.close();
-                await browser.close();
-    
-                let width  = twidth;
-                let height = theight;
-    
-                resolve([buffer, width, height]);  
-                 
-            } catch (error) {
-                await page.setViewport({width: twidth1, height: theight1});
-                console.log(" Final height: " + theight1+"  Final width: " + twidth1);
-                const buffer = await page.screenshot({
-                    //fullPage: true,
-                    clip: { x:8, y:8, width:twidth1, height:theight1},
-                    type: 'jpeg'
-                })
-    
-                await page.close();
-                await browser.close();
-    
-                let width  = twidth1;
-                let height = theight1;
-    
-                resolve([buffer, width, height]);  
-            }
-            //added
-            //await page.setViewport({width: twidth1, height: theight1});
-            
 
             //let cType = getContentTypeByFile(cts);
 
-            //console.log(" Final height: " + theight1+"  Final width: " + twidth1);
+            console.log(" Final height: " + theight1+"  Final width: " + twidth1);
 
-            // const buffer = await page.screenshot({
-            //     //fullPage: true,
-            //     clip: { x:8, y:8, width:twidth1, height:theight1},
-            //     type: 'jpeg'
-            // })
+            const buffer = await page.screenshot({
+                //fullPage: true,
+                clip: { x:8, y:8, width:twidth1, height:theight1},
+                type: 'jpeg'
+            })
 
-            // await page.close();
-            // await browser.close();
+            await page.close();
+            await browser.close();
 
-            // let width  = twidth1;
-            // let height = theight1;
+            let width  = twidth1;
+            let height = theight1;
 
-            // resolve([buffer, width, height]);            
+            resolve([buffer, width, height]);            
         })();
       })
 }
