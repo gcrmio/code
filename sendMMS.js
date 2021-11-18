@@ -54,17 +54,17 @@ module.exports.dbSelect = function(){
                 console.log("Error", err);
               } else {
                 var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-                sendMMS(subject, msg, dest, time, attachment);
+                sendMMS(subject, msg, dest, time, attachment, msg_id);
                 console.log('SEND MMS TO: '+cust_id);
               }
             });
             break;
           case 'SMS':
-            sendSMS(subject, msg, dest,time);
+            sendSMS(subject, msg, dest,time, msg_id);
             console.log('SEND SMS TO: '+cust_id);
             break;
           default:
-            sendSMS(subject, msg, dest,time);
+            sendSMS(subject, msg, dest,time, msg_id);
             console.log('SEND SMS TO: '+cust_id);
             break;
         }
@@ -72,16 +72,10 @@ module.exports.dbSelect = function(){
     }
   })
 
-function sendMMS(subject, msg, dest, time, attachment){
+function sendMMS(subject, msg, dest, time, attachment, msg_id){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
-    console.log('SENDMMS FUNCTION HERE =================================');
-    console.log('subject= '+subject);
-    console.log('msg= '+msg);
-    console.log('dest= '+dest);
-    console.log('time= '+time);
-    console.log('attachment= '+attachment);
 
     var options = {
       'method': 'GET',
@@ -100,24 +94,20 @@ function sendMMS(subject, msg, dest, time, attachment){
         'ATTACHMENT': attachment
       }
     };
-    console.log('SENDMMS FUNCTION DONE =================================');
+    console.log('SENDMMS '+msg_id+' DONE =================================');
     // request(options, function (error, response) {
       // if (error) throw new Error(error);
       // var tmp = response.body;
       // var result = tmp.split(',');
       // var msg_batch_id = result[4];
-      // updateBatchId(dest, msg_batch_id);
+      // updateBatchId(dest, msg_batch_id, msg_id);
     // });
 }
 
-function sendSMS(subject, msg, dest, time){
+function sendSMS(subject, msg, dest, time, msg_id){
   const uid = process.env.Euid;
   const password = process.env.Epassword;
-  console.log('SENDSMS FUNCTION HERE =================================');
-  console.log('subject= '+subject);
-  console.log('msg= '+msg);
-  console.log('dest= '+dest);
-  console.log('time= '+time);
+
   var options = {
     'method': 'GET',
     'url': 'https://oms.every8d.com/API21/HTTP/sendSMS.ashx',
@@ -133,28 +123,29 @@ function sendSMS(subject, msg, dest, time){
       'ST': time
     }
   };
-  console.log('SENDSMS FUNCTION DONE =================================');
+  console.log('SENDSMS '+msg_id+' DONE =================================');
   // request(options, function (error, response) {
     // if (error) throw new Error(error);
     // var tmp = response.body;
     // var result = tmp.split(',');
     // var msg_batch_id = result[4];
-    // updateBatchId(dest, msg_batch_id);
+    // updateBatchId(dest, msg_batch_id, msg_id);
   // });
 }
 
-function updateBatchId(dest, msg_batch_id){
+function updateBatchId(dest, msg_batch_id, msg_id){
     var phone_no = dest;
-    var batch_id = msg_batch_id
+    var batch_id = msg_batch_id;
+    var msg_id = msg_id;
     console.log('batch_id= '+batch_id);
-    
-    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id
+    console.log('msg_id= '+msg_id);
+    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id, msg_id = t.msg_id
                  FROM 
                     (VALUES
                     ('`+phone_no+`', '`+batch_id+`')
                 )
                 AS t(phone_no, batch_id)
-                WHERE transmit.phone_no = t.phone_no`
+                WHERE transmit.phone_no = t.phone_no AND transmit.msg_id = t.msg_id`
     console.log(sql);
 
     pool.query(sql, (err, res) => {
