@@ -46,7 +46,7 @@ module.exports.dbSelect = function(){
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
-        console.log('bucketParams: '+bucketParams);
+        console.log('Key: '+bucketParams.Key);
         console.log("");
         switch(msg_type){
           case 'MMS':
