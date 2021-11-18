@@ -24,16 +24,22 @@ const s3 = new AWS.S3(
   }
 );
 
+const qry1 = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`;
 
 module.exports.dbSelect = function(){
-  getResults();
+  pool
+		.query(qry1)
+		.then(res => {  
+			getResults();
+		}) 
+		.catch(err => console.error('Error executing query', err.stack))
 }
 
 function getResults(){ 
 
-    let qry = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`;
+    let qry2 = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`;
 
-    pool.query(qry)
+    pool.query(qry2)
     .then(result => {
       
       const rows = result.rows;
