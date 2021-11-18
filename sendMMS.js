@@ -63,8 +63,8 @@ module.exports.dbSelect = function(){
 
 function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
   s3.getObject(bucketParams, function(err, data){
-    console.log('Key: '+bucketParams.Key);
-    console.log("");
+    //console.log('Key: '+bucketParams.Key);
+    // console.log("");
     if(err){
       console.log("Error", err);
     } else {
