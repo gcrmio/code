@@ -33,25 +33,16 @@ module.exports.dbSelect = function(){
     } else {
       //console.log(res.rows);
       for(const row of res.rows){
-        console.log('01===============================================');
+        
         var cust_id = row.cust_id;
-        console.log('cust_id= '+cust_id);
         var dest = row.phone_no;
-        console.log('dest= '+dest);
         var msg_id = row.msg_id;
-        console.log('msg_id= '+msg_id);
         var subject = row.msg_subject_adj;
-        console.log('subject= '+subject);
         var msg = row.msg_body_text_adj;
-        console.log('msg= '+msg);
         var time = row.plan_date;
         time = time.replace(/-|:| /g, '');
-        console.log('time= '+time);
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
-        console.log('msg_body_image_adj_file= '+msg_body_image_adj_file);
         var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
-        console.log('msg_type= '+msg_type);
-        console.log('02===============================================');
 
         switch(msg_type){
           case 'MMS':
@@ -69,9 +60,8 @@ module.exports.dbSelect = function(){
             });
             break;
           case 'SMS':
-            console.log('03'+cust_id+'===============================================');
             sendSMS(subject, msg, dest,time);
-            console.log('04'+cust_id+'===============================================');
+            console.log('SEND SMS TO: '+cust_id);
             break;
           default:
             sendSMS(subject, msg, dest,time);
@@ -86,8 +76,13 @@ function sendMMS(subject, msg, dest, time, attachment){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
-    console.log(dest);
-    console.log('dest==================');
+    console.log('SENDMMS FUNCTION HERE =================================');
+    console.log('subject= '+subject);
+    console.log('msg= '+msg);
+    console.log('dest= '+dest);
+    console.log('time= '+time);
+    console.log('attachment= '+attachment);
+
     var options = {
       'method': 'GET',
       'url': 'https://oms.every8d.com/API21/HTTP/MMS/sendMMS.ashx',
@@ -105,6 +100,7 @@ function sendMMS(subject, msg, dest, time, attachment){
         'ATTACHMENT': attachment
       }
     };
+    console.log('SENDMMS FUNCTION DONE =================================');
     // request(options, function (error, response) {
       // if (error) throw new Error(error);
       // var tmp = response.body;
@@ -117,13 +113,11 @@ function sendMMS(subject, msg, dest, time, attachment){
 function sendSMS(subject, msg, dest, time){
   const uid = process.env.Euid;
   const password = process.env.Epassword;
-  console.log('SEND SMS===============================================');
+  console.log('SENDSMS FUNCTION HERE =================================');
+  console.log('subject= '+subject);
   console.log('msg= '+msg);
-  console.log("");
   console.log('dest= '+dest);
-  console.log("");
   console.log('time= '+time);
-  console.log('SEND SMS DONE==========================================');
   var options = {
     'method': 'GET',
     'url': 'https://oms.every8d.com/API21/HTTP/sendSMS.ashx',
@@ -139,6 +133,7 @@ function sendSMS(subject, msg, dest, time){
       'ST': time
     }
   };
+  console.log('SENDSMS FUNCTION DONE =================================');
   // request(options, function (error, response) {
     // if (error) throw new Error(error);
     // var tmp = response.body;
