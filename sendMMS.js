@@ -68,8 +68,9 @@ function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
     if(err){
       console.log("Error", err);
     } else {
+      var key = bucketParams.Key;
       var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-      sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+      sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key);
     }
   });  
 }
@@ -97,7 +98,7 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
       }
     };
     console.log("MMS FUNCTION CALL");
-    console.log('attachment= '+Buffer.from(attachment, 'base64').toString('utf8'));
+    console.log('key= '+key);
     console.log(msg_id+': '+cust_id+' MMS DONE =================================');
     // request(options, function (error, response) {
       // if (error) throw new Error(error);
