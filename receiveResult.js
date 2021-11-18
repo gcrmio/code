@@ -186,7 +186,7 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
                     (VALUES
                     ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `')
                 )
-                AS t(phone_no, send_date, success_yn, fail_reason, msg_id)
+                AS t(phone_no, send_date, success_yn, fail_reason)
                 WHERE transmit.phone_no = t.phone_no`;
     console.log(sql);
 
