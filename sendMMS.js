@@ -33,6 +33,45 @@ module.exports.dbSelect = function(){
     } else {
       //console.log(res.rows);
       for(const row of res.rows){
+        var cust_id = row.cust_id;
+        console.log('cust_id= '+cust_id);
+        var dest = row.phone_no;
+        var msg_id = row.msg_id;
+        var subject = row.msg_subject_adj;
+        var msg = row.msg_body_text_adj;
+        var time = row.plan_date;
+        time = time.replace(/-|:| /g, '');
+        var msg_body_image_adj_file = row.msg_body_image_adj_file;
+        var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
+
+        // if(msg_type = 'MMS'){
+        //   var bucketParams = {
+        //     Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+        //   }
+        //   s3.getObject(bucketParams, function(err, data){
+        //     if(err){
+        //       console.log("Error", err);
+        //     } else {
+        //       var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+        //       sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+        //       console.log('SEND MMS FUNCTION CALL: '+cust_id);
+        //     }
+        //   });
+        // } else{
+        //   sendSMS(subject, msg, dest,time, msg_id, cust_id);
+        //     console.log('SEND SMS FUNCTION CALL');
+        // }        
+      }
+    }
+  })
+  
+  /*
+  pool.query(sql, (err, res) => {
+    if(err){
+      console.log(err.stack);
+    } else {
+      //console.log(res.rows);
+      for(const row of res.rows){
         
         var cust_id = row.cust_id;
         var dest = row.phone_no;
@@ -64,6 +103,7 @@ module.exports.dbSelect = function(){
       }
     }
   })
+*/
 
 function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
     const uid = process.env.Euid;
