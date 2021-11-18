@@ -75,7 +75,7 @@ function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
   });  
 }
 
-function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
+function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
