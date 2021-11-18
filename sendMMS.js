@@ -24,64 +24,49 @@ const s3 = new AWS.S3(
   }
 );
 
-const qry1 = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`;
-
 module.exports.dbSelect = function(){
-  pool
-		.query(qry1)
-		.then(res => {  
-			getResults();
-		}) 
-		.catch(err => console.error('Error executing query', err.stack))
-}
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S' AND cust_id IN ('TW702456548', 'TW702456616')`
 
-function getResults(){ 
+  pool.query(sql, (err, res) => {
+    if(err){
+      console.log(err.stack);
+    } else {
+      //console.log(res.rows);
+      for(const row of res.rows){
+        
+        var cust_id = row.cust_id;
+        var dest = row.phone_no;
+        var msg_id = row.msg_id;
+        var subject = row.msg_subject_adj;
+        var msg = row.msg_body_text_adj;
+        var time = row.plan_date;
+        time = time.replace(/-|:| /g, '');
+        var msg_body_image_adj_file = row.msg_body_image_adj_file;
+        var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
 
-    let qry2 = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`;
-
-    pool.query(qry2)
-    .then(result => {
-      
-      const rows = result.rows;
-      
-      (async () => {
-        try{
-          for await (const row of rows) {
-            var cust_id = row.cust_id;
-            console.log('cust_id= '+cust_id);
-            var dest = row.phone_no;
-            var msg_id = row.msg_id;
-            var subject = row.msg_subject_adj;
-            var msg = row.msg_body_text_adj;
-            var time = row.plan_date;
-            time = time.replace(/-|:| /g, '');
-            var msg_body_image_adj_file = row.msg_body_image_adj_file;
-            var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
-            var bucketParams = {
-              Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
-            }
-            s3.getObject(bucketParams, function(err, data){
-              if(err){
-              console.log("Error", err);
-              } else {
-              var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-              await sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
-              console.log('SEND MMS FUNCTION CALL: '+cust_id);
-              }
-            });
+        if(msg_type = 'MMS'){
+          var bucketParams = {
+            Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
           }
-        }
-        catch(e){
-          console.log(e.stack);
-          }    
-      })();
+          s3.getObject(bucketParams, function(err, data){
+            if(err){
+              console.log("Error", err);
+            } else {
+              var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
+              sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id);
+              console.log('SEND MMS FUNCTION CALL');
+            }
+          });
+        } else{
+          sendSMS(subject, msg, dest,time, msg_id, cust_id);
+            console.log('SEND SMS FUNCTION CALL');
+        }        
+      }
+    }
+  })
 
-    })
-    .catch(err => console.error('Error executing query', err.stack));
-  }
 
-
-async function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
+function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
@@ -164,4 +149,5 @@ function updateBatchId(dest, msg_batch_id, msg_id){
           console.log("Batch Id Update Completed");
         }
       })
+}
 }
