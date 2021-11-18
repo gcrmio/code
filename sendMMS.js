@@ -48,6 +48,7 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         console.log('time= '+time);
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
+        console.log('msg_body_image_adj_file= '+msg_body_image_adj_file);
         var msg_type = (msg_body_image_adj_file.length == 0)? 'SMS': 'MMS';
         console.log('msg_type= '+msg_type);
         console.log('02===============================================');
@@ -55,7 +56,7 @@ module.exports.dbSelect = function(){
         switch(msg_type){
           case 'MMS':
             var bucketParams = {
-              Bucket: process.env.AWSS3_bucket, Key: 'APPS/TEST/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
+              Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
             }
             s3.getObject(bucketParams, function(err, data){
               if(err){
