@@ -46,8 +46,7 @@ module.exports.dbSelect = function(){
         var bucketParams = {
           Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
         }
-        console.log('Key: '+bucketParams.Key);
-        console.log("");
+
         switch(msg_type){
           case 'MMS':
             MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id);
@@ -64,6 +63,8 @@ module.exports.dbSelect = function(){
 
 function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
   s3.getObject(bucketParams, function(err, data){
+    console.log('Key: '+bucketParams.Key);
+    console.log("");
     if(err){
       console.log("Error", err);
     } else {
@@ -95,6 +96,8 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id){
         'ATTACHMENT': attachment
       }
     };
+    console.log("MMS FUNCTION CALL");
+    console.log('attachment= '+Buffer.from(attachment, 'base64').toString('utf8'));
     console.log(msg_id+': '+cust_id+' MMS DONE =================================');
     // request(options, function (error, response) {
       // if (error) throw new Error(error);
