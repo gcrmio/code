@@ -147,13 +147,13 @@ function updateBatchId(dest, msg_batch_id, msg_id){
     var msg_id = msg_id;
     console.log('batch_id= '+batch_id);
     console.log('msg_id= '+msg_id);
-    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id, msg_id = t.msg_id
+    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id
                  FROM 
                     (VALUES
-                    ('`+phone_no+`', '`+batch_id+`', '`+msg_id`')
+                    ('`+phone_no+`', '`+batch_id+`')
                 )
                 AS t(phone_no, batch_id)
-                WHERE transmit.phone_no = t.phone_no AND transmit.msg_id = t.msg_id`
+                WHERE transmit.phone_no = t.phone_no`
     console.log(sql);
 
     pool.query(sql, (err, res) => {
