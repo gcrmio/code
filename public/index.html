@@ -513,11 +513,11 @@ function getCredit(){
     var id_cost_credit = document.getElementById("id_cost_credit");
     let payload = '';
     fetch('/message/getcredit', {
-            method: 'POST',
+            method: 'GET',
             headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify(payload)
+            body: payload
         }).then(function(response) {
             return response.json();
         }).then(function(data) {
