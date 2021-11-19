@@ -49,7 +49,7 @@ module.exports.getcredit = function (req, res){
       }
     };
     request(options, function (error, res) {
-        return res.status(200).json(JSON.stringify(result)); 
+        return res; 
     });
     res.status(200);
 }
