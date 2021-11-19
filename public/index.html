@@ -512,12 +512,7 @@ function checkMSGID(){
 function getCredit(){
     var id_cost_credit = document.getElementById("id_cost_credit");
     
-    fetch('/message/getcredit', {
-        method: 'POST',
-        headers: {
-                'Content-Type': 'application/json'
-        }
-    }).then(function(response) {
+    fetch('/message/getcredit').then(function(response) {
         return response.json();
     }).then(function(data) {
         console.log("id_cost_credit: "+data);
