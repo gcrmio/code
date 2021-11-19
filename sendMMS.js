@@ -25,7 +25,7 @@ const s3 = new AWS.S3(
 );
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn FROM transmit WHERE success_yn != 'S'`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type FROM transmit WHERE success_yn != 'S'`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -42,9 +42,8 @@ module.exports.dbSelect = function(){
         var time = row.plan_date;
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
-        var msg_type = (subject.length == 0)? 'SMS': 'MMS';
-
-
+        var msg_type = row.msg_type;
+        
         switch(msg_type){
           case 'MMS':
             var bucketParams = {
