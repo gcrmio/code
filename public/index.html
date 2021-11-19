@@ -520,9 +520,8 @@ function getCredit(){
     }).then(function(response) {
         return response.json();
     }).then(function(data) {
-        let vdata = JSON.parse(data);
-        console.log("id_cost_credit: "+vdata);
-        document.getElementById("id_cost_credit").innerHTML=vdata;
+        console.log("id_cost_credit: "+data);
+        // document.getElementById("id_cost_credit").innerHTML=vdata;
     });
 }
 // Message Controll Button ------------------------------------------------------------------------------------------------------
