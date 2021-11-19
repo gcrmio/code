@@ -444,7 +444,7 @@ function initialization(){
     document.getElementById('id_cost_total').innerHTML      ="0";
     document.getElementById('id_cost_unitprice').innerHTML  ="0";
     document.getElementById('id_cost_units').innerHTML      ="0";
-    document.getElementById('id_cost_credit').innerHTML      ="0";
+    document.getElementById('id_cost_credit').innerHTML      ="0";      //수정해야하는 부분
 
     document.getElementById('id_msg_id').innerHTML           ="";
     document.getElementById('id_msg_desc').value            ="";
@@ -471,6 +471,7 @@ function initialization(){
    
 
     checkMsgType();
+    getCredit();
 }
 
 // check MSGID and load Server Info
@@ -508,7 +509,23 @@ function checkMSGID(){
 
 
 
+function getCredit(){
+    var id_cost_credit = document.getElementById("id_cost_credit");
 
+    fetch('/message/getcredit', {
+            method: 'GET',
+            headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(payload)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            let vdata = JSON.parse(data);
+            console.log(vdata);
+            // document.getElementById("id_msg_id").innerHTML=vdata.msg_id;
+        });
+}
 // Message Controll Button ------------------------------------------------------------------------------------------------------
 
 function onClickMCB(obj){
