@@ -507,18 +507,6 @@ function checkMSGID(){
     console.log("checkMSGID END ---------------------------------------------------------------------------");    
 }
 
-
-
-function getCredit(){
-    var id_cost_credit = document.getElementById("id_cost_credit");
-    
-    fetch('/message/getcredit').then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        console.log("id_cost_credit: "+data);
-        // document.getElementById("id_cost_credit").innerHTML=vdata;
-    });
-}
 // Message Controll Button ------------------------------------------------------------------------------------------------------
 
 function onClickMCB(obj){

@@ -69,7 +69,6 @@ app.post('/contents/getUploadContentInfo', cts.getUploadContentInfo);
 
 app.post('/message/getmsgid', pgm.getmsgid);
 app.post('/message/uploadwork', pgm.uploadwork);
-app.post('/message/getcredit', pgm.getcredit);
 
 app.get('/setMMS', async (req, res) => {
   console.log("sendMsg=======================================");
