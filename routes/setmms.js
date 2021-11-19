@@ -15,17 +15,6 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-/*
-const pool = new Pool({
-    host: 'ec2-107-23-143-66.compute-1.amazonaws.com',
-    user: 'scmxwnfzuxmsym',
-    password: '000ab390bc3f495b4b530f94e20dd4005028c04b383a04f94e0c397bdf804840',  
-    database: 'd6302t8u9u4kpr',
-    port: 5432,
-    ssl: { rejectUnauthorized: false },
-});
-*/
-
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
@@ -36,16 +25,6 @@ const s3 = new AWS.S3(
         region:          process.env.AWSS3_region
     }
 );
-
-/*
-const s3 = new AWS.S3(
-    {
-        accessKeyId:     'AKIARVGPJVYVHNE3VMHO', //'AKIAVFJQOJVK35PUQROH',
-        secretAccessKey: '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', //'lVNhRBjK35lN9SFrwl7adSHAI78etWOQXy+w81Fl',
-        region:'us-east-1'
-    }
-);
-*/
 
 const puppeteer = require ('puppeteer');
 const { createCipheriv } = require('crypto');
@@ -91,23 +70,6 @@ let qry4 =  `INSERT INTO contents
                     FROM msg_working 
                     WHERE proc_yn='N'
                     GROUP BY id_msg_id, id_display_subject, id_display_body, id_display_ctsr_size`;      
-
-
-// let qry5 =  " insert into transmit "
-//          +  "  select a.cust_id, a.phone_no, a.msg_id, "
-//          +  "  replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_subject_adj, "
-//          +  "  replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_text_adj, "
-//          +  "  replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_image_adj, "
-//          +  "  '' msg_body_image_adj_file, "        //a.msg_id||'-'||a.phone_no||'.jpg'
-//          +  "  b.msg_type, "
-//          +  "  c.send_date plan_date, "
-//          +  "  '' send_date, "
-//          +  "  '' success_yn, "
-//          +  "  to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date "
-//          +  "  from targets a, contents b, message c "
-//          +  "  where a.proc_yn='N'  "
-//          +  "  and a.msg_id=b.msg_id "
-//          +  "  and b.msg_id=c.msg_id; ";
 
 let qry5 =  `INSERT INTO transmit
                 SELECT a.cust_id, a.phone_no, a.msg_id,
@@ -178,7 +140,7 @@ module.exports.setMMS = function (req, res) {
 function genIndiImgFile(){
 
     //read data
-    let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where msg_type = 'MMS';";
+    let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where msg_type = 'MMS' AND cst_uploaded_yn != 'Y';";
 
 
     pool.query(qry)
@@ -206,7 +168,7 @@ function genIndiImgFile(){
                         let path = "APPS/MMSTW/"+row.msg_id+"/msg";
                         await saveToS3(buffer,path,fnm);
 
-                        pool.query("update transmit set msg_body_image_adj_file='"+fnm+"' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
+                        pool.query("update transmit set msg_body_image_adj_file='"+fnm+"', cts_uploaded_yn = 'Y' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
                     }
                 }
                 catch(e){
