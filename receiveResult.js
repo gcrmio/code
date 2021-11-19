@@ -11,7 +11,7 @@ const pool = new Pool({
       rejectUnauthorized: false
     }
 });
-const sql = `SELECT msg_id, msg_subject_adj, batch_id FROM transmit WHERE success_yn != 'S'`
+const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WHERE success_yn != 'S'`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -21,9 +21,7 @@ const sql = `SELECT msg_id, msg_subject_adj, batch_id FROM transmit WHERE succes
       for(const row of res.rows){
         
         var msg_id = row.msg_id;
-        var subject = row.msg_subject_adj;
-        var msg = row.msg_body_text_adj;
-        var msg_type = (subject.length == 0)? 'SMS': 'MMS';
+        var msg_type = row.msg_type;
         var batch_id = row.batch_id;
 
         switch(msg_type){
