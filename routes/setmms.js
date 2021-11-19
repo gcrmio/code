@@ -178,7 +178,7 @@ module.exports.setMMS = function (req, res) {
 function genIndiImgFile(){
 
     //read data - ***** SMS/LMS/MMS 수정 필요 *****
-    let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where id_msg_type  ;";
+    let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where id_msg_type = 'MMS';";
 
     pool.query(qry)
     .then(result => {

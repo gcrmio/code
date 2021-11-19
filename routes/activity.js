@@ -158,8 +158,8 @@ exports.execute = function (req, res) {
 
             let qry = "insert into msg_working values('"+id_msg_id+"','"+id_display_subject+"','"+id_display_body+"','"
             +id_display_cts+"','"+id_display_ctsr+"','"+id_display_ctsr_srctype+"','"+id_display_ctsr_size+"','"
-            +id_display_ctsr_width+"','"+id_display_ctsr_height+"','"+id_reg_date+"','"+id_reg_time+"','"
-            +id_msg_type+"','"+id_msg_desc+"','"+id_msg_admin+"','"+id_msg_charge+"','"+id_send_date+"','"+id_send_time+"','"+id_check_coupon+"','"
+            +id_display_ctsr_width+"','"+id_display_ctsr_height+"','"+id_reg_date+"','"+id_msg_type+"','"
+            +id_reg_time+"','"+id_msg_desc+"','"+id_msg_admin+"','"+id_msg_charge+"','"+id_send_date+"','"+id_send_time+"','"+id_check_coupon+"','"
             +id_check_individual+"','"+id_load_content+"','"+id_load_content_type+"','"+de_id+"','"+cust_id+"','"+cust_id_code+"','"
             +cust_name+"','"+phone_no+"','"+coupon_id+"',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');";
 
