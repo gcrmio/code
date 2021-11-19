@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 
-//require("dotenv").config();
+require("dotenv").config();
 
 const { Pool, Client } = require('pg');
 
@@ -13,6 +13,16 @@ const pool = new Pool({
     port:       process.env.PG_port,
     ssl: { rejectUnauthorized: false },
 });
+/*
+const pool = new Pool({
+    host: 'ec2-107-23-143-66.compute-1.amazonaws.com',
+    user: 'scmxwnfzuxmsym',
+    password: '000ab390bc3f495b4b530f94e20dd4005028c04b383a04f94e0c397bdf804840',  
+    database: 'd6302t8u9u4kpr',
+    port: 5432,
+    ssl: { rejectUnauthorized: false },
+});
+*/
 
 // Deps
 const Path = require('path');
@@ -146,15 +156,12 @@ exports.execute = function (req, res) {
             let phone_no                = decodedArgs.phone_no;
             let coupon_id               = decodedArgs.coupon_id;
 
-            // let qry = "insert into msg_working values('"+id_msg_id+"','"+id_display_subject+"','"+id_display_body+"','"
-            // +id_display_cts+"','"+id_display_ctsr+"','"+id_display_ctsr_srctype+"','"+id_display_ctsr_size+"','"
-            // +id_display_ctsr_width+"','"+id_display_ctsr_height+"','"+id_reg_date+"','"+id_reg_time+"','"
-            // +id_msg_desc+"','"+id_msg_admin+"','"+id_msg_charge+"','"+id_send_date+"','"+id_send_time+"','"+id_check_coupon+"','"
-            // +id_check_individual+"','"+id_load_content+"','"+id_load_content_type+"','"+de_id+"','"+cust_id+"','"+cust_id_code+"','"
-            // +cust_name+"','"+phone_no+"','"+coupon_id+"',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');";
-
-            let qry = `INSERT INTO msg_working 
-                        VALUES('`+id_msg_id+`', '`+id_display_subject+`', '`+id_display_body+`', '`+id_display_cts+`', '`+id_display_ctsr+`', '`+id_display_ctsr_srctype+`', '`+id_display_ctsr_size+`', '`+id_display_ctsr_width+`', '`+id_display_ctsr_height+`', '`+id_reg_date+`', '`+id_reg_time+`', '`+id_msg_type+`', '`+id_msg_desc+`', '`+id_msg_admin+`', '`+id_msg_charge+`', '`+id_send_date+`', '`+id_send_time+`', '`+id_check_coupon+`', '`+id_check_individual+`', '`+id_load_content+`', '`+id_load_content_type+`', '`+de_id+`', '`+cust_id+`', '`+cust_id_code+`', '`+cust_name+`', '`+phone_no+`', '`+coupon_id+`',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');`;
+            let qry = "insert into msg_working values('"+id_msg_id+"','"+id_display_subject+"','"+id_display_body+"','"
+            +id_display_cts+"','"+id_display_ctsr+"','"+id_display_ctsr_srctype+"','"+id_display_ctsr_size+"','"
+            +id_display_ctsr_width+"','"+id_display_ctsr_height+"','"+id_reg_date+"','"+id_reg_time+"','"
+            +id_msg_type+"','"+id_msg_desc+"','"+id_msg_admin+"','"+id_msg_charge+"','"+id_send_date+"','"+id_send_time+"','"+id_check_coupon+"','"
+            +id_check_individual+"','"+id_load_content+"','"+id_load_content_type+"','"+de_id+"','"+cust_id+"','"+cust_id_code+"','"
+            +cust_name+"','"+phone_no+"','"+coupon_id+"',to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),'N');";
 
             pool.query( qry, (err, result) => {
 
@@ -175,6 +182,7 @@ exports.execute = function (req, res) {
              return res.status(400).end();
          }
      });
+
 
 /*
 
