@@ -155,7 +155,16 @@ module.exports.setMMS = function (req, res) {
                                                     .query(qry6)
                                                     .then(res => {  
                                                         console.log('66666');
-                                                        genIndiImgFile();
+                                                        const rows = res.rows;
+                                                        for(const row of rows){
+                                                            if(row.msg_type = 'MMS'){
+                                                                genIndiImgFile();
+                                                            }
+                                                            else{
+                                                                console.log('SMS-- skipping genIndiImgFile()');
+                                                            }
+                                                        }
+                                                        
                                                     }) 
                                                     .catch(err => console.error('Error executing query', err.stack)) 
                                             }) 
