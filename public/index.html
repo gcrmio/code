@@ -512,18 +512,14 @@ function checkMSGID(){
 function getCredit(){
     var id_cost_credit = document.getElementById("id_cost_credit");
     let payload = '';
-    fetch('/message/getcredit', {
-            method: 'GET',
-            headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: payload
+    fetch('https://oms.every8d.com/API21/HTTP/getCredit.ashx?UID=Amore_Test&PWD=Amore2021', {
+            
         }).then(function(response) {
             return response.json();
         }).then(function(data) {
             let vdata = JSON.parse(data);
             console.log(vdata);
-            // document.getElementById("id_msg_id").innerHTML=vdata.msg_id;
+            document.getElementById("id_cost_credit").innerHTML=vdata;
         });
 }
 // Message Controll Button ------------------------------------------------------------------------------------------------------
