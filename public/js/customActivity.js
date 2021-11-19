@@ -226,6 +226,7 @@ define([
             "id_display_ctsr_height":   id_display_ctsr_height,
             "id_reg_date":              id_reg_date,
             "id_reg_time":              id_reg_time,
+            "id_msg_type":              id_msg_type,
             "id_msg_desc":              id_msg_desc,
             "id_msg_admin":             id_msg_admin,
             "id_msg_charge":            id_msg_charge,
