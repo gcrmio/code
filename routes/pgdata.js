@@ -33,7 +33,7 @@ pool.query('INSERT INTO mms_list VALUES( $1, $2, $3)', ['10','999','MMM'], (err,
     pool.end();
   });
 */
-module.exports.getcredit = function (req, res){
+function getcredit(){
     const url = 'https://oms.every8d.com/API21/HTTP/getCredit.ashx';
     const uid = process.env.Euid;
     const password = process.env.Epassword;
