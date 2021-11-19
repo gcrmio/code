@@ -184,11 +184,13 @@ function genIndiImgFile(){
     pool.query(qry)
     .then(result => {
         const rows = result.rows;
-        
-        if(rows.length = 0){
-            console.log('SMS-- skipping genIndiImgFile()');
-        } else{
-            console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
+        var length = rows.length;
+        switch(length){
+            case 0:
+                console.log('SMS-- skipping genIndiImgFile()');
+                break;
+            default:
+                console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
 
             (async () => {
                 try{
