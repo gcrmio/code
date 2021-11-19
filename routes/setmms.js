@@ -168,7 +168,7 @@ function genIndiImgFile(){
                         let path = "APPS/MMSTW/"+row.msg_id+"/msg";
                         await saveToS3(buffer,path,fnm);
 
-                        pool.query("update transmit set msg_body_image_adj_file='"+fnm+"', cts_uploaded_yn = 'Y' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
+                        pool.query("update transmit set msg_body_image_adj_file='"+fnm+"' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
                     }
                 }
                 catch(e){
