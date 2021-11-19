@@ -178,44 +178,37 @@ module.exports.setMMS = function (req, res) {
 function genIndiImgFile(){
 
     //read data
-    // let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where msg_type = 'MMS';";
-    let qry = `IF EXISTS (SELECT msg_id, phone_no, msg_body_image_adj FROM transmit WHERE msg_type = 'MMS')
-                BEGIN
-                    SELECT msg_id, phone_no, msg_body_image_adj FROM transmit WHERE msg_type = 'MMS'
-                END
-                ELSE
-                    SELECT 'No record'`;
+    let qry = "select msg_id, phone_no, msg_body_image_adj cts from transmit where msg_type = 'MMS';";
+
 
     pool.query(qry)
     .then(result => {
         const rows = result.rows;
-        if(rows.length = 1){
-            console.log('No Record');
-        }else{
-            console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
+        console.log("data: size= "+rows.length);
+        // console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
 
-            (async () => {
-                try{
-                    for await (const row of rows) {
-                        let fnm = row.msg_id + '-' + row.phone_no + '.jpg';
-                        console.log("file in process : fnm "+fnm+" msg_id "+row.msg_id);
+            // (async () => {
+            //     try{
+            //         for await (const row of rows) {
+            //             let fnm = row.msg_id + '-' + row.phone_no + '.jpg';
+            //             console.log("file in process : fnm "+fnm+" msg_id "+row.msg_id);
                         
-                        const output = await cvtHtmlToImage(row.cts);
-                        let buffer = output[0];
-                        let width  = output[1];
-                        let height = output[2];
+            //             const output = await cvtHtmlToImage(row.cts);
+            //             let buffer = output[0];
+            //             let width  = output[1];
+            //             let height = output[2];
 
-                        let path = "APPS/MMSTW/"+row.msg_id+"/msg";
-                        await saveToS3(buffer,path,fnm);
+            //             let path = "APPS/MMSTW/"+row.msg_id+"/msg";
+            //             await saveToS3(buffer,path,fnm);
 
-                        pool.query("update transmit set msg_body_image_adj_file='"+fnm+"' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
-                    }
-                }
-                catch(e){
-                    console.log(e.stack);
-                }    
-            })();
-        }
+            //             pool.query("update transmit set msg_body_image_adj_file='"+fnm+"' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
+            //         }
+            //     }
+            //     catch(e){
+            //         console.log(e.stack);
+            //     }    
+            // })();
+        
 
      })
     .catch(err => console.error('Error executing query', err.stack));
