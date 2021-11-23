@@ -17,6 +17,7 @@ var loadResult  = require('./loadResult');
 var receiveResult = require('./receiveResult');
 var setMMS = require('./routes/setmms');
 var scheduledSetMMS = require('./scheduled-setMMS');
+var scheduledSendMMS = require('./scheduled-sendMMS');
 var app = express();
 
 
@@ -90,6 +91,11 @@ app.get('/sendMMS', (req, res) => {
 app.get('/scheduler01', (req, res) => {
   scheduledSetMMS.getResult();
   res.send('Scheduler01 Complete!');
+})
+
+app.get('/scheduler02', (req, res) => {
+  scheduledSendMMS.getResult();
+  res.send('Scheduler02 Complete!');
 })
 //03. Receive Result
 // app.get('/receiveResult', (req, res) => {
