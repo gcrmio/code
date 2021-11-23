@@ -18,7 +18,7 @@ module.exports.viewStatus = function(req, res){
             console.log('query error: ' + err);
             res.status(404);
         }
-        return res.status(200).json(JSON.stringify(res.rows)); 
+        console.log(result); 
     })
     result.status(200);
 }
