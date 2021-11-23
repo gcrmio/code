@@ -21,7 +21,8 @@ module.exports.getResult = function (req, res) {
 	.then(res => {
 		console.log('11111');
 		var result = res.rows;
-        var status = result['status'];
+        var status = result.status;
+
         switch(status){
             case('ON'):
             executeApp01();            
