@@ -2,7 +2,6 @@
 var sendMMS     = require('./sendMMS');
 
 "use strict";
-var setMMS = require('./routes/setmms');
 const { Pool, Client } = require('pg');
 
 const pool = new Pool({
@@ -23,25 +22,35 @@ module.exports.getResult = function (req, res) {
 	.query(qry1)
 	.then(res => {
 		console.log('11111');
-		var result = res.rows;
-		if(result['status'] = 'ON'){
-			pool
-			.query(qry2)
-			.then(res => {  
-				console.log('22222');
-				sendMMS.dbSelect();
-				pool
-					.query(qry3)
-					.then(res => {  
-						console.log('APP02 FINISHED =============================================');                                
-					}) 
-					.catch(err => console.error('Error executing query', err.stack))        
-			}) 
-			.catch(err => console.error('Error executing query', err.stack))
-		}
-		else {
-			console.log('App02 is still running');
-		}
+		for(const row of res.rows){
+            var status = row.status;
+            switch(status){
+                case('ON'):
+                executeApp02();            
+                break;
+                case('OFF'):
+                    console.log('App02 is still running');
+                    break;
+                default:
+                    console.log("");
+            }
+        }
 	}) 
 	.catch(err => console.error('Error executing query', err.stack));
+}
+
+function executeApp02(){
+    pool
+        .query(qry2)
+        .then(res => {  
+            console.log('22222');
+            sendMMS.dbSelect();
+            pool
+                .query(qry3)
+                .then(res => {  
+                    console.log('APP02 FINISHED =============================================');                                
+                }) 
+                .catch(err => console.error('Error executing query', err.stack))        
+        }) 
+        .catch(err => console.error('Error executing query', err.stack))
 }
