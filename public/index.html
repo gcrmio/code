@@ -444,7 +444,7 @@ function initialization(){
     document.getElementById('id_cost_total').innerHTML      ="0";
     document.getElementById('id_cost_unitprice').innerHTML  ="0";
     document.getElementById('id_cost_units').innerHTML      ="0";
-    document.getElementById('id_cost_credit').innerHTML      ="0";      //수정해야하는 부분
+    document.getElementById('id_cost_credit').innerHTML      ="0";
 
     document.getElementById('id_msg_id').innerHTML           ="";
     document.getElementById('id_msg_desc').value            ="";
@@ -471,7 +471,6 @@ function initialization(){
    
 
     checkMsgType();
-    getCredit();
 }
 
 // check MSGID and load Server Info
@@ -506,6 +505,9 @@ function checkMSGID(){
 
     console.log("checkMSGID END ---------------------------------------------------------------------------");    
 }
+
+
+
 
 // Message Controll Button ------------------------------------------------------------------------------------------------------
 
