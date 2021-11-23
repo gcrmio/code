@@ -24,19 +24,7 @@ module.exports.getResult = function (req, res) {
         var status = result['status'];
         switch(status){
             case('ON'):
-            pool
-			.query(qry2)
-			.then(res => {  
-				console.log('22222');
-				setMMS.setMMS();
-				pool
-					.query(qry3)
-					.then(res => {  
-						console.log('APP01 FINISHED =============================================');                                
-					}) 
-					.catch(err => console.error('Error executing query', err.stack))        
-			}) 
-			.catch(err => console.error('Error executing query', err.stack))
+            executeApp01();            
             break;
             case('OFF'):
                 console.log('App01 is still running');
@@ -46,4 +34,20 @@ module.exports.getResult = function (req, res) {
         }
 	}) 
 	.catch(err => console.error('Error executing query', err.stack));
+}
+
+function executeApp01(){
+    pool
+        .query(qry2)
+        .then(res => {  
+            console.log('22222');
+            setMMS.setMMS();
+            pool
+                .query(qry3)
+                .then(res => {  
+                    console.log('APP01 FINISHED =============================================');                                
+                }) 
+                .catch(err => console.error('Error executing query', err.stack))        
+        }) 
+        .catch(err => console.error('Error executing query', err.stack))
 }
