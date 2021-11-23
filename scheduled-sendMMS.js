@@ -3,7 +3,8 @@ var express     = require('express');
 var sendMMS     = require('./sendMMS');
 var app = express();
 
-// function sayHello() {
+function executeApp02() {
     sendMMS.dbSelect();
-// }
-// sayHello();
+    console.log('APP02 FINISHED =============================================');
+}
+executeApp02();
