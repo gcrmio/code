@@ -21,8 +21,10 @@ module.exports.getResult = function (req, res) {
 	.then(res => {
 		console.log('11111');
 		var result = res.rows;
-		if(result['status'] = 'ON'){
-			pool
+        var status = result['status'];
+        switch(status){
+            case('ON'):
+            pool
 			.query(qry2)
 			.then(res => {  
 				console.log('22222');
@@ -35,10 +37,13 @@ module.exports.getResult = function (req, res) {
 					.catch(err => console.error('Error executing query', err.stack))        
 			}) 
 			.catch(err => console.error('Error executing query', err.stack))
-		}
-		else {
-			console.log('App01 is still running');
-		}
+            break;
+            case('OFF'):
+                console.log('App01 is still running');
+                break;
+            default:
+                console.log("");
+        }
 	}) 
 	.catch(err => console.error('Error executing query', err.stack));
 }
