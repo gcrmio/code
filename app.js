@@ -88,7 +88,7 @@ app.get('/sendMMS', (req, res) => {
 
 app.get('/scheduler', (req, res) =>{
   res.sendFile(__dirname + '/scheduler.html');
-}
+})
 
 // app.get('/scheduler01', (req, res) => {
 //   scheduledSetMMS.getResult();
