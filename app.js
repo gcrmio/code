@@ -98,9 +98,10 @@ app.get('/sendMMS', (req, res) => {
 
 app.get('/scheduler', (req, result) => {
   var query = 'SELECT * FROM scheduler';
-  pool.query(query, function(err, result){
-    return res.status(200).json(JSON.stringify(result.rows)); 
-  })  
+  pool.query(query, function(err, res){
+    return res.status(200).json(JSON.stringify(res.rows)); 
+  })
+  result.status(200);
 })
 
 // app.get('/scheduler01', (req, res) => {
