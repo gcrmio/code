@@ -20,5 +20,5 @@ module.exports.viewStatus = function(req, res){
         }
         console.log(result); 
     })
-    result.status(200);
+    res.status(200);
 }
