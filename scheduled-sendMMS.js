@@ -23,7 +23,7 @@ module.exports.getResult = function (req, res) {
 	.query(qry1)
 	.then(res => {
 		console.log('11111');
-		var result = result.rows;
+		var result = res.rows;
 		if(result['status'] = 'ON'){
 			pool
 			.query(qry2)
