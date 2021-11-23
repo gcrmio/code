@@ -19,6 +19,7 @@ module.exports.viewStatus = function(req, res){
             res.status(404);
         }
         console.log(result); 
+        return res.status(200).json(JSON.stringify(result.rows[0])); 
     })
     res.status(200);
 }
