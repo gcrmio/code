@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>My db rows</title>
+    </head>
+
+    <body>
+        <div id="table"></div>
+        <script type="text/javascript">
+            var payload = "";
+            fetch('/scheduler')
+            .then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                let vdata = JSON.parse(data);
+                console.log(vdata);
+            });
+        </script>
+    </body> 
+</html>

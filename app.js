@@ -19,7 +19,6 @@ var setMMS = require('./routes/setmms');
 var scheduledSetMMS = require('./scheduled-setMMS');
 var scheduledSendMMS = require('./scheduled-sendMMS');
 var app = express();
-var ejs = require('ejs');
 const {Pool, Client} = require('pg');
 
 const pool = new Pool({
@@ -97,11 +96,10 @@ app.get('/sendMMS', (req, res) => {
   }
 })
 
-app.set('view engine', 'ejs');
 app.get('/scheduler', (req, result) => {
   var query = 'SELECT * FROM scheduler';
   pool.query(query, function(err, result){
-    result.render('scheduler.ejs', {scheduler: result});
+    result.json(rows);
   })
 })
 
