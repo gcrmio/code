@@ -98,10 +98,10 @@ app.get('/sendMMS', (req, res) => {
 })
 
 app.set('view engine', 'ejs');
-app.get('/scheduler', (req, res) => {
+app.get('/scheduler', (req, result) => {
   var query = 'SELECT * FROM scheduler';
-  pool.query(query, function(err, res){
-    res.render('scheduler.ejs', {scheduler: result});
+  pool.query(query, function(err, result){
+    result.render('scheduler.ejs', {scheduler: result});
   })
 })
 
