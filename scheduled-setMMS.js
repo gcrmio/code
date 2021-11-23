@@ -20,18 +20,18 @@ module.exports.getResult = function (req, res) {
 	.query(qry1)
 	.then(res => {
 		console.log('11111');
-		var result = res.rows;
-        var status = result.status;
-
-        switch(status){
-            case('ON'):
-            executeApp01();            
-            break;
-            case('OFF'):
-                console.log('App01 is still running');
+		for(const row of res.rows){
+            var status = row.status;
+            switch(status){
+                case('ON'):
+                executeApp01();            
                 break;
-            default:
-                console.log("");
+                case('OFF'):
+                    console.log('App01 is still running');
+                    break;
+                default:
+                    console.log("");
+            }
         }
 	}) 
 	.catch(err => console.error('Error executing query', err.stack));
