@@ -12,10 +12,11 @@ const pool = new Pool({
 });
 
 let qry = `SELECT app_name, status, last_run_date FROM scheduler WHERE app_name = 'app01'`
-pool.query(qry, (err, res) => {
-    console.log(res);
-})
-
+module.exports.getResult = function (req, res) {
+    pool.query(qry, (err, res) => {
+        console.log(res);
+    })
+}
 
 //setMMS.setMMS();
 //console.log('APP01 FINISHED =============================================');
