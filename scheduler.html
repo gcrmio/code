@@ -1,5 +1,20 @@
 <html>
     <head>
+        <script type="text/javascript" src="js/require.js"></script>
+
+        <script type="text/javascript">
+            (function() {
+                var config = {
+                    baseUrl: 'js'
+                };
+      
+                var dependencies = [
+                    'schedulerRender'
+                ];
+      
+                require(config, dependencies); 
+            })();
+        </script>
         <title>My db rows</title>
     </head>
     <body>
