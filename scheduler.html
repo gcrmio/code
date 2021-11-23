@@ -2,18 +2,25 @@
     <head>
         <title>My db rows</title>
     </head>
-
     <body>
-        <div id="table"></div>
-        <script type="text/javascript">
-            var payload = "";
-            fetch('/scheduler')
-            .then(function(response) {
+        <div id="test"></div>
+        <script>
+            console.log("Scheduler html START ---------------------------------------------------------------------------");
+    
+            fetch('/scheduler', {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            }).then(function(response) {
                 return response.json();
             }).then(function(data) {
                 let vdata = JSON.parse(data);
                 console.log(vdata);
+                document.getElementById("test").innerHTML=vdata;
             });
+            console.log("Scheduler html END ---------------------------------------------------------------------------");    
         </script>
-    </body> 
+    </body>
 </html>
