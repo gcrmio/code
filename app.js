@@ -19,10 +19,19 @@ var setMMS = require('./routes/setmms');
 var scheduledSetMMS = require('./scheduled-setMMS');
 var scheduledSendMMS = require('./scheduled-sendMMS');
 var app = express();
+var ejs = require('ejs');
+const {Pool, Client} = require('pg');
 
-
-
-
+const pool = new Pool({
+  host: process.env.PG_host,
+  user: process.env.PG_user,
+  password: process.env.PG_password,
+  database: process.env.PG_database,
+  port: process.env.PG_port,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 // Configure Express
 app.set('port', process.env.PORT || 3000);
@@ -88,15 +97,23 @@ app.get('/sendMMS', (req, res) => {
   }
 })
 
-app.get('/scheduler01', (req, res) => {
-  scheduledSetMMS.getResult();
-  res.send('Scheduler01 Complete!');
+app.set('view engine', 'ejs');
+app.get('/scheduler', (req, res) => {
+  var query = 'SELECT * FROM scheduler';
+  pool.query(query, function(err, res){
+    res.render('scheduler.ejs', {scheduler: result});
+  })
 })
 
-app.get('/scheduler02', (req, res) => {
-  scheduledSendMMS.getResult();
-  res.send('Scheduler02 Complete!');
-})
+// app.get('/scheduler01', (req, res) => {
+//   scheduledSetMMS.getResult();
+//   res.send('Scheduler01 Complete!');
+// })
+
+// app.get('/scheduler02', (req, res) => {
+//   scheduledSendMMS.getResult();
+//   res.send('Scheduler02 Complete!');
+// })
 //03. Receive Result
 // app.get('/receiveResult', (req, res) => {
 // console.log('Receive Result===============================');
