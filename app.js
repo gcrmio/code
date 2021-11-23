@@ -20,6 +20,7 @@ var scheduledSetMMS = require('./scheduled-setMMS');
 var scheduledSendMMS = require('./scheduled-sendMMS');
 var scheduler = require('./schedulerRender');
 var app = express();
+var fs = require('fs');
 
 // Configure Express
 app.set('port', process.env.PORT || 3000);
@@ -85,8 +86,11 @@ app.get('/sendMMS', (req, res) => {
   }
 })
 
-app.post('/scheduler', function(req, res){
-  res.render(__dirname + '/scheduler.html', scheduler.viewStatus)
+app.get('/scheduler', function(req, res){
+  fs.readFile('scheduler.html', function(err, data){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(data);
+  });
 });
 
 // app.get('/scheduler01', (req, res) => {
