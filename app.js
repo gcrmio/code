@@ -85,7 +85,9 @@ app.get('/sendMMS', (req, res) => {
   }
 })
 
-app.post('/scheduler', scheduler.viewStatus);
+app.post('/scheduler', function(req, res){
+  res.render(__dirname + '/scheduler.html', scheduler.viewStatus)
+});
 
 // app.get('/scheduler01', (req, res) => {
 //   scheduledSetMMS.getResult();
