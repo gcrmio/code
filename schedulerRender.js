@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 
 module.exports.viewStatus = function(req, res){
-    
+
     var table = '';
     let query = 'SELECT * FROM scheduler';
     var reo = '<html><head><title>MMS Program Status List</title></head><body>{${table}}</body></html>';
@@ -20,14 +20,14 @@ module.exports.viewStatus = function(req, res){
     pool.query(query, (err, result) => {
         if(err){
             console.log('query error: ' + err);
-            res.status(404);
+            result.status(404);
         }
         for(var i = 0; i < result.length; i++){
-            table += '<tr><td>'+(i+1)+'</td><td>'+result[i].app_name+'</td><td>'+res[i].status+'</td><td>'+res[i].last_run_date+'</td><tr>';
+            table += '<tr><td>'+(i+1)+'</td><td>'+result[i].app_name+'</td><td>'+result[i].status+'</td><td>'+result[i].last_run_date+'</td><tr>';
         }
         table = '<table border = "1"><tr><th>#</th><th>App Name</th><th>Status</th><th>Last Run Date</th></tr>'+table+'</table>';
         //console.log(result);
-        return res(table); 
+        return result(table); 
     })
-    res.status(200);
+    result.status(200);
 }
