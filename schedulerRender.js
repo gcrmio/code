@@ -12,6 +12,7 @@ const pool = new Pool({
 });
 
 module.exports.viewStatus = function(req, res){
+    
     var table = '';
     let query = 'SELECT * FROM scheduler';
     var reo = '<html><head><title>MMS Program Status List</title></head><body>{${table}}</body></html>';
