@@ -87,6 +87,7 @@ app.get('/sendMMS', (req, res) => {
 
 app.get('/scheduler', scheduler.viewStatus);
 
+app.get('/getCredit', pgm.getCredit);
 // app.get('/scheduler01', (req, res) => {
 //   scheduledSetMMS.getResult();
 //   res.send('Scheduler01 Complete!');

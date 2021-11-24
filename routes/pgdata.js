@@ -104,3 +104,45 @@ module.exports.uploadwork = function (req, res) {
 */      
       return res.status(200); //.json(msg.msg_id);  
 }
+
+module.exports.getCredit = function (req, res) {
+    var options = {
+      'method': 'GET',
+      'url': 'https://oms.every8d.com/API21/HTTP/getCredit.ashx',
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      form: {
+        'UID': process.env.Euid,
+        'PWD': process.env.Epassword
+      }
+    };
+    request(options, function (error, response) {
+      if (error) throw new Error(error);
+      var tmp = response.body;
+      console.log('response= '+tmp);
+    });
+    // pool.query( qry, (err, result) => {
+
+    //     if(err){
+    //         console.log("query error:  "+err);
+    //         res.status(404);      
+    //     }
+    //     console.log(result); // gen_msg_id
+    //     console.log(result.rows[0].msg_id); // gen_msg_id
+
+    //     msg_id  = result.rows[0].msg_id;
+    //     seq     =  result.rows[0].seq;
+    //     set_date=  result.rows[0].set_date;
+
+    //     //return res.status(200).json(JSON.stringify(result.rows[0]));    
+    //     //pool.end();
+    //     pool.query( "insert into gen_msg_id values('"+msg_id+"',"+seq+",'"+set_date+"');", (err, result) => {
+    //         //pool.end();    
+    //     });
+    
+    //     return res.status(200).json(JSON.stringify(result.rows[0])); 
+    // });
+
+    // res.status(200);          
+}
