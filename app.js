@@ -20,7 +20,6 @@ var scheduledSetMMS = require('./scheduled-setMMS');
 var scheduledSendMMS = require('./scheduled-sendMMS');
 var scheduler = require('./schedulerRender');
 var app = express();
-var fs = require('fs');
 
 // Configure Express
 app.set('port', process.env.PORT || 3000);
@@ -86,7 +85,7 @@ app.get('/sendMMS', (req, res) => {
   }
 })
 
-app.get('/scheduler', scheduler.viewStatus);
+app.post('/scheduler', scheduler.viewStatus);
 
 // app.get('/scheduler01', (req, res) => {
 //   scheduledSetMMS.getResult();

@@ -13,7 +13,7 @@ const pool = new Pool({
 
 module.exports.viewStatus = function(req, res){
 
-    let query = 'SELECT * FROM scheduler';
+    let query = 'SELECT * FROM scheduler ORDER BY last_run_date DESC';
     
     pool.query(query, (err, result) => {
         if(err){

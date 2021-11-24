@@ -12,12 +12,21 @@
             <tbody id="place-here"></tbody>
         </table>
         <script>
-            $.get('/scheduler', {}, function(result){
-                let res = '';
+            var payload = '';
+            fetch('/scheduler', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                let result = JSON.parse(data);
                 result.forEach(data => {
                     res += `<tr><td>${data.app_name}</td><td>${data.status}</td><td>${data.last_run_date}</td></tr>`
                 })
-                $('#place-here').html(res)
+                $('#place-here').html(res); 
             });
         </script>
     </body>
