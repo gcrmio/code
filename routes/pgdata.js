@@ -105,7 +105,7 @@ module.exports.uploadwork = function (req, res) {
       return res.status(200); //.json(msg.msg_id);  
 }
 
-module.exports.getCredit = function (req, res) {
+module.exports.getCredit = function (request, response) {
     var options = {
       'method': 'GET',
       'url': 'https://oms.every8d.com/API21/HTTP/getCredit.ashx',
