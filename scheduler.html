@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>MMS Program Status List</title>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     <body>
         <table>
@@ -13,13 +14,7 @@
         </table>
         <script>
             var payload = '';
-            fetch('/scheduler', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            }).then(function(response) {
+            fetch('/scheduler').then(function(response) {
                 return response.json();
             }).then(function(data) {
                 let result = JSON.parse(data);
