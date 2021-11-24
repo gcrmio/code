@@ -1,42 +1,24 @@
 <html>
     <head>
-        <script type="text/javascript" src="js/require.js"></script>
-
-        <script type="text/javascript">
-            (function() {
-                var config = {
-                    baseUrl: 'js'
-                };
-      
-                var dependencies = [
-                    'schedulerRender'
-                ];
-      
-                require(config, dependencies); 
-            })();
-        </script>
-        <title>My db rows</title>
+        <title>MMS Program Status List</title>
     </head>
     <body>
-        <div id="test"></div>
+        <table>
+            <thead>
+                <th>App Name</th>
+                <th>Status</th>
+                <th>Last run date</th>
+            </thead>
+            <tbody id="place-here"></tbody>
+        </table>
         <script>
-            console.log("Scheduler html START ---------------------------------------------------------------------------");
-            var test = document.getElementById("test");
-            payload="";
-            fetch('/scheduler', {
-                method: 'POST',
-                headers: {
-                        'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            }).then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                let vdata = JSON.parse(data);
-                console.log(vdata);
-                document.getElementById("test").innerHTML=vdata;
+            $.get('/scheduler', {}, function(result){
+                let res = '';
+                result.forEach(data => {
+                    res += `<tr><td>${data.app_name}</td><td>${data.status}</td><td>${data.last_run_date}</td></tr>`
+                })
+                $('#place-here').html(res)
             });
-            console.log("Scheduler html END ---------------------------------------------------------------------------");    
         </script>
     </body>
 </html>

@@ -13,21 +13,14 @@ const pool = new Pool({
 
 module.exports.viewStatus = function(req, res){
 
-    var table = '';
     let query = 'SELECT * FROM scheduler';
-    var reo = '<html><head><title>MMS Program Status List</title></head><body>{${table}}</body></html>';
-
+    
     pool.query(query, (err, result) => {
         if(err){
             console.log('query error: ' + err);
-            result.status(404);
+            res.status(404);
         }
-        for(var i = 0; i < result.length; i++){
-            table += '<tr><td>'+(i+1)+'</td><td>'+result[i].app_name+'</td><td>'+result[i].status+'</td><td>'+result[i].last_run_date+'</td><tr>';
-        }
-        table = '<table border = "1"><tr><th>#</th><th>App Name</th><th>Status</th><th>Last Run Date</th></tr>'+table+'</table>';
-        //console.log(result);
-        return result(table); 
+        return res.status(200).json(JSON.stringify(result.rows));
     })
-    result.status(200);
+    res.status(200);
 }
