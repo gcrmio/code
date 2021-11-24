@@ -25,7 +25,7 @@ const s3 = new AWS.S3(
 );
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type FROM transmit WHERE success_yn != 'S'`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type, msg_admin FROM transmit WHERE success_yn != 'S'`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -43,25 +43,26 @@ module.exports.dbSelect = function(){
         time = time.replace(/-|:| /g, '');
         var msg_body_image_adj_file = row.msg_body_image_adj_file;
         var msg_type = row.msg_type;
+        var msg_admin = row.msg_admin;
         
         switch(msg_type){
           case 'MMS':
             var bucketParams = {
               Bucket: process.env.AWSS3_bucket, Key: 'APPS/MMSTW/'+msg_id+'/msg/'+msg_id+'-'+dest+'.jpg'
             }
-            MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id);
+            MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id, msg_admin);
             break;
           case 'SMS':
-            sendSMS(subject, msg, dest, time, msg_id, cust_id);
+            sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin);
             break;
           default:
-            sendSMS(subject, msg, dest, time, msg_id, cust_id);
+            sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin);
         } 
       }
     }
   })
 
-function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
+function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id, msg_admin){
   s3.getObject(bucketParams, function(err, data){
     //console.log('Key: '+bucketParams.Key);
     // console.log("");
@@ -70,74 +71,134 @@ function MMS(subject, msg, dest, time, bucketParams, msg_id, cust_id){
     } else {
       var key = bucketParams.Key;
       var attachment = Buffer.from(data.Body, 'utf8').toString('base64');
-      sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key);
+      sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg_admin);
     }
   });  
 }
 
-function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key){
+function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg_admin){
     const uid = process.env.Euid;
     const password = process.env.Epassword;
     const type = 'jpeg';
-
-    var options = {
-      'method': 'GET',
-      'url': 'https://oms.every8d.com/API21/HTTP/MMS/sendMMS.ashx',
-      'headers': {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      form: {
-        'UID': process.env.Euid,
-        'PWD': process.env.Epassword,
-        'SB': subject,
-        'MSG': msg,
-        'DEST': dest,
-        'ST': time,
-        'TYPE': type,
-        'ATTACHMENT': attachment
-      }
-    };
-    console.log("MMS FUNCTION CALL");
-    console.log('key= '+key);
-    console.log(msg_id+': '+cust_id+' MMS DONE =================================');
-    // request(options, function (error, response) {
-      // if (error) throw new Error(error);
-      // var tmp = response.body;
-      // console.log(tmp);
-      // var result = tmp.split(',');
-      // var msg_batch_id = result[4];
-      // updateBatchId(dest, msg_batch_id, msg_id);
-    // });
+    switch(msg_admin){
+      case('LNG'):
+      var options = {
+        'method': 'GET',
+        'url': 'https://oms.every8d.com/API21/HTTP/MMS/sendMMS.ashx',
+        'headers': {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form: {
+          'UID': process.env.Euid,
+          'PWD': process.env.Epassword,
+          'SB': subject,
+          'MSG': msg,
+          'DEST': dest,
+          'ST': time,
+          'TYPE': type,
+          'ATTACHMENT': attachment
+        }
+      };
+      console.log("MMS FUNCTION CALL");
+      console.log('key= '+key);
+      console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
+      // request(options, function (error, response) {
+        // if (error) throw new Error(error);
+        // var tmp = response.body;
+        // console.log(tmp);
+        // var result = tmp.split(',');
+        // var msg_batch_id = result[4];
+        // updateBatchId(dest, msg_batch_id, msg_id);
+      // });
+      break;
+      default:
+        var options = {
+          'method': 'GET',
+          'url': 'https://oms.every8d.com/API21/HTTP/MMS/sendMMS.ashx',
+          'headers': {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          form: {
+            'UID': process.env.Euid,
+            'PWD': process.env.Epassword,
+            'SB': subject,
+            'MSG': msg,
+            'DEST': dest,
+            'ST': time,
+            'TYPE': type,
+            'ATTACHMENT': attachment
+          }
+        };
+        console.log("MMS FUNCTION CALL");
+        console.log('key= '+key);
+        console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
+        // request(options, function (error, response) {
+          // if (error) throw new Error(error);
+          // var tmp = response.body;
+          // console.log(tmp);
+          // var result = tmp.split(',');
+          // var msg_batch_id = result[4];
+          // updateBatchId(dest, msg_batch_id, msg_id);
+        // });
+    }
 }
 
-function sendSMS(subject, msg, dest, time, msg_id, cust_id){
+function sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin){
   const uid = process.env.Euid;
   const password = process.env.Epassword;
-
-  var options = {
-    'method': 'GET',
-    'url': 'https://oms.every8d.com/API21/HTTP/sendSMS.ashx',
-    'headers': {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    form: {
-      'UID': process.env.Euid,
-      'PWD': process.env.Epassword,
-      'SB': subject,
-      'MSG': msg,
-      'DEST': dest,
-      'ST': time
-    }
-  };
-  console.log(msg_id+': '+cust_id+' SMS DONE =================================');
-  // request(options, function (error, response) {
-    // if (error) throw new Error(error);
-    // var tmp = response.body;
-    // console.log(tmp);
-    // var result = tmp.split(',');
-    // var msg_batch_id = result[4];
-    // updateBatchId(dest, msg_batch_id, msg_id);
-  // });
+  switch(msg_admin){
+    case('LNG'):
+      var options = {
+        'method': 'GET',
+        'url': 'https://oms.every8d.com/API21/HTTP/sendSMS.ashx',
+        'headers': {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form: {
+          'UID': process.env.Euid,
+          'PWD': process.env.Epassword,
+          'SB': subject,
+          'MSG': msg,
+          'DEST': dest,
+          'ST': time
+        }
+      };
+      console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
+      // request(options, function (error, response) {
+        // if (error) throw new Error(error);
+        // var tmp = response.body;
+        // console.log(tmp);
+        // var result = tmp.split(',');
+        // var msg_batch_id = result[4];
+        // updateBatchId(dest, msg_batch_id, msg_id);
+      // });
+      break;
+    default:
+      var options = {
+        'method': 'GET',
+        'url': 'https://oms.every8d.com/API21/HTTP/sendSMS.ashx',
+        'headers': {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        form: {
+          'UID': process.env.Euid,
+          'PWD': process.env.Epassword,
+          'SB': subject,
+          'MSG': msg,
+          'DEST': dest,
+          'ST': time
+        }
+      };
+      console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
+      // request(options, function (error, response) {
+        // if (error) throw new Error(error);
+        // var tmp = response.body;
+        // console.log(tmp);
+        // var result = tmp.split(',');
+        // var msg_batch_id = result[4];
+        // updateBatchId(dest, msg_batch_id, msg_id);
+      // });
+  }
 }
 
 function updateBatchId(dest, msg_batch_id, msg_id){
