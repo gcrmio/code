@@ -6,12 +6,18 @@
     <body>
         <table>
             <thead>
+                <th>#</th>
                 <th>App Name</th>
                 <th>Status</th>
                 <th>Last run date</th>
             </thead>
             <tbody id="place-here"></tbody>
         </table>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+        </style>
         <script>
             var payload = '';
             fetch('/scheduler').then(function(response) {
