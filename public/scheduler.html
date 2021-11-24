@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>MMS Program Status List</title>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     </head>
     <body>
         <table>
@@ -18,6 +18,7 @@
                 return response.json();
             }).then(function(data) {
                 let result = JSON.parse(data);
+                let res = '';
                 result.forEach(data => {
                     res += `<tr><td>${data.app_name}</td><td>${data.status}</td><td>${data.last_run_date}</td></tr>`
                 })
