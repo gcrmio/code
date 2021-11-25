@@ -54,7 +54,9 @@ function updateDE(access_token, phone_no){
     //Get send complete transmit records
     var selectFrom = function() {
         return new Promise(function(resolve, reject){
-            pool.query(`SELECT cust_id, success_yn, send_date, de_id from transmit`, function(err, result) {
+            pool.query(`SELECT transmit.msg_id msg_id, transmit.cust_id cust_id, transmit.success_yn success_yn, transmit.send_date send_date, message.de_id de_id 
+                        FROM transmit 
+                        LEFT JOIN message ON transmit.msg_id = message.msg_id`, function(err, result) {
                 if(err)
                     return reject(err);
                 resolve(result.rows);
@@ -64,8 +66,8 @@ function updateDE(access_token, phone_no){
     
     selectFrom()
     .then(function(result){
-        // console.log('result');
-        // console.log(result);
+        console.log('result');
+        console.log(result);
         // console.log('result length= '+result.length);
         for(var i = 0; i < result.length; i++){
             var pKey = {};
