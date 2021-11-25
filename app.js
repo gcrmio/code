@@ -98,11 +98,11 @@ app.get('/scheduler', scheduler.viewStatus);
 //   res.send('Scheduler02 Complete!');
 // })
 //03. Receive Result
-app.get('/receiveResult', (req, res) => {
-console.log('Receive Result===============================');
-receiveResult.listSelect();
-res.send('Receive Result Complete!');
-})
+// app.get('/receiveResult', (req, res) => {
+// console.log('Receive Result===============================');
+// receiveResult.listSelect();
+// res.send('Receive Result Complete!');
+// })
 
 //04. Load Result
 app.get('/loadResult', (req, res) => {
