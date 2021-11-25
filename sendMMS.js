@@ -25,7 +25,7 @@ const s3 = new AWS.S3(
 );
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type, msg_admin FROM transmit WHERE success_yn != 'S'`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type, msg_admin FROM transmit WHERE success_yn != 'S' OR success_yn != 'P'`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -207,12 +207,12 @@ function updateBatchId(dest, msg_batch_id, msg_id){
     var msg_id = msg_id;
     console.log('batch_id= '+batch_id);
     console.log('msg_id= '+msg_id);
-    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id
+    const sql = `UPDATE transmit SET phone_no = t.phone_no, batch_id = t.batch_id, success_yn = t.success_yn
                  FROM 
                     (VALUES
-                    ('`+phone_no+`', '`+batch_id+`')
+                    ('`+phone_no+`', '`+batch_id+`', 'P')
                 )
-                AS t(phone_no, batch_id)
+                AS t(phone_no, batch_id, success_yn)
                 WHERE transmit.phone_no = t.phone_no`
     console.log(sql);
 
