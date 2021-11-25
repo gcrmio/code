@@ -108,7 +108,7 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
     console.log('sms_mobile= '+sms_mobile);
     // var phone_no = sms_mobile;
     var phone_no = sms_mobile.startsWith('+886')? sms_mobile: sms_mobile.replace('+886','');
-    //console.log('phone_no= '+phone_no);
+    console.log('phone_no= '+phone_no);
     var send_date = sms_send_time;
     // var success_yn = sms_status="100"? "S":"F";
     var msg_id = msg_id;
