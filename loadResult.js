@@ -54,9 +54,10 @@ function updateDE(access_token, phone_no){
     //Get send complete transmit records
     var selectFrom = function() {
         return new Promise(function(resolve, reject){
-            pool.query(`SELECT transmit.msg_id msg_id, transmit.cust_id cust_id, transmit.success_yn success_yn, transmit.send_date send_date, message.de_id de_id 
-                        FROM transmit 
-                        LEFT JOIN message ON transmit.msg_id = message.msg_id WHERE send_date = ''`, function(err, result) {
+            pool.query(`SELECT transmit.msg_id, transmit.cust_id cust_id, transmit.success_yn success_yn, transmit.send_date send_date, message.de_id de_id 
+                        FROM transmit
+                        LEFT JOIN message ON transmit.msg_id = message.msg_id
+                        WHERE transmit.msg_id = (SELECT max(msg_id) FROM transmit)`, function(err, result) {
                 if(err)
                     return reject(err);
                 resolve(result.rows);
