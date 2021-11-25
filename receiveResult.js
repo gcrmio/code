@@ -196,11 +196,11 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
                 WHERE transmit.phone_no = t.phone_no`;
     console.log(sql);
 
-    // pool.query(sql, (err, res) => {
-    //     if(err){
-    //       console.log(err.stack);
-    //     } else {
-    //       console.log("Update Completed");
-    //     }
-    //   })
+    pool.query(sql, (err, res) => {
+        if(err){
+          console.log(err.stack);
+        } else {
+          console.log("Update Completed");
+        }
+      })
 }
