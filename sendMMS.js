@@ -25,7 +25,7 @@ const s3 = new AWS.S3(
 );
 
 module.exports.dbSelect = function(){
-  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type, msg_admin FROM transmit WHERE success_yn != 'S' OR success_yn != 'P'`
+  const sql = `SELECT cust_id, phone_no, msg_id, msg_subject_adj, msg_body_text_adj, msg_body_image_adj_file, plan_date, send_date, success_yn, msg_type, msg_admin FROM transmit WHERE success_yn != 'S' OR success_yn != 'F' OR success_yn != 'P'`
 
   pool.query(sql, (err, res) => {
     if(err){
@@ -102,14 +102,14 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg
       console.log("MMS FUNCTION CALL");
       console.log('key= '+key);
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
       break;
       default:
         var options = {
@@ -132,14 +132,14 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg
         console.log("MMS FUNCTION CALL");
         console.log('key= '+key);
         console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
-        // request(options, function (error, response) {
-        //   if (error) throw new Error(error);
-        //   var tmp = response.body;
-        //   console.log(tmp);
-        //   var result = tmp.split(',');
-        //   var msg_batch_id = result[4];
-        //   updateBatchId(dest, msg_batch_id, msg_id);
-        // });
+        request(options, function (error, response) {
+          if (error) throw new Error(error);
+          var tmp = response.body;
+          console.log(tmp);
+          var result = tmp.split(',');
+          var msg_batch_id = result[4];
+          updateBatchId(dest, msg_batch_id, msg_id);
+        });
     }
 }
 
@@ -164,14 +164,14 @@ function sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin){
         }
       };
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
       break;
     default:
       var options = {
@@ -190,14 +190,14 @@ function sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin){
         }
       };
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
   }
 }
 
