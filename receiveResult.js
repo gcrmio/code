@@ -13,7 +13,7 @@ const pool = new Pool({
 });
 
 module.exports.listSelect = function(req, res){
-const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WHERE success_yn != 'S'`
+const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WHERE success_yn = 'P'`
 
   pool.query(sql, (err, res) => {
     if(err){
