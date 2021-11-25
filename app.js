@@ -105,15 +105,15 @@ app.get('/scheduler', scheduler.viewStatus);
 // })
 
 //04. Load Result
-// app.get('/loadResult', (req, res) => {
-//   try {
-//     console.log("updateDE=======================================");
-//     loadResult.checkapi(req, res);
-//     res.send('updateDE Complete!');
-//   } catch (error) {
-//       console.log('There was an error!');
-//   }
-// })
+app.get('/loadResult', (req, res) => {
+  try {
+    console.log("updateDE=======================================");
+    loadResult.checkapi(req, res);
+    res.send('updateDE Complete!');
+  } catch (error) {
+      console.log('There was an error!');
+  }
+})
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -213,7 +213,7 @@ function updateBatchId(dest, msg_batch_id, msg_id){
                     ('`+phone_no+`', '`+batch_id+`', 'P')
                 )
                 AS t(phone_no, batch_id, success_yn)
-                WHERE transmit.phone_no = t.phone_no`
+                WHERE transmit.phone_no = t.phone_no AND transmit.success_yn NOT IN ('S', 'F')`
     console.log(sql);
 
     pool.query(sql, (err, res) => {
