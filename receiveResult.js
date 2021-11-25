@@ -11,6 +11,8 @@ const pool = new Pool({
       rejectUnauthorized: false
     }
 });
+
+module.exports.listSelect = function(req, res){
 const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WHERE success_yn != 'S'`
 
   pool.query(sql, (err, res) => {
@@ -65,6 +67,7 @@ const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WH
         var sms_status = result[5];
         updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
     })    
+}
 }
 
 function resultSMS(batch_id, msg_id){

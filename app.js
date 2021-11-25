@@ -68,22 +68,23 @@ app.post('/contents/getUploadContentInfo', cts.getUploadContentInfo);
 app.post('/message/getmsgid', pgm.getmsgid);
 app.post('/message/uploadwork', pgm.uploadwork);
 
-app.get('/setMMS', async (req, res) => {
-  console.log("sendMsg=======================================");
-  setMMS.setMMS();
-  res.send('Set MMS Complete!');
-})
+//01. Set MMS
+// app.get('/setMMS', async (req, res) => {
+//   console.log("sendMsg=======================================");
+//   setMMS.setMMS();
+//   res.send('Set MMS Complete!');
+// })
 
 //02. Send MMS
-app.get('/sendMMS', (req, res) => {
-  try {
-      console.log("sendMsg=======================================");
-      sendMMS.dbSelect();
-      res.send('Send Msg Complete!');
-  } catch (error) {
-      console.log('There was an error!');
-  }
-})
+// app.get('/sendMMS', (req, res) => {
+//   try {
+//       console.log("sendMsg=======================================");
+//       sendMMS.dbSelect();
+//       res.send('Send Msg Complete!');
+//   } catch (error) {
+//       console.log('There was an error!');
+//   }
+// })
 
 app.get('/scheduler', scheduler.viewStatus);
 
@@ -97,22 +98,22 @@ app.get('/scheduler', scheduler.viewStatus);
 //   res.send('Scheduler02 Complete!');
 // })
 //03. Receive Result
-// app.get('/receiveResult', (req, res) => {
-// console.log('Receive Result===============================');
-// receiveResult.listSelect();
-// res.send('Receive Result Complete!');
-// })
+app.get('/receiveResult', (req, res) => {
+console.log('Receive Result===============================');
+receiveResult.listSelect();
+res.send('Receive Result Complete!');
+})
 
 //04. Load Result
-// app.get('/loadResult', (req, res) => {
-  // try {
-    // console.log("updateDE=======================================");
-    // loadResult.checkapi(req, res);
-    // res.send('updateDE Complete!');
-  // } catch (error) {
-  //     console.log('There was an error!');
-  // }
-// })
+app.get('/loadResult', (req, res) => {
+  try {
+    console.log("updateDE=======================================");
+    loadResult.checkapi(req, res);
+    res.send('updateDE Complete!');
+  } catch (error) {
+      console.log('There was an error!');
+  }
+})
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
