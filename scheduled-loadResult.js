@@ -1,5 +1,6 @@
 "use strict";
 var loadResult  = require('./loadResult');
+var request     = require('request');
 const { Pool, Client } = require('pg');
 
 const pool = new Pool({
