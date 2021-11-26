@@ -193,7 +193,7 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
                     ('`+phone_no+`', '`+send_date+`', '`+success_yn+`', '`+fail_reason+ `')
                 )
                 AS t(phone_no, send_date, success_yn, fail_reason)
-                WHERE transmit.phone_no = t.phone_no`;
+                WHERE transmit.phone_no = t.phone_no AND transmit.success_yn = 'P'`;
     console.log(sql);
 
     pool.query(sql, (err, res) => {
