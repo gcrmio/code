@@ -70,6 +70,7 @@ function updateDE(access_token, phone_no){
         console.log(result);
         console.log('result end-----');
         // console.log('result length= '+result.length);
+        if(result.length != 0){
         for(var i = 0; i < result.length; i++){
             var pKey = {};
             var pValue = {};
@@ -109,6 +110,10 @@ function updateDE(access_token, phone_no){
             }
             })
         })
+    }
+    else {
+        console.log('No PG records to update');
+    }
     }).catch(function(err){
         console.log(err);   
     });
