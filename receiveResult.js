@@ -182,6 +182,9 @@ function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
             success_yn = 'F';
             fail_reason = '[500] International message delivery failed because the configuration is in closed position.';
             break;
+        case '700':
+            success_yn = 'S';
+            break;
         default:
             console.log('[0] Sent');
             success_yn = 'S';
