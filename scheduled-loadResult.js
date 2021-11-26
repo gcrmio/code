@@ -16,7 +16,7 @@ let qry1 = `SELECT app_name, status, last_run_date FROM scheduler WHERE app_name
 let qry2 = `UPDATE scheduler SET status = 'OFF', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app04'`;
 let qry3 = `UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app04'`;
 
-//module.exports.getResult = function (req, res) {    
+// module.exports.getResult = function (req, res) {    
     pool
 	.query(qry1)
 	.then(res => {
@@ -44,7 +44,8 @@ function executeApp03(){
         .query(qry2)
         .then(res => {  
             console.log('22222');
-            loadResult.checkapi(req, res);
+            // loadResult.checkapi(req, res);
+            loadResult.checkapi();
             pool
                 .query(qry3)
                 .then(res => {  

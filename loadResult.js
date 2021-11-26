@@ -12,7 +12,8 @@ const pool = new Pool({
     }
 });
 
-module.exports.checkapi = function(req, res){
+// module.exports.checkapi = function(req, res){
+module.exports.checkapi = function(){
     var payload = {
         client_id: process.env.MC_client_id,
         client_secret: process.env.MC_client_secret,
