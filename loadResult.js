@@ -57,7 +57,7 @@ function updateDE(access_token, phone_no){
         return new Promise(function(resolve, reject){
             pool.query(`SELECT transmit.msg_id, transmit.cust_id cust_id, transmit.success_yn success_yn, transmit.send_date send_date, message.de_id de_id 
                         FROM transmit
-                        LEFT JOIN message ON transmit.msg_id = message.msg_id WHERE transmit.proc_yn = 'N'`, function(err, result) {
+                        LEFT JOIN message ON transmit.msg_id = message.msg_id WHERE transmit.proc_yn = 'N' AND transmit.success_yn IN ('S', 'F')`, function(err, result) {
                 if(err)
                     return reject(err);
                 resolve(result.rows);
