@@ -45,7 +45,7 @@ module.exports.checkapi = function(){
 
         updateDE(tmp.access_token);
     });
-    res.status(200).send('CheckAPI Response');
+    // res.status(200).send('CheckAPI Response');
 };
 
 
