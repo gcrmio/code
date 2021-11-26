@@ -84,7 +84,8 @@ let qry5 =  `INSERT INTO transmit
                 to_char(now(), 'YYYY-MM-DD HH24:MI:SS') set_date,
                 '' batch_id,
                 '' fail_reason, 
-                c.admin_ofc msg_admin
+                c.admin_ofc msg_admin,
+                'N' proc_yn
                 from targets a, contents b, message c
                 where a.proc_yn='N'
                 and a.msg_id=b.msg_id

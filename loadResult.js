@@ -56,8 +56,7 @@ function updateDE(access_token, phone_no){
         return new Promise(function(resolve, reject){
             pool.query(`SELECT transmit.msg_id, transmit.cust_id cust_id, transmit.success_yn success_yn, transmit.send_date send_date, message.de_id de_id 
                         FROM transmit
-                        LEFT JOIN message ON transmit.msg_id = message.msg_id
-                        WHERE transmit.msg_id = (SELECT max(msg_id) FROM transmit)`, function(err, result) {
+                        LEFT JOIN message ON transmit.msg_id = message.msg_id WHERE transmit.proc_yn = 'N'`, function(err, result) {
                 if(err)
                     return reject(err);
                 resolve(result.rows);
@@ -98,8 +97,17 @@ function updateDE(access_token, phone_no){
     
         request(DEputOptions, function(error, response){
             console.log(error, response.body);
+            const sql = `UPDATE transmit SET proc_yn = 'Y' WHERE proc_yn = 'N'`
+            console.log(sql);
+    
+            pool.query(sql, (err, res) => {
+            if(err){
+            console.log(err.stack);
+            } else {
+            console.log("PG Transmit to MC DE complete!");
+            }
+            })
         })
-
     }).catch(function(err){
         console.log(err);   
     });
