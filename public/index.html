@@ -337,7 +337,6 @@
                 <!-- Finalize -->
                 <div style="display: flex; justify-content: right; position:absolute; top:540px; width:478px;height: 40px;margin-right:10px;" >
                     <div id="ValidationMessage">
-                        <p>Please fill out the message template</p>
                     </div>
                     <button class="button" id="id_btn_register" onclick="checkMSGID()" style="width:80px;visibility:hidden"><b>Register</b></button>
                 </div>
@@ -1292,19 +1291,7 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="#FFFFFF";
 
-        if(document.getElementById('id_size_subject').innerHTML == 0 && document.getElementById('id_size_content') == 0){
-            document.getElementByID('ValidationMessage').innerHTML= "Please fill out the message template";
-        }
-        else if(document.getElementById('id_size_subject').innerHTML == 0 && document.getElementById('id_size_content')>0){
-            document.getElementByID('ValidationMessage').innerHTML= "Please add content when sending MMS";
-        }
-        else if(document.getElementById('id_size_subject').innerHTML > 0 && document.getElementById('id_size_content') == 0){
-            document.getElementByID('ValidationMessage').innerHTML= "Please add subject when sending MMS";
-        }
-        else {
-            document.getElementByID('ValidationMessage').innerHTML= "Click done to proceed";
-        }
-        
+        document.getElementById('ValidationMessage').innerHTML = 'MMS';       
 
     } else if( document.getElementById('id_display_body').value.length < 333 ){   // SMS
         document.getElementById('id_msg_type').innerHTML="SMS";
@@ -1319,13 +1306,8 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
-        if(document.getElementById('id_size_body').innerHTML == 0){
-            document.getElementByID('ValidationMessage').innerHTML= "Please fill out the message template";
-        }
-        else {
-            document.getElementByID('ValidationMessage').innerHTML= "Click done to proceed";
-        }
-        
+        document.getElementById('ValidationMessage').innerHTML = 'SMS';  
+
     } else{ // LMS
         document.getElementById('id_msg_type').innerHTML="LMS";
         document.getElementById('id_title_Body').children[2].innerHTML="Chars";
@@ -1338,12 +1320,9 @@ function checkMsgType(){
         document.getElementById('id_title_Subject').children[2].style.color="gray";
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
-        if(document.getElementById('id_size_body').innerHTML == 0){
-            document.getElementByID('ValidationMessage').innerHTML= "Please fill out the message template";
-        }
-        else {
-            document.getElementByID('ValidationMessage').innerHTML= "Click done to proceed";
-        }
+
+        document.getElementById('ValidationMessage').innerHTML = 'LMS';  
+
     }
 
     //if(document.getElementById('id_msg_type').innerHTML=="SMS" && strLen("id_display_body")>333){
