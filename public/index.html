@@ -336,7 +336,7 @@
                 </div>
                 <!-- Finalize -->
                 <div id="" style="display: flex; justify-content: right; position:absolute; top:540px; width:478px;height: 40px;margin-right:10px;" >
-                    <button class="button" id="id_btn_register" onclick="mmsValidation()" style="width:80px"><b>Validate</b></button>
+                    <button class="button" id="id_btn_register" onclick="mmsValidation(this)" style="width:80px"><b>Validate</b></button>
                     <!-- <button class="button" id="id_btn_register" onclick="checkMSGID()" style="width:80px;visibility:hidden"><b>Register</b></button> -->
                 </div>
                 
@@ -1443,17 +1443,19 @@ function resizeTextArea(obj) {
   obj.style.height = (12+obj.scrollHeight)+"px";
 }
 
-function mmsValidation(){
+function mmsValidation(obj){
     var subject_size = document.getElementById("id_size_subject").value;
     var content_size = document.getElementById("id_size_content").value;
     // if(subject_size > 0 && content_size == 0){
     //     alert("Please add content when sending MMS");
     // }
+    if(obj.id =="id_display_subject"){
+        console.log('clicked-----');
+        console.log("size: "+getBytes('id_display_subject')+" lengh: "+document.getElementById('id_display_subject').value.length);
+        console.log('clicked done-----');
+    }
     alert("Validation Clicked Alert");
-    console.log('clicked-----');
-    console.log('subject_size= '+subject_size);
-    console.log('content_size= '+content_size);
-    console.log('clicked done-----');
+
 }
 
 //
