@@ -1294,15 +1294,23 @@ function checkMsgType(){
         document.getElementById('id_title_Image').children[2].style.color="#FFFFFF";
 
         if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').style.color = "#b30000";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
         }
         if(subject_size > 0 && content_size == 0){
+            document.getElementById('ValidationMessage').style.color = "#b30000";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Please add content when sending MMS";       
         }
         if(subject_size == 0 && content_size > 0){
+            document.getElementById('ValidationMessage').style.color = "#b30000";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Please add subject when sending MMS";  
         }
         else if (subject_size > 0 && content_size > 0){
+            document.getElementById('ValidationMessage').style.color = "#339966";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";
         }
 
@@ -1320,12 +1328,13 @@ function checkMsgType(){
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
         if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').style.color = "#b30000";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
         }
-        else if(body_size == 0){
-            document.getElementById('ValidationMessage').innerHTML = "Please add body when sending SMS";  
-        }
         else if (body_size > 0) {
+            document.getElementById('ValidationMessage').style.color = "#339966";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";
         }
 
@@ -1343,8 +1352,12 @@ function checkMsgType(){
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
         if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').style.color = "#b30000";
+            document.getElementById('ValidationMessage').style.fontWeight = "bold";
             document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
         }
+        document.getElementById('ValidationMessage').style.color = "#339966";
+        document.getElementById('ValidationMessage').style.fontWeight = "bold";
         document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";
     }
 
