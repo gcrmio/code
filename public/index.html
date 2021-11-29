@@ -1445,14 +1445,16 @@ function resizeTextArea(obj) {
 
 function mmsValidation(){
     let subject_size = document.getElementById("id_size_subject").innerHTML;
+    let body_size = document.getElementById("id_size_body").innerHTML;
     let content_size = document.getElementById("id_size_content").innerHTML;
-    console.log('subject_size= '+subject_size);
-    console.log('content_size= '+content_size);
-    if(subject_size > 0 && content_size == 0){
-        alert("Please add content when sending MMS");
+
+    if(subject_size == 0 && body_size == 0 & content_size == 0){
+        alert("[Validation Error] Please fill out the message template");
+    } else if(subject_size > 0 && content_size == 0){
+        alert("[Validation Error] Please add content when sending MMS");
     }
-    
-    alert("Validation Clicked Alert");
+    alert("Validated! Click done to proceed");
+
 }
 
 //
