@@ -475,8 +475,6 @@ function initialization(){
     document.getElementById('id_display_subject').blur();
     document.getElementById('id_display_body').blur();
    
-    document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";  
-
     checkMsgType();
 }
 
@@ -1295,6 +1293,9 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="#FFFFFF";
 
+        if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
+        }
         if(subject_size > 0 && content_size == 0){
             document.getElementById('ValidationMessage').innerHTML = "Please add content when sending MMS";       
         }
@@ -1318,7 +1319,10 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
-        if(body_size == 0){
+        if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
+        }
+        else if(body_size == 0){
             document.getElementById('ValidationMessage').innerHTML = "Please add body when sending SMS";  
         }
         else if (body_size > 0) {
@@ -1338,7 +1342,10 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
-        document.getElementById('ValidationMessage').innerHTML = "Click done to proceed LMS";
+        if(subject_size == 0 && body_size == 0 && content_size ==0){
+            document.getElementById('ValidationMessage').innerHTML = "Please fill out the message template";
+        }
+        document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";
     }
 
     //if(document.getElementById('id_msg_type').innerHTML=="SMS" && strLen("id_display_body")>333){
