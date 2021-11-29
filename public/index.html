@@ -1291,7 +1291,15 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="#FFFFFF";
 
-        document.getElementById('ValidationMessage').innerHTML = 'MMS';       
+        if(document.getElementById('id_size_content').innerHTML == 0){
+            document.getElementById('ValidationMessage').innerHTML = "Please add content when sending MMS";       
+        }
+        if(document.getElementById('id_size_subject').innerHTML == 0){
+            document.getElementById('ValidationMessage').innerHTML = "Please add subject when sending MMS";  
+        }
+        else{
+            document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";
+        }
 
     } else if( document.getElementById('id_display_body').value.length < 333 ){   // SMS
         document.getElementById('id_msg_type').innerHTML="SMS";
@@ -1306,7 +1314,7 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
-        document.getElementById('ValidationMessage').innerHTML = 'SMS';  
+        document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";  
 
     } else{ // LMS
         document.getElementById('id_msg_type').innerHTML="LMS";
@@ -1321,7 +1329,7 @@ function checkMsgType(){
         document.getElementById('id_title_Body').children[2].style.color="#FFFFFF";
         document.getElementById('id_title_Image').children[2].style.color="gray";
 
-        document.getElementById('ValidationMessage').innerHTML = 'LMS';  
+        document.getElementById('ValidationMessage').innerHTML = "Click done to proceed";  
 
     }
 
