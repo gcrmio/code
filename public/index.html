@@ -1444,8 +1444,8 @@ function resizeTextArea(obj) {
 }
 
 function mmsValidation(){
-    let subject_size = document.getElementById("id_size_subject").value;
-    let content_size = document.getElementById("id_size_content").value;
+    let subject_size = document.getElementById("id_size_subject").innerHTML;
+    let content_size = document.getElementById("id_size_content").innerHTML;
     console.log('subject_size= '+subject_size);
     console.log('content_size= '+content_size);
     if(subject_size > 0 && content_size == 0){
