@@ -1444,14 +1444,16 @@ function resizeTextArea(obj) {
 }
 
 function mmsValidation(){
-    var subject_size = document.getElementById("id_size_subject");
-    var content_size = document.getElementById("id_size_content");
+    var subject_size = document.getElementById("id_size_subject").value;
+    var content_size = document.getElementById("id_size_content").value;
     // if(subject_size > 0 && content_size == 0){
     //     alert("Please add content when sending MMS");
     // }
     alert("Validation Clicked Alert");
+    console.log('clicked-----');
     console.log('subject_size= '+subject_size);
     console.log('content_size= '+content_size);
+    console.log('clicked done-----');
 }
 
 //
