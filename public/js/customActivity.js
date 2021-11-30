@@ -211,6 +211,7 @@ define([
         var id_cost_unitprice       = $('#id_cost_unitprice').html();
         var id_cost_units           = $('#id_cost_units').html();
         var id_cost_credit          = $('#id_cost_credit').html();
+        var id_ready                = $('#id_status').html();
 
 
         payload['arguments'].execute.inArguments = [{
@@ -237,6 +238,7 @@ define([
             "id_load_content":          id_load_content,
             "id_load_content_type":     id_load_content_type,
             "de_id":                    DEID,
+            "id_ready":                 id_ready,
 
             "id_size_total":            id_size_total,
             "id_size_subject":          id_size_subject,
@@ -254,8 +256,8 @@ define([
             "coupon_id":    "{{Event."+eventDefinitionKey+".coupon_id}}"
         }];
 
-
-        payload['metaData'].isConfigured = true;
+        if(id_ready == "Click done to proceed") payload['metaData'].isConfigured = true;
+        else payload['metaData'].isConfigured = false;
 
         console.log("Payload on SAVE function: "+JSON.stringify(payload));
         connection.trigger('updateActivity', payload);
