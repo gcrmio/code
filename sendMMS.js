@@ -102,14 +102,14 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg
       console.log("MMS FUNCTION CALL");
       console.log('key= '+key);
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
       break;
       default:
         var options = {
@@ -132,14 +132,14 @@ function sendMMS(subject, msg, dest, time, attachment, msg_id, cust_id, key, msg
         console.log("MMS FUNCTION CALL");
         console.log('key= '+key);
         console.log(msg_admin+'-'+msg_id+': '+cust_id+' MMS DONE =================================');
-        // request(options, function (error, response) {
-        //   if (error) throw new Error(error);
-        //   var tmp = response.body;
-        //   console.log(tmp);
-        //   var result = tmp.split(',');
-        //   var msg_batch_id = result[4];
-        //   updateBatchId(dest, msg_batch_id, msg_id);
-        // });
+        request(options, function (error, response) {
+          if (error) throw new Error(error);
+          var tmp = response.body;
+          console.log(tmp);
+          var result = tmp.split(',');
+          var msg_batch_id = result[4];
+          updateBatchId(dest, msg_batch_id, msg_id);
+        });
     }
 }
 
@@ -164,14 +164,14 @@ function sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin){
         }
       };
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
       break;
     default:
       var options = {
@@ -190,14 +190,14 @@ function sendSMS(subject, msg, dest, time, msg_id, cust_id, msg_admin){
         }
       };
       console.log(msg_admin+'-'+msg_id+': '+cust_id+' SMS DONE =================================');
-      // request(options, function (error, response) {
-      //   if (error) throw new Error(error);
-      //   var tmp = response.body;
-      //   console.log(tmp);
-      //   var result = tmp.split(',');
-      //   var msg_batch_id = result[4];
-      //   updateBatchId(dest, msg_batch_id, msg_id);
-      // });
+      request(options, function (error, response) {
+        if (error) throw new Error(error);
+        var tmp = response.body;
+        console.log(tmp);
+        var result = tmp.split(',');
+        var msg_batch_id = result[4];
+        updateBatchId(dest, msg_batch_id, msg_id);
+      });
   }
 }
 
