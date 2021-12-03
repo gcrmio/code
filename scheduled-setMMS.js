@@ -43,13 +43,7 @@ function executeApp01(){
         .query(qry2)
         .then(res => {  
             console.log('22222');
-            setMMS.setMMS();
-            pool
-                .query(qry3)
-                .then(res => {  
-                    console.log('APP01 FINISHED =============================================');                                
-                }) 
-                .catch(err => console.error('Error executing query', err.stack))        
+            setMMS.setMMS();        
         }) 
         .catch(err => console.error('Error executing query', err.stack))
 }
