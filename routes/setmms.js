@@ -154,10 +154,8 @@ module.exports.setMMS = function (req, res) {
 function updateScheduler(){
     let qry = `UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01`;
     pool.query(qry, (err, res) => {
-        if(err){
-          console.log(err.stack);
-        } else {
-          console.log('APP01 DONE RUNNING ===================================================');
+        console.log('APP01 DONE RUNNING ===================================================');
+    })
 }
 
 function genIndiImgFile(){
@@ -361,4 +359,3 @@ function getContentTypeByFile(fileName) {
 
     return rc;
   }
-  
