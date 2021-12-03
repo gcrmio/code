@@ -25,15 +25,7 @@ let qry3 = `UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at
           
             switch(status){
                 case('ON'):
-                pool.query(qry2, (err, res) => {
-                    if(err){
-                        console.log(err.stack);
-                    }
-                    else {
-                        console.log('APP01 RUN START =============================================');
-                        executeApp01();
-                    }
-                } )                         
+                executeApp01();             
                 break;
                 case('OFF'):
                     console.log('App01 is still running');
@@ -47,11 +39,10 @@ let qry3 = `UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at
 // }
 
 function executeApp01(){
-    setMMS.setMMS();
     pool
-        .query(qry3)
-        .then(res => {  
-            console.log('APP01 FINISHED =============================================');                                
-        }) 
-        .catch(err => console.error('Error executing query', err.stack))        
+        .query(qry2)
+        .then(res => {
+            console.log('APP01 RUN START =============================================');
+            setMMS.setMMS();
+        })
 }
