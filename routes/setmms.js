@@ -160,6 +160,7 @@ function genIndiImgFile(){
         switch(length){
             case 0:
                 console.log('SMS-- skipping genIndiImgFile()');
+                pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`);
                 break;
             default:
                 console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
@@ -187,7 +188,11 @@ function genIndiImgFile(){
             })();
         }
      })
+     .then(result => {
+        pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`);
+     })
     .catch(err => console.error('Error executing query', err.stack));
+    
 
 }    
 
