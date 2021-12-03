@@ -31,6 +31,7 @@ const { createCipheriv } = require('crypto');
 
 // save informations to PG tables
 
+let qry0 = `UPDATE scheduler SET status = 'OFF', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`;
 
 let qry1 =  " insert into message "
          +  " select id_msg_id msg_id, "
@@ -96,42 +97,47 @@ let qry6 = "update targets set proc_yn='Y' where proc_yn='N';";
 //(async () => {
 //    try{
 module.exports.setMMS = function (req, res) {
-
         pool
-            .query(qry1)
+            .query(qry0)
             .then(res => {
-                console.log('111111');
-                pool
-                    .query(qry3)
-                    .then(res => {  
-                        console.log('33333');
-                        pool
-                            .query(qry4)
-                            .then(res => {  
-                                console.log('44444');
-                                pool
-                                    .query(qry2)
-                                    .then(res => {  
-                                        console.log('22222');
-                                        pool
-                                            .query(qry5)
-                                            .then(res => {  
-                                                console.log('55555');
-                                                pool
-                                                    .query(qry6)
-                                                    .then(res => {  
-                                                        console.log('66666');
-                                                        genIndiImgFile();                                                        
-                                                    }) 
-                                                    .catch(err => console.error('Error executing query', err.stack)) 
-                                            }) 
-                                            .catch(err => console.error('Error executing query', err.stack))         
-                                    }) 
-                                    .catch(err => console.error('Error executing query', err.stack))            
-                            }) 
-                            .catch(err => console.error('Error executing query', err.stack))        
-                    }) 
-                    .catch(err => console.error('Error executing query', err.stack))        
+                console.log('000000');
+            pool
+                .query(qry1)
+                .then(res => {
+                    console.log('111111');
+                    pool
+                        .query(qry3)
+                        .then(res => {  
+                            console.log('33333');
+                            pool
+                                .query(qry4)
+                                .then(res => {  
+                                    console.log('44444');
+                                    pool
+                                        .query(qry2)
+                                        .then(res => {  
+                                            console.log('22222');
+                                            pool
+                                                .query(qry5)
+                                                .then(res => {  
+                                                    console.log('55555');
+                                                    pool
+                                                        .query(qry6)
+                                                        .then(res => {  
+                                                            console.log('66666');
+                                                            genIndiImgFile();                                                        
+                                                        }) 
+                                                        .catch(err => console.error('Error executing query', err.stack)) 
+                                                }) 
+                                                .catch(err => console.error('Error executing query', err.stack))         
+                                        }) 
+                                        .catch(err => console.error('Error executing query', err.stack))            
+                                }) 
+                                .catch(err => console.error('Error executing query', err.stack))        
+                        }) 
+                        .catch(err => console.error('Error executing query', err.stack))        
+                }) 
+                .catch(err => console.error('Error executing query', err.stack));
             }) 
             .catch(err => console.error('Error executing query', err.stack));
 //    }

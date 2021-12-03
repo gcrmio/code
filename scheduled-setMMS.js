@@ -39,10 +39,10 @@ let qry3 = `UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at
 // }
 
 function executeApp01(){
+    setMMS.setMMS();
     pool
-        .query(qry2)
+        .query(qry3)
         .then(res => {
-            console.log('APP01 RUN START =============================================');
-            setMMS.setMMS();
+            console.log('APP01 RUN DONE =============================================');
         })
 }
