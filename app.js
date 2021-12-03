@@ -93,10 +93,10 @@ app.get('/scheduler', scheduler.viewStatus);
 //   res.send('Scheduler01 Complete!');
 // })
 
-// app.get('/scheduler02', (req, res) => {
-//   scheduledSendMMS.getResult();
-//   res.send('Scheduler02 Complete!');
-// })
+app.get('/scheduler02', (req, res) => {
+  scheduledSendMMS.getResult();
+  res.send('Scheduler02 Complete!');
+})
 //03. Receive Result
 // app.get('/receiveResult', (req, res) => {
 // console.log('Receive Result===============================');
