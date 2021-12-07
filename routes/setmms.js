@@ -183,7 +183,8 @@ function genIndiImgFile(){
                         let height = output[2];
 
                         let path = "APPS/MMSTW/"+row.msg_id+"/msg";
-                        await saveToS3(buffer,path,fnm);
+                        await saveToS3(buffer,path,fnm).then(pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`));
+                            
 
                         pool.query("update transmit set msg_body_image_adj_file='"+fnm+"' where msg_id='"+ row.msg_id+"' and phone_no='"+row.phone_no+"'");
                     }
