@@ -161,9 +161,12 @@ function genIndiImgFile(){
         switch(length){
             case 0:
                 console.log('SMS-- skipping genIndiImgFile()');
-                (async () => {
-                    await (pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`))
-                })
+                pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`, (error) => {
+                    if(error){
+                        console.log(error);
+                    }
+                    console.log('UPDATE scheduler done =====');
+                });
                 break;
             default:
                 console.log("data: size= "+rows.length + "  msg_id= " +rows[0].msg_id);
