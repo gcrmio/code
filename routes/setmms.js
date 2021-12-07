@@ -197,13 +197,11 @@ function genIndiImgFile(){
 
     .catch(err => console.error('Error executing query', err.stack));
 
-    Promise.all(promises).then(() => {
-        pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`, (error) => {
-            if(error){
-                console.log(error);
-            }
-            console.log('UPDATE scheduler done =====');
-        });
+    pool.query(`UPDATE scheduler SET status = 'ON', last_run_date = to_char(now() at time zone 'KST', 'YYYY-MM-DD HH24:MI:SS') WHERE app_name = 'app01'`, (error) => {
+        if(error){
+            console.log(error);
+        }
+        console.log('UPDATE scheduler done =====');
     });
 }    
 
