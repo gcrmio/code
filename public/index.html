@@ -507,13 +507,8 @@ function checkMSGID(){
         });
 
         var payload2 = '';
-        fetch('/message/getCredit', {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload2)
-        }).then(function(response) {
+        fetch('/message/getCredit')
+        .then(function(response) {
             return response.json();
         }).then(function(data) {
             let result = JSON.parse(data);
