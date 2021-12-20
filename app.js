@@ -70,7 +70,7 @@ app.post('/message/uploadwork', pgm.uploadwork);
 
 //00. get Credit
 
-app.get('/', pgm.getCredit);
+app.post('/message/getCredit', pgm.getCredit);
 
 //01. Set MMS
 // app.get('/setMMS', async (req, res) => {

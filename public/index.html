@@ -1477,11 +1477,12 @@ function resizeTextArea(obj) {
 
 function getCredit(){
     var payload = '';
-            fetch('/').then(function(response) {
+            fetch('/message/getCredit').then(function(response) {
                 return response.json();
             }).then(function(data) {
                 let result = JSON.parse(data);
-                $('#id_cost_credit').html(result); 
+                console.log(result);
+                document.getElementById("id_cost_credit").innerHTML=result;
             });
 }
 </script>    
