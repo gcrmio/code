@@ -47,26 +47,28 @@ const sql = `SELECT msg_id, msg_subject_adj, msg_type, batch_id FROM transmit WH
 
     var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+batch_id+'&PNO=';
     console.log(geturl);
-    request.get({
-        url: geturl
-    }, function(error, response, html){
-        if(error){
-            console.log(error);
-        }
-        console.log('Received Server Data!');
-        var tmp = response.body;
-        var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
-        // var sms_count = result[0];
-        // console.log("sms_count= "+sms_count);
-        // var sms_name = result[1];
-        // console.log("sms_name= "+sms_name);
-        var sms_mobile = result[2];
-        var sms_send_time = result[3];
-        // var sms_cost = result[4];
-        // console.log("sms_cost= "+sms_cost);
-        var sms_status = result[5];
-        updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
-    })    
+    if(batch_id != 'undefined'){
+        request.get({
+            url: geturl
+        }, function(error, response, html){
+            if(error){
+                console.log(error);
+            }
+            console.log('Received Server Data!');
+            var tmp = response.body;
+            var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
+            // var sms_count = result[0];
+            // console.log("sms_count= "+sms_count);
+            // var sms_name = result[1];
+            // console.log("sms_name= "+sms_name);
+            var sms_mobile = result[2];
+            var sms_send_time = result[3];
+            // var sms_cost = result[4];
+            // console.log("sms_cost= "+sms_cost);
+            var sms_status = result[5];
+            updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
+        })    
+    }
 }
 }
 
@@ -74,34 +76,35 @@ function resultSMS(batch_id, msg_id){
     const url = 'https://oms.every8d.com/API21/HTTP/getDeliveryStatus.ashx';
     const uid = process.env.Euid;
     const password = process.env.Epassword;
-
-    var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+batch_id+'&PNO=';
-    console.log(geturl);
-    request.get({
-        url: geturl
-    }, function(error, response, html){
-        if(error){
-            console.log(error);
-        }
-        console.log('Received Server Data!');
-        var tmp = response.body;
-        var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
-        // console.log('RESULT');
-        // console.log(result);
-        // var sms_count = result[0];
-        // console.log("sms_count= "+sms_count);
-        // var sms_name = result[1];
-        // console.log("sms_name= "+sms_name);
-        var sms_mobile = result[2];
-        // console.log('sms_mobile= '+sms_mobile);
-        var sms_send_time = result[3];
-        // console.log('sms_send_time= '+sms_send_time);
-        // var sms_cost = result[4];
-        // console.log("sms_cost= "+sms_cost);
-        var sms_status = result[5];
-        console.log('sms_status= '+sms_status);
-        updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
-    })    
+    if(batch_id != 'undefined'){
+        var geturl = url+'?UID='+uid+'&PWD='+password+'&BID='+batch_id+'&PNO=';
+        console.log(geturl);
+        request.get({
+            url: geturl
+        }, function(error, response, html){
+            if(error){
+                console.log(error);
+            }
+            console.log('Received Server Data!');
+            var tmp = response.body;
+            var result = tmp.replace(/\r?\n|\r/g, `\t`).split(`\t`);
+            // console.log('RESULT');
+            // console.log(result);
+            // var sms_count = result[0];
+            // console.log("sms_count= "+sms_count);
+            // var sms_name = result[1];
+            // console.log("sms_name= "+sms_name);
+            var sms_mobile = result[2];
+            // console.log('sms_mobile= '+sms_mobile);
+            var sms_send_time = result[3];
+            // console.log('sms_send_time= '+sms_send_time);
+            // var sms_cost = result[4];
+            // console.log("sms_cost= "+sms_cost);
+            var sms_status = result[5];
+            console.log('sms_status= '+sms_status);
+            updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id);
+        })   
+    } 
 }
 
 function updateTransmit(sms_mobile, sms_send_time, sms_status, msg_id){
