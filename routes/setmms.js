@@ -74,9 +74,9 @@ let qry4 =  `INSERT INTO contents
 
 let qry5 =  `INSERT INTO transmit
                 SELECT a.cust_id, a.phone_no, a.msg_id,
-                replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_subject_adj,
-                replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_text_adj,
-                replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_id', a.coupon_id) msg_body_image_adj,
+                replace(REPLACE (b.msg_subject,   'cust_name', cust_name), 'coupon_no', a.coupon_id) msg_subject_adj,
+                replace(REPLACE (b.msg_body_text, 'cust_name', cust_name), 'coupon_no', a.coupon_id) msg_body_text_adj,
+                replace(REPLACE (b.msg_body_content, 'cust_name', cust_name), 'coupon_no', a.coupon_id) msg_body_image_adj,
                 '' msg_body_image_adj_file,
                 b.msg_type,
                 c.send_date plan_date,
