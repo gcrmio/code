@@ -22,7 +22,7 @@
                 }               
             ],
             "outArguments": [],
-            "url": "https://mms-aptw.herokuapp.com/journeybuilder/execute",
+            "url": "https://ap-gcrm-mms.herokuapp.com/journeybuilder/execute",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -33,7 +33,7 @@
     "configurationArguments": {
       "applicationExtensionKey": "7ccfa116-a0a3-44db-8cae-e526d7eeb46c",
        "save": {
-           "url": "https://mms-aptw.herokuapp.com/journeybuilder/save",
+           "url": "https://ap-gcrm-mms.herokuapp.com/journeybuilder/save",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -41,7 +41,7 @@
             "timeout": 2000
        },
        "publish": {
-           "url": "https://mms-aptw.herokuapp.com/journeybuilder/publish",
+           "url": "https://ap-gcrm-mms.herokuapp.com/journeybuilder/publish",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -49,7 +49,7 @@
             "timeout": 2000
        },
        "validate": {
-           "url": "https://mms-aptw.herokuapp.com/journeybuilder/validate",
+           "url": "https://ap-gcrm-mms.herokuapp.com/journeybuilder/validate",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -57,7 +57,7 @@
             "timeout": 2000
        },
        "stop": {
-           "url": "https://mms-aptw.herokuapp.com/journeybuilder/stop",
+           "url": "https://ap-gcrm-mms.herokuapp.com/journeybuilder/stop",
             "verb": "POST",
             "body": "",
             "format": "json",
