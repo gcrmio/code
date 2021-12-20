@@ -97,10 +97,7 @@ let qry6 = "update targets set proc_yn='Y' where proc_yn='N';";
 //(async () => {
 //    try{
 module.exports.setMMS = function (req, res) {
-        // pool
-            // .query(qry0)
-            // .then(res => {
-                // console.log('000000');
+
             pool
                 .query(qry1)
                 .then(res => {
@@ -139,8 +136,6 @@ module.exports.setMMS = function (req, res) {
                         .catch(err => console.error('Error executing query', err.stack))        
                 }) 
                 .catch(err => console.error('Error executing query', err.stack));
-            // }) 
-            // .catch(err => console.error('Error executing query', err.stack));
 //    }
 //    catch(e){
 //        console.log(e.stack);

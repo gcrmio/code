@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const AWS = require('aws-sdk');
+var request = require('request');
 
 const s3 = new AWS.S3(
     {
@@ -103,4 +104,25 @@ module.exports.uploadwork = function (req, res) {
       //res.body=msg;
 */      
       return res.status(200); //.json(msg.msg_id);  
+}
+
+module.exports.getCredit = function (req, res){
+   
+    var options = {
+    'method': 'GET',
+    'url': 'https://oms.every8d.com/API21/HTTP/getCredit.ashx',
+    'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    form: {
+        'UID': process.env.Euid,
+        'PWD': process.env.Epassword
+    }
+    };
+    request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log(response.body);
+    //return response.status(200).json(JSON.stringify(response));
+    });
+
 }
