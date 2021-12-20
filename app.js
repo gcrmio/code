@@ -67,7 +67,7 @@ app.post('/contents/getUploadContentInfo', cts.getUploadContentInfo);
 
 app.post('/message/getmsgid', pgm.getmsgid);
 app.post('/message/uploadwork', pgm.uploadwork);
-app.post('/message/getCredit', pgm.getCredit);
+app.get('/message/getCredit', pgm.getCredit);
 
 //01. Set MMS
 // app.get('/setMMS', async (req, res) => {
