@@ -67,9 +67,6 @@ app.post('/contents/getUploadContentInfo', cts.getUploadContentInfo);
 
 app.post('/message/getmsgid', pgm.getmsgid);
 app.post('/message/uploadwork', pgm.uploadwork);
-
-//00. get Credit
-
 app.post('/message/getCredit', pgm.getCredit);
 
 //01. Set MMS

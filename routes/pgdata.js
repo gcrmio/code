@@ -120,7 +120,8 @@ module.exports.getCredit = function (req, res){
     }
     };
     request(options, function (error, response) {
-        return response.status(200).json(JSON.stringify(response));
+        console.log(response.body);
+        return response.status(200).json(JSON.stringify(response.body)); 
     });
 
 }

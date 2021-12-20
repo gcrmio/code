@@ -506,6 +506,21 @@ function checkMSGID(){
             document.getElementById("id_msg_id").innerHTML=vdata.msg_id;
         });
 
+        var payload2 = '';
+        fetch('/message/getCredit', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload2)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            let result = JSON.parse(data);
+            console.log(result);
+            document.getElementById("id_cost_credit").innerHTML=result;
+        });
+
     }
 
     console.log("checkMSGID END ---------------------------------------------------------------------------");    
@@ -1473,23 +1488,6 @@ function resizeTextArea(obj) {
   obj.style.height = "1px";
   obj.style.height = (12+obj.scrollHeight)+"px";
 }
-//
 
-function getCredit(){
-    var payload = '';
-    fetch('/message/getCredit', {
-        method: 'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    }).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        let result = JSON.parse(data);
-        console.log(result);
-        document.getElementById("id_cost_credit").innerHTML=result;
-    });
-}
 </script>    
 </html>
