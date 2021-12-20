@@ -1396,7 +1396,7 @@ function calcSizeCost(){
     document.getElementById('id_size_total').innerHTML= size;
 
     //cost
-    document.getElementById('id_cost_credit').innerHTML=2000;
+    //document.getElementById('id_cost_credit').innerHTML=2000;
 
     let CR = document.getElementById('id_cost_credit').innerHTML;
 
@@ -1477,13 +1477,19 @@ function resizeTextArea(obj) {
 
 function getCredit(){
     var payload = '';
-            fetch('/message/getCredit').then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                let result = JSON.parse(data);
-                console.log(result);
-                document.getElementById("id_cost_credit").innerHTML=result;
-            });
+    fetch('/message/getCredit', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        let result = JSON.parse(data);
+        console.log(result);
+        document.getElementById("id_cost_credit").innerHTML=result;
+    });
 }
 </script>    
 </html>
